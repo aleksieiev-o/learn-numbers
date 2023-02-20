@@ -17,7 +17,7 @@ const Header: FC = (): ReactElement => {
       justifyContent={'space-between'}
       boxShadow={'md'}
       p={4}>
-      <Heading as={'h4'} color={'facebook.600'} cursor={'default'}>{APP_NAME}</Heading>
+      <Heading as={'h4'} color={'cyan.600'} cursor={'default'}>{APP_NAME}</Heading>
 
       <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={6}>
         <IconButton

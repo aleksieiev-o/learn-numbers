@@ -2,6 +2,8 @@ import React, { FC, ReactElement } from 'react';
 import { ChakraProvider, Stack } from '@chakra-ui/react';
 import { theme } from './theme';
 import SpeechUtteranceContextProvider from './Providers/SpeechUtteranceContext.provider';
+import Header from './components/Header';
+import Content from './views/Content';
 
 const App: FC = (): ReactElement => {
   return (
@@ -12,7 +14,9 @@ const App: FC = (): ReactElement => {
           direction={'column'}
           w={'full'}
           h={'full'}>
-          <p>App</p>
+          <Header/>
+
+          <Content/>
         </Stack>
       </SpeechUtteranceContextProvider>
     </ChakraProvider>
