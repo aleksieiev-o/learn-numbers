@@ -1,18 +1,38 @@
 import React, { FC, ReactElement } from 'react';
-import { Stack } from '@chakra-ui/react';
+import { Container, Stack } from '@chakra-ui/react';
+import NumbersRangeControls from './NumbersRangeControls';
+import SpeechPropsControls from './SpeechPropsControls';
+import ActionControls from './ActionControls';
+import UserCheckControls from './UserCheckControls';
 
 const Content: FC = (): ReactElement => {
   return (
     <Stack
       as={'main'}
-      direction={'column'}
       w={'full'}
       h={'full'}
-      alignItems={'center'}
-      justifyContent={'space-between'}
-      overflow={'hidden'}
-      p={4}>
-      <p>Content</p>
+      overflowY={'auto'}>
+      <Container
+        centerContent={true}
+        w={'full'}
+        h={'full'}
+        maxW={'6xl'}
+        p={4}>
+        <Stack
+          w={'full'}
+          h={'full'}
+          alignItems={'center'}
+          justifyContent={'flex-start'}
+          spacing={4}>
+          <NumbersRangeControls/>
+
+          <SpeechPropsControls/>
+
+          <ActionControls/>
+
+          <UserCheckControls/>
+        </Stack>
+      </Container>
     </Stack>
   );
 };
