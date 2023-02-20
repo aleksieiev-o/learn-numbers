@@ -1,26 +1,25 @@
 {
   "name": "listen-write-numbers",
-  "version": "0.1.0",
+  "description": "Listen and write numbers UI",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Oleksandr Aleksieiev",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.12",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:aleksieiev-o/listen-write-numbers.git"
   },
+  "bugs": {
+    "url": "https://github.com/aleksieiev-o/listen-write-numbers/issues"
+  },
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +38,53 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.5.1",
+    "@chakra-ui/theme-tools": "^2.0.17",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.12",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "axios": "^1.3.3",
+    "bowser": "^2.11.0",
+    "classnames": "^2.3.2",
+    "formik": "^2.2.9",
+    "framer-motion": "^9.0.4",
+    "gh-pages": "^5.0.0",
+    "i18next": "^22.4.10",
+    "i18next-browser-languagedetector": "^7.0.1",
+    "i18next-xhr-backend": "^3.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^12.1.5",
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1",
+    "reset-css": "^5.0.1",
+    "sass": "^1.58.3",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.3.1",
+    "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.4"
   }
 }
