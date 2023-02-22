@@ -1,26 +1,21 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, RefObject } from 'react';
 import { FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Stack } from '@chakra-ui/react';
 
-const NumbersRangeControls: FC = (): ReactElement => {
+interface Props {
+  initElementRef: RefObject<HTMLInputElement>;
+}
+
+const NumbersRangeControls: FC<Props> = ({initElementRef}): ReactElement => {
   return (
-    <Stack
-      direction={'column'}
-      w={'full'}
-      alignItems={'flex-start'}
-      justifyContent={'space-between'}>
+    <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'}>
       <Heading as={'h6'} fontSize={20}>Using numbers range</Heading>
 
-      <Stack
-        direction={'row'}
-        w={'full'}
-        alignItems={'center'}
-        justifyContent={'flex-start'}
-        spacing={6}>
+      <Stack direction={'column'} w={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
         <FormControl>
           <FormLabel>From</FormLabel>
 
           <NumberInput allowMouseWheel colorScheme={'cyan'}>
-            <NumberInputField placeholder={'Enter minimal number'} autoFocus={true}/>
+            <NumberInputField ref={initElementRef} placeholder={'Enter minimal number'}/>
 
             <NumberInputStepper>
               <NumberIncrementStepper/>

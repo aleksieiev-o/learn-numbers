@@ -6,12 +6,7 @@ const SpeechPropsControls: FC = (): ReactElement => {
   const { voicesList } = useContext(SpeechUtteranceContext);
 
   return (
-    <Stack
-      direction={'column'}
-      w={'full'}
-      alignItems={'flex-start'}
-      justifyContent={'space-between'}
-      spacing={4}>
+    <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'} spacing={4}>
       <Heading as={'h6'} fontSize={20}>Speech properties</Heading>
 
       <FormControl>
