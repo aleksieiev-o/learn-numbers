@@ -6,7 +6,7 @@ interface Props {
 
 export interface StartPlayingDto {
   text: string;
-  lang: string;
+  langURI: string;
 }
 
 interface SpeechUtteranceContextState {
@@ -74,9 +74,9 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
   };
 
   const start = (payload: StartPlayingDto): void => {
-    const {text, lang} = payload;
+    const {text, langURI} = payload;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const voice: SpeechSynthesisVoice = voicesList.find((voice) => voice.lang === lang)!;
+    const voice: SpeechSynthesisVoice = voicesList.find((voice: SpeechSynthesisVoice) => voice.voiceURI === langURI)!;
 
     if (isSpeaking) {
       stop();
@@ -88,11 +88,13 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
 
     utterance.text = text;
     utterance.voice = voice;
-    utterance.lang = lang;
+    utterance.lang = voice.lang;
     utterance.volume = 1; // TODO add to StartPlayingDto
     utterance.rate = 1; // TODO add to StartPlayingDto
     utterance.pitch = 1; // TODO add to StartPlayingDto
 
+    // eslint-disable-next-line no-console
+    console.log(111, utterance);
     speech.speak(utterance);
   };
 
