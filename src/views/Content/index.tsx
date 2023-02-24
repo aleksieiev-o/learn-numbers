@@ -32,7 +32,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
     if (currentRandomNumber) {
       start({
         text: currentRandomNumber.toString(),
-        langURI: settingsStore.speechLocale,
+        langURI: settingsStore.settings.speechLocale,
       });
     }
   };
@@ -42,7 +42,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
   }, [currentRandomNumber]);
 
   const speechRandomNumber = () => {
-    const randomNumber = createRandomNumber(settingsStore.minValue, settingsStore.maxValue);
+    const randomNumber = createRandomNumber(settingsStore.settings.minValue, settingsStore.settings.maxValue);
     setCurrentRandomNumber(randomNumber);
   };
 

@@ -18,7 +18,7 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
         <FormControl>
           <FormLabel>Minimal number</FormLabel>
 
-          <NumberInput value={settingsStore.minValue} colorScheme={'teal'}>
+          <NumberInput value={settingsStore.settings.minValue} colorScheme={'teal'}>
             <NumberInputField
               onChange={(e) => settingsStore.updateMinValue(e.target.value)}
               ref={initElementRef}
@@ -29,7 +29,7 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
         <FormControl>
           <FormLabel>Maximal number</FormLabel>
 
-          <NumberInput value={settingsStore.maxValue} colorScheme={'teal'}>
+          <NumberInput value={settingsStore.settings.maxValue} colorScheme={'teal'}>
             <NumberInputField
               onChange={(e) => settingsStore.updateMaxValue(e.target.value)}
               placeholder={'Enter maximal number'}/>

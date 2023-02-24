@@ -1,14 +1,18 @@
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../index';
 
-interface ISettingsStore {
-  rootStore: RootStore;
+interface Settings {
   minValue: number;
   maxValue: number;
   speechVolume: number;
   speechRate: number;
   speechPitch: number;
   speechLocale: string;
+}
+
+interface ISettingsStore {
+  rootStore: RootStore;
+  settings: Settings;
   updateMinValue: (value: string) => void;
   updateMaxValue: (value: string) => void;
   updateSpeechVolumeValue: (value: number) => void;
@@ -19,46 +23,61 @@ interface ISettingsStore {
 
 export class SettingsStore implements ISettingsStore {
   rootStore: RootStore;
-  minValue: number;
-  maxValue: number;
-  speechPitch: number;
-  speechRate: number;
-  speechVolume: number;
-  speechLocale: string;
+  settings: Settings;
 
   constructor(rootStore: RootStore) {
+    const lsValue = window.localStorage.getItem('speechSettings');
+    const settings: Settings = lsValue ? JSON.parse(lsValue) : null;
+
     this.rootStore = rootStore;
-    this.minValue = 0;
-    this.maxValue = 15;
-    this.speechPitch = 1;
-    this.speechRate = 1;
-    this.speechVolume = 1;
-    this.speechLocale = 'Google US English';
+    this.settings = settings ? settings : {
+      minValue: 0,
+      maxValue: 1,
+      speechPitch: 1,
+      speechRate: 1,
+      speechVolume: 1,
+      speechLocale: 'Google US English',
+    };
+
+    if (!lsValue) {
+      this.updateLocalStorageValue();
+    }
 
     makeAutoObservable(this);
   }
 
   updateMinValue(value: string): void {
-    this.minValue = parseInt(value, 10);
+    this.settings.minValue = parseInt(value, 10);
+    this.updateLocalStorageValue();
   }
 
   updateMaxValue(value: string): void {
-    this.maxValue = parseInt(value, 10);
+    this.settings.maxValue = parseInt(value, 10);
+    this.updateLocalStorageValue();
   }
 
   updateSpeechVolumeValue(value: number): void {
-    this.speechVolume = value;
+    this.settings.speechVolume = value;
+    this.updateLocalStorageValue();
   }
 
   updateSpeechRateValue(value: number): void {
-    this.speechRate = value;
+    this.settings.speechRate = value;
+    this.updateLocalStorageValue();
   }
 
   updateSpeechPitchValue(value: number): void {
-    this.speechPitch = value;
+    this.settings.speechPitch = value;
+    this.updateLocalStorageValue();
   }
 
   updateSpeechLocale(locale: string): void {
-    this.speechLocale = locale;
+    this.settings.speechLocale = locale;
+    this.updateLocalStorageValue();
+  }
+
+  private updateLocalStorageValue(): void {
+    const settings: string = JSON.stringify(this.settings);
+    window.localStorage.setItem('speechSettings', settings);
   }
 }

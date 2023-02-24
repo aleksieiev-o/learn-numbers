@@ -17,7 +17,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
 
         <Select
           onChange={(e) => settingsStore.updateSpeechLocale(e.target.value)}
-          value={settingsStore.speechLocale}>
+          value={settingsStore.settings.speechLocale}>
           {
             voicesList.map((voice) => <option value={voice.voiceURI} key={voice.voiceURI}>{voice.name}</option>)
           }
@@ -27,13 +27,13 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
       <FormControl>
         <Stack direction={'row'}>
           <FormLabel>Speech volume:</FormLabel>
-          <Text as={'strong'}>{settingsStore.speechVolume}</Text>
+          <Text as={'strong'}>{settingsStore.settings.speechVolume}</Text>
         </Stack>
 
         <Slider
           onChangeEnd={(value) => settingsStore.updateSpeechVolumeValue(value)}
           aria-label='speech-volume'
-          defaultValue={settingsStore.speechVolume}
+          defaultValue={settingsStore.settings.speechVolume}
           step={0.1}
           min={0}
           max={1}>
@@ -48,13 +48,13 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
       <FormControl>
         <Stack direction={'row'}>
           <FormLabel>Speech rate:</FormLabel>
-          <Text as={'strong'}>{settingsStore.speechRate}</Text>
+          <Text as={'strong'}>{settingsStore.settings.speechRate}</Text>
         </Stack>
 
         <Slider
           onChangeEnd={(value) => settingsStore.updateSpeechRateValue(value)}
           aria-label='speech-rate'
-          defaultValue={settingsStore.speechRate}
+          defaultValue={settingsStore.settings.speechRate}
           step={0.1}
           min={0.1}
           max={10}>
@@ -69,13 +69,13 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
       <FormControl>
         <Stack direction={'row'}>
           <FormLabel>Speech pitch:</FormLabel>
-          <Text as={'strong'}>{settingsStore.speechPitch}</Text>
+          <Text as={'strong'}>{settingsStore.settings.speechPitch}</Text>
         </Stack>
 
         <Slider
           onChangeEnd={(value) => settingsStore.updateSpeechPitchValue(value)}
           aria-label='speech-pitch'
-          defaultValue={settingsStore.speechPitch}
+          defaultValue={settingsStore.settings.speechPitch}
           step={0.1}
           min={0}
           max={2}>

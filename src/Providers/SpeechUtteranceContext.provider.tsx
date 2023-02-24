@@ -88,8 +88,6 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
     utterance.rate = 1; // TODO add to StartPlayingDto
     utterance.pitch = 1; // TODO add to StartPlayingDto
 
-    // eslint-disable-next-line no-console
-    console.log(111, utterance);
     speech.speak(utterance);
   };
 
