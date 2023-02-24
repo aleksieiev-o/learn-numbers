@@ -29,7 +29,7 @@ export class SettingsStore implements ISettingsStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     this.minValue = 0;
-    this.maxValue = 1;
+    this.maxValue = 15;
     this.speechPitch = 1;
     this.speechRate = 1;
     this.speechVolume = 1;

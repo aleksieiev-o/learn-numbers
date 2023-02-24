@@ -1,9 +1,21 @@
-import React, { FC, ReactElement } from 'react';
-import { Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, NumberInput, NumberInputField, Stack, Text } from '@chakra-ui/react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, NumberInput, NumberInputField, Stack, Text, useToast } from '@chakra-ui/react';
 import { object, string } from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import CheckIcon from '@mui/icons-material/Check';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { SpeechStatus } from './index';
+
+enum ToastStatus {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+interface Props {
+  speechStatus: SpeechStatus;
+  currentRandomNumber: number | null;
+  speechRandomNumber: () => void;
+}
 
 interface CheckResultDto {
   answer: string;
@@ -17,17 +29,44 @@ const validationSchema = object().shape({
   answer: string().required('Answer is required'),
 });
 
-const UserCheckControls: FC = (): ReactElement => {
+const UserCheckControls: FC<Props> = (props): ReactElement => {
+  const {speechStatus, currentRandomNumber, speechRandomNumber} = props;
+  const toast = useToast();
+  const [isShowCorrectAnswer, setIsShowCorrectAnswer] = useState<boolean>(false);
+
+  const showToast = (status: ToastStatus) => {
+    toast({
+      title: status === ToastStatus.SUCCESS ? 'Correct answer' : 'Incorrect answer',
+      status,
+      duration: 2000,
+      isClosable: true,
+      position: 'bottom-left',
+    });
+  };
+
   const submitHandler = async (payload: CheckResultDto, formikHelpers: FormikHelpers<CheckResultDto>) => {
-    // setIsLoading(true);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const isCorrectAnswer = currentRandomNumber! === parseInt(payload.answer, 10);
 
     try {
+      setIsShowCorrectAnswer(false);
       formikHelpers.setSubmitting(false);
     } catch (e) {
       console.warn(e);
     } finally {
-      // setIsLoading(false);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      showToast(isCorrectAnswer ? ToastStatus.SUCCESS : ToastStatus.ERROR);
+
+      if (isCorrectAnswer) {
+        formikHelpers.resetForm();
+        speechRandomNumber();
+      }
     }
+  };
+
+  const showCorrectAnswer = () => {
+    setIsShowCorrectAnswer(true);
+    // resetHandler();
   };
 
   const formik = useFormik({
@@ -36,7 +75,20 @@ const UserCheckControls: FC = (): ReactElement => {
     onSubmit: submitHandler,
     validateOnBlur: true,
   });
-  const { touched, dirty, errors, getFieldProps } = formik;
+
+  const { touched, dirty, errors, getFieldProps, resetForm } = formik;
+
+  const resetHandler = () => {
+    // TODO fix reset form with formik
+    resetForm();
+  };
+
+  useEffect(() => {
+    if (speechStatus === SpeechStatus.STOPPED || currentRandomNumber === null) {
+      // resetHandler();
+      setIsShowCorrectAnswer(false);
+    }
+  }, [speechStatus, currentRandomNumber]);
 
   return (
     <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
@@ -46,8 +98,8 @@ const UserCheckControls: FC = (): ReactElement => {
             <FormControl isRequired={true} isReadOnly={false} isInvalid={touched.answer && dirty && Boolean(errors.answer)}>
               <FormLabel>Your answer</FormLabel>
 
-              <NumberInput {...getFieldProps('answer')}>
-                <NumberInputField placeholder={'Enter your answer'}/>
+              <NumberInput isDisabled={speechStatus === SpeechStatus.STOPPED}>
+                <NumberInputField placeholder={'Enter your answer'} {...getFieldProps('answer')}/>
               </NumberInput>
 
               {touched.answer && dirty && Boolean(errors.answer) && <FormErrorMessage>{touched.answer && dirty && errors.answer}</FormErrorMessage>}
@@ -55,7 +107,14 @@ const UserCheckControls: FC = (): ReactElement => {
           </GridItem>
 
           <GridItem>
-            <Button type={'submit'} isLoading={false} colorScheme={'cyan'} variant={'outline'} leftIcon={<Icon as={CheckIcon}/>} w={'full'}>
+            <Button
+              type={'submit'}
+              isDisabled={speechStatus === SpeechStatus.STOPPED}
+              colorScheme={'teal'}
+              variant={'outline'}
+              title={speechStatus === SpeechStatus.STARTED ? 'Check your answer' : ''}
+              leftIcon={<Icon as={CheckIcon}/>}
+              w={'full'}>
               Check
             </Button>
           </GridItem>
@@ -63,13 +122,22 @@ const UserCheckControls: FC = (): ReactElement => {
 
         <Grid templateColumns='repeat(3, 1fr)' gap={6} w={'full'} alignItems={'center'}>
           <GridItem>
-            <Button isDisabled={false} colorScheme={'orange'} variant={'outline'} leftIcon={<Icon as={VisibilityIcon}/>} w={'full'}>
+            <Button
+              onClick={showCorrectAnswer}
+              isDisabled={speechStatus === SpeechStatus.STOPPED}
+              colorScheme={'orange'}
+              variant={'outline'}
+              title={speechStatus === SpeechStatus.STARTED ? 'Show correct answer' : ''}
+              leftIcon={<Icon as={VisibilityIcon}/>}
+              w={'full'}>
               Show correct answer
             </Button>
           </GridItem>
 
           <GridItem>
-            <Text>1111</Text>
+            {
+              isShowCorrectAnswer && <Text>Correct answer is <Text as={'strong'} color={'orange.600'}>{currentRandomNumber}</Text></Text>
+            }
           </GridItem>
         </Grid>
       </Stack>

@@ -45,26 +45,21 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
 
   const initializeHandlers = (utterance: SpeechSynthesisUtterance): void => {
     utterance.addEventListener('start', () => {
-      console.warn('start');
       setIsSpeaking(true);
       setIsPause(false);
     });
     utterance.addEventListener('end', () => {
-      console.warn('end');
       setIsSpeaking(false);
       setIsPause(false);
     });
-    utterance.addEventListener('error', (err) => {
-      console.warn('error', err, speech);
+    utterance.addEventListener('error', () => {
       setIsSpeaking(false);
       setIsPause(false);
     });
     utterance.addEventListener('pause', () => {
-      console.warn('pause');
       setIsPause(true);
     });
     utterance.addEventListener('resume', () => {
-      console.warn('resume');
       setIsPause(false);
     });
   };
