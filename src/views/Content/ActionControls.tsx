@@ -27,6 +27,7 @@ const ActionControls: FC<Props> = (props): ReactElement => {
           isLoading={speechStatus === SpeechStatus.STARTED}
           colorScheme={'green'}
           variant={'outline'}
+          boxShadow={'md'}
           title={speechStatus === SpeechStatus.STOPPED ? t('common_start_btn_title')! : ''}
           leftIcon={<Icon as={PlayArrowIcon}/>}>
           {t('common_start_btn_title')}
@@ -40,6 +41,7 @@ const ActionControls: FC<Props> = (props): ReactElement => {
           isDisabled={speechStatus === SpeechStatus.STOPPED}
           colorScheme={'orange'}
           variant={'outline'}
+          boxShadow={'md'}
           title={speechStatus === SpeechStatus.STARTED ? t('common_replay_btn_title')! : ''}
           leftIcon={<Icon as={ReplayIcon}/>}>
           {t('common_replay_btn_title')}
@@ -53,6 +55,7 @@ const ActionControls: FC<Props> = (props): ReactElement => {
           isDisabled={speechStatus === SpeechStatus.STOPPED}
           colorScheme={'red'}
           variant={'outline'}
+          boxShadow={'md'}
           title={speechStatus === SpeechStatus.STARTED ? t('common_stop_btn_title')! : ''}
           leftIcon={<Icon as={StopIcon}/>}>
           {t('common_stop_btn_title')}

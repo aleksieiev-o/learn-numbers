@@ -32,6 +32,7 @@ const Header: FC<Props> = (props): ReactElement => {
               onClick={toggleColorMode}
               colorScheme={'gray'}
               variant={'outline'}
+              boxShadow={'md'}
               title={colorMode === ColorMode.LIGHT ? t('common_set_dark_theme_title')! : t('common_set_light_theme_title')!}
               aria-label={colorMode === ColorMode.LIGHT ? 'Set dark theme' : 'Set light theme'}
               icon={<Icon as={colorMode === ColorMode.LIGHT ? DarkModeIcon : LightModeIcon}/>}/>
@@ -41,6 +42,7 @@ const Header: FC<Props> = (props): ReactElement => {
               ref={settingsButtonRef}
               colorScheme={'gray'}
               variant={'outline'}
+              boxShadow={'md'}
               title={t('common_open_settings_title')!}
               aria-label={'Open settings'}
               icon={<Icon as={SettingsIcon}/>}/>

@@ -19,7 +19,8 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
 
         <Select
           onChange={(e) => settingsStore.updateSpeechLocale(e.target.value)}
-          value={settingsStore.settings.speechLocale}>
+          value={settingsStore.settings.speechLocale}
+          boxShadow={'md'}>
           {
             voicesList.map((voice) => <option value={voice.voiceURI} key={voice.voiceURI}>{voice.name}</option>)
           }
@@ -40,7 +41,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
           min={0}
           max={1}>
           <SliderTrack>
-            <SliderFilledTrack />
+            <SliderFilledTrack/>
           </SliderTrack>
 
           <SliderThumb bgColor={'twitter.600'}/>

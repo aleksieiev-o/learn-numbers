@@ -110,6 +110,8 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
                 ref={answerInputRef}
                 isDisabled={speechStatus === SpeechStatus.STOPPED}
                 type={'number'}
+                colorScheme={'twitter'}
+                boxShadow={'md'}
                 placeholder={t('common_input_answer_ph')!}
                 {...getFieldProps('answer')}/>
 
@@ -123,6 +125,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
               isDisabled={speechStatus === SpeechStatus.STOPPED}
               colorScheme={'twitter'}
               variant={'outline'}
+              boxShadow={'md'}
               title={speechStatus === SpeechStatus.STARTED ? t('common_btn_answer_title')! : ''}
               leftIcon={<Icon as={CheckIcon}/>}
               w={'full'}>
@@ -138,6 +141,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
               isDisabled={speechStatus === SpeechStatus.STOPPED}
               colorScheme={'orange'}
               variant={'outline'}
+              boxShadow={'md'}
               title={speechStatus === SpeechStatus.STARTED ? t('common_btn_correct_answer_title')! : ''}
               leftIcon={<Icon as={VisibilityIcon}/>}
               w={'full'}>

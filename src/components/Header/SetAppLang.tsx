@@ -40,6 +40,7 @@ const SetAppLang: FC = (): ReactElement => {
         as={IconButton}
         colorScheme={'gray'}
         variant={'outline'}
+        boxShadow={'md'}
         title={t('common_set_app_lang_title')!}
         aria-label={'Set application language'}
         icon={<Icon as={LanguageIcon}/>}/>

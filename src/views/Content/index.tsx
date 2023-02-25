@@ -94,7 +94,12 @@ const Content: FC<Props> = observer((props): ReactElement => {
               </DrawerBody>
 
               <DrawerFooter>
-                <Button variant='outline' onClick={onCloseSettings}>{t('common_close_btn')}</Button>
+                <Button
+                  variant={'outline'}
+                  boxShadow={'md'}
+                  onClick={onCloseSettings}>
+                  {t('common_close_btn')}
+                </Button>
               </DrawerFooter>
             </DrawerContent>
           </Drawer>
