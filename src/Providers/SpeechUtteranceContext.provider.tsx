@@ -7,6 +7,9 @@ interface Props {
 export interface StartPlayingDto {
   text: string;
   langURI: string;
+  volume: number;
+  rate: number;
+  pitch: number;
 }
 
 interface SpeechUtteranceContextState {
@@ -69,7 +72,7 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
   };
 
   const start = (payload: StartPlayingDto): void => {
-    const {text, langURI} = payload;
+    const {text, langURI, volume, rate, pitch} = payload;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const voice: SpeechSynthesisVoice = voicesList.find((voice: SpeechSynthesisVoice) => voice.voiceURI === langURI)!;
 
@@ -84,9 +87,9 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
     utterance.text = text;
     utterance.voice = voice;
     utterance.lang = voice.lang;
-    utterance.volume = 1; // TODO add to StartPlayingDto
-    utterance.rate = 1; // TODO add to StartPlayingDto
-    utterance.pitch = 1; // TODO add to StartPlayingDto
+    utterance.volume = volume;
+    utterance.rate = rate;
+    utterance.pitch = pitch;
 
     speech.speak(utterance);
   };

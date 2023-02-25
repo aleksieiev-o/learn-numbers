@@ -33,6 +33,9 @@ const Content: FC<Props> = observer((props): ReactElement => {
       start({
         text: currentRandomNumber.toString(),
         langURI: settingsStore.settings.speechLocale,
+        volume: settingsStore.settings.speechVolume,
+        rate: settingsStore.settings.speechRate,
+        pitch: settingsStore.settings.speechPitch,
       });
     }
   };

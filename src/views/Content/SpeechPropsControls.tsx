@@ -57,7 +57,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
           defaultValue={settingsStore.settings.speechRate}
           step={0.1}
           min={0.1}
-          max={10}>
+          max={2}>
           <SliderTrack>
             <SliderFilledTrack/>
           </SliderTrack>

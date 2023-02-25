@@ -31,8 +31,8 @@ export class SettingsStore implements ISettingsStore {
 
     this.rootStore = rootStore;
     this.settings = settings ? settings : {
-      minValue: 0,
-      maxValue: 0,
+      minValue: 1,
+      maxValue: 10,
       speechPitch: 1,
       speechRate: 1,
       speechVolume: 1,
