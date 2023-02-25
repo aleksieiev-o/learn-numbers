@@ -16,7 +16,7 @@ const ActionControls: FC<Props> = (props): ReactElement => {
   const {startSpeechProcess, stopSpeechProcess, replayLastNumber, speechStatus} = props;
 
   return (
-    <Grid templateColumns='repeat(3, 1fr)' gap={6} w={'full'}>
+    <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'}>
       <GridItem>
         <Button
           onClick={startSpeechProcess}

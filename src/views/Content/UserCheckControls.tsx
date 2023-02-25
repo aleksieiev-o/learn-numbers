@@ -90,7 +90,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
   return (
     <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
       <Stack w={'full'} direction={'column'} spacing={10}>
-        <Grid templateColumns='repeat(3, 1fr)' gap={6} w={'full'} alignItems={'end'}>
+        <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'} alignItems={'end'}>
           <GridItem>
             <FormControl isRequired={true} isReadOnly={false} isInvalid={touched.answer && dirty && Boolean(errors.answer)}>
               <FormLabel>Your answer</FormLabel>
@@ -120,7 +120,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
           </GridItem>
         </Grid>
 
-        <Grid templateColumns='repeat(3, 1fr)' gap={6} w={'full'} alignItems={'center'}>
+        <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'} alignItems={'center'}>
           <GridItem>
             <Button
               onClick={showCorrectAnswer}
