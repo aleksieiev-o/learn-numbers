@@ -12,14 +12,16 @@
   "bugs": {
     "url": "https://github.com/aleksieiev-o/listen-write-numbers/issues"
   },
-  "homepage": ".",
+  "homepage": "https://aleksieiev-o.github.io/listen-write-numbers",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
