@@ -12,7 +12,7 @@
   "common_num_range_label": "Numbers range",
   "common_min_number_ph": "Enter minimal number",
   "common_max_number_ph": "Enter maximal number",
-  "common_min_number_label": "Maximal number",
+  "common_min_number_label": "Minimal number",
   "common_max_number_label": "Maximal number",
 
   "common_speech_props_label": "Speech properties",
