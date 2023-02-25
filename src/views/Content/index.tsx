@@ -83,7 +83,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
             <DrawerContent>
               <DrawerCloseButton/>
 
-              <DrawerHeader>{t('common_settings_label')}</DrawerHeader>
+              <DrawerHeader as={'h4'} fontSize={24}>{t('common_settings_label')}</DrawerHeader>
 
               <DrawerBody>
                 <Stack spacing={6}>
