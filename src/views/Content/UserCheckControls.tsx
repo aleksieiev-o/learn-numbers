@@ -121,7 +121,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
             <Button
               type={'submit'}
               isDisabled={speechStatus === SpeechStatus.STOPPED}
-              colorScheme={'teal'}
+              colorScheme={'twitter'}
               variant={'outline'}
               title={speechStatus === SpeechStatus.STARTED ? t('common_btn_answer_title')! : ''}
               leftIcon={<Icon as={CheckIcon}/>}

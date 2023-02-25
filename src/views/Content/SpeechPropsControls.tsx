@@ -43,7 +43,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
             <SliderFilledTrack />
           </SliderTrack>
 
-          <SliderThumb bgColor={'teal.600'}/>
+          <SliderThumb bgColor={'twitter.600'}/>
         </Slider>
       </FormControl>
 
@@ -64,7 +64,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
             <SliderFilledTrack/>
           </SliderTrack>
 
-          <SliderThumb bgColor={'teal.600'}/>
+          <SliderThumb bgColor={'twitter.600'}/>
         </Slider>
       </FormControl>
 
@@ -85,7 +85,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
             <SliderFilledTrack/>
           </SliderTrack>
 
-          <SliderThumb bgColor={'teal.600'}/>
+          <SliderThumb bgColor={'twitter.600'}/>
         </Slider>
       </FormControl>
     </Stack>

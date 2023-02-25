@@ -50,7 +50,7 @@ const SetAppLang: FC = (): ReactElement => {
             return <MenuItem
               onClick={() => changeLocale(menuItem.lang)}
               key={menuItem.lang}
-              color={language === menuItem.lang ? 'teal.600' : ''}>
+              color={language === menuItem.lang ? 'twitter.600' : ''}>
               {menuItem.title}
             </MenuItem>;
           })

@@ -36,7 +36,7 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
             value={settingsStore.settings.minValue}
             ref={initElementRef}
             type={'number'}
-            colorScheme={'teal'}
+            colorScheme={'twitter'}
             placeholder={t('common_min_number_ph')!}/>
         </FormControl>
 
@@ -47,7 +47,7 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
             onChange={(e) => updateValue('max', e)}
             value={settingsStore.settings.maxValue}
             type={'number'}
-            colorScheme={'teal'}
+            colorScheme={'twitter'}
             placeholder={t('common_max_number_ph')!}/>
         </FormControl>
         {/* eslint-enable */}
