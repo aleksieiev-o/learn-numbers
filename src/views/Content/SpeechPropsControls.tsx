@@ -3,17 +3,19 @@ import { FormControl, FormLabel, Heading, Select, Slider, SliderFilledTrack, Sli
 import { SpeechUtteranceContext } from '../../Providers/SpeechUtteranceContext.provider';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
+import { useTranslation } from 'react-i18next';
 
 const SpeechPropsControls: FC = observer((): ReactElement => {
   const settingsStore = useSettingsStore();
   const { voicesList } = useContext(SpeechUtteranceContext);
+  const { t } = useTranslation(['common']);
 
   return (
     <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'} spacing={4}>
-      <Heading as={'h6'} fontSize={20}>Speech properties</Heading>
+      <Heading as={'h6'} fontSize={20}>{t('common_speech_props_label')}</Heading>
 
       <FormControl>
-        <FormLabel>Speech language</FormLabel>
+        <FormLabel>{t('common_speech_lang_label')}</FormLabel>
 
         <Select
           onChange={(e) => settingsStore.updateSpeechLocale(e.target.value)}
@@ -26,7 +28,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
 
       <FormControl>
         <Stack direction={'row'}>
-          <FormLabel>Speech volume:</FormLabel>
+          <FormLabel>{t('common_speech_volume_label')}:</FormLabel>
           <Text as={'strong'}>{settingsStore.settings.speechVolume}</Text>
         </Stack>
 
@@ -47,7 +49,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
 
       <FormControl>
         <Stack direction={'row'}>
-          <FormLabel>Speech rate:</FormLabel>
+          <FormLabel>{t('common_speech_rate_label')}:</FormLabel>
           <Text as={'strong'}>{settingsStore.settings.speechRate}</Text>
         </Stack>
 
@@ -68,7 +70,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
 
       <FormControl>
         <Stack direction={'row'}>
-          <FormLabel>Speech pitch:</FormLabel>
+          <FormLabel>{t('common_speech_pitch_label')}:</FormLabel>
           <Text as={'strong'}>{settingsStore.settings.speechPitch}</Text>
         </Stack>
 

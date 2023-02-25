@@ -1,0 +1,33 @@
+{
+  "common_set_light_theme_title": "Set light theme",
+  "common_set_dark_theme_title": "Set dark theme",
+  "common_open_settings_title": "Open settings",
+  "common_set_app_lang_title": "Set application language",
+
+  "common_start_btn_title": "Start",
+  "common_replay_btn_title": "Replay last number",
+  "common_stop_btn_title": "Stop",
+
+  "common_settings_label": "Settings",
+  "common_num_range_label": "Numbers range",
+  "common_min_number_ph": "Enter minimal number",
+  "common_max_number_ph": "Enter maximal number",
+  "common_min_number_label": "Maximal number",
+  "common_max_number_label": "Maximal number",
+
+  "common_speech_props_label": "Speech properties",
+  "common_speech_lang_label": "Speech language",
+  "common_speech_volume_label": "Speech volume",
+  "common_speech_rate_label": "Speech rate",
+  "common_speech_pitch_label": "Speech pitch",
+
+  "common_input_answer_label": "Your answer",
+  "common_input_answer_ph": "Enter your answer",
+  "common_btn_answer_title": "Check your answer",
+  "common_btn_answer": "Check",
+  "common_btn_correct_answer_title": "Show correct answer",
+  "common_btn_correct_answer": "Show correct answer",
+  "common_correct_answer_message": "Correct answer is ",
+
+  "common_close_btn": "Close"
+}

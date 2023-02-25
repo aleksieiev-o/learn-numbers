@@ -2,6 +2,7 @@ import React, { ChangeEvent, FC, ReactElement, RefObject } from 'react';
 import { FormControl, FormLabel, Heading, Input, Stack } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   initElementRef: RefObject<HTMLInputElement>;
@@ -9,6 +10,7 @@ interface Props {
 
 const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElement => {
   const settingsStore = useSettingsStore();
+  const { t } = useTranslation(['common']);
 
   const updateValue = (type: 'min' | 'max', e: ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
@@ -22,11 +24,12 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
 
   return (
     <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'}>
-      <Heading as={'h6'} fontSize={20}>Numbers range</Heading>
+      <Heading as={'h6'} fontSize={20}>{t('common_num_range_label')}</Heading>
 
       <Stack direction={'column'} w={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
+        {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
         <FormControl>
-          <FormLabel>Minimal number</FormLabel>
+          <FormLabel>{t('common_min_number_label')}</FormLabel>
 
           <Input
             onChange={(e) => updateValue('min', e)}
@@ -34,19 +37,20 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
             ref={initElementRef}
             type={'number'}
             colorScheme={'teal'}
-            placeholder={'Enter minimal number'}/>
+            placeholder={t('common_min_number_ph')!}/>
         </FormControl>
 
         <FormControl>
-          <FormLabel>Maximal number</FormLabel>
+          <FormLabel>{t('common_max_number_label')}</FormLabel>
 
           <Input
             onChange={(e) => updateValue('max', e)}
             value={settingsStore.settings.maxValue}
             type={'number'}
             colorScheme={'teal'}
-            placeholder={'Enter maximal number'}/>
+            placeholder={t('common_max_number_ph')!}/>
         </FormControl>
+        {/* eslint-enable */}
       </Stack>
     </Stack>
   );

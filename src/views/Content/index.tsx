@@ -8,6 +8,7 @@ import { createRandomNumber } from '../../utils/createRandomNumber';
 import { useSettingsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
 import { SpeechUtteranceContext } from '../../Providers/SpeechUtteranceContext.provider';
+import { useTranslation } from 'react-i18next';
 
 export enum SpeechStatus {
   STOPPED,
@@ -27,6 +28,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
   const {start, stop} = useContext(SpeechUtteranceContext);
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>(SpeechStatus.STOPPED);
   const [currentRandomNumber, setCurrentRandomNumber] = useState<number | null>(null);
+  const { t } = useTranslation(['common']);
 
   const speech = () => {
     if (currentRandomNumber) {
@@ -79,8 +81,9 @@ const Content: FC<Props> = observer((props): ReactElement => {
             <DrawerOverlay/>
 
             <DrawerContent>
-              <DrawerCloseButton />
-              <DrawerHeader>Settings</DrawerHeader>
+              <DrawerCloseButton/>
+
+              <DrawerHeader>{t('common_settings_label')}</DrawerHeader>
 
               <DrawerBody>
                 <Stack spacing={6}>
@@ -91,7 +94,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
               </DrawerBody>
 
               <DrawerFooter>
-                <Button variant='outline' onClick={onCloseSettings}>Close</Button>
+                <Button variant='outline' onClick={onCloseSettings}>{t('common_close_btn')}</Button>
               </DrawerFooter>
             </DrawerContent>
           </Drawer>

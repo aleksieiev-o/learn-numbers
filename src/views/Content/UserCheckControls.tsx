@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { SpeechStatus } from './index';
 import { useFocus } from '../../hooks/useFocus';
+import { useTranslation } from 'react-i18next';
 
 enum ToastStatus {
   SUCCESS = 'success',
@@ -36,13 +37,11 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
   const {elementRef: answerInputRef, setFocus} = useFocus<HTMLInputElement>();
   const toast = useToast();
   const [isShowCorrectAnswer, setIsShowCorrectAnswer] = useState<boolean>(false);
+  const { t } = useTranslation(['common']);
 
   const showToast = (status: ToastStatus) => {
     toast({
-      title: status === ToastStatus.SUCCESS ? 'Correct answer' : 'Incorrect answer',
-      status,
       duration: 2000,
-      isClosable: true,
       position: 'top-left',
       render: () => (
         <Box
@@ -50,8 +49,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
           p={2} w={'40px'}
           h={'40px'}
           borderRadius={6}
-          bg={status === ToastStatus.SUCCESS ? 'green.600' : 'red.600'}
-          title={status === ToastStatus.SUCCESS ? 'Correct answer' : 'Incorrect answer'}>
+          bg={status === ToastStatus.SUCCESS ? 'green.600' : 'red.600'}>
           <Icon as={status === ToastStatus.SUCCESS ? CheckIcon : CloseIcon}/>
         </Box>
       ),
@@ -102,16 +100,17 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
   return (
     <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
       <Stack w={'full'} direction={'column'} spacing={10}>
+        {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
         <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'} alignItems={'end'}>
           <GridItem>
             <FormControl isRequired={true} isReadOnly={false} isInvalid={touched.answer && dirty && Boolean(errors.answer)}>
-              <FormLabel>Your answer</FormLabel>
+              <FormLabel>{t('common_input_answer_label')}</FormLabel>
 
               <Input
                 ref={answerInputRef}
                 isDisabled={speechStatus === SpeechStatus.STOPPED}
                 type={'number'}
-                placeholder={'Enter your answer'}
+                placeholder={t('common_input_answer_ph')!}
                 {...getFieldProps('answer')}/>
 
               {touched.answer && dirty && Boolean(errors.answer) && <FormErrorMessage>{touched.answer && dirty && errors.answer}</FormErrorMessage>}
@@ -124,10 +123,10 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
               isDisabled={speechStatus === SpeechStatus.STOPPED}
               colorScheme={'teal'}
               variant={'outline'}
-              title={speechStatus === SpeechStatus.STARTED ? 'Check your answer' : ''}
+              title={speechStatus === SpeechStatus.STARTED ? t('common_btn_answer_title')! : ''}
               leftIcon={<Icon as={CheckIcon}/>}
               w={'full'}>
-              Check
+              {t('common_btn_answer')}
             </Button>
           </GridItem>
         </Grid>
@@ -139,19 +138,20 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
               isDisabled={speechStatus === SpeechStatus.STOPPED}
               colorScheme={'orange'}
               variant={'outline'}
-              title={speechStatus === SpeechStatus.STARTED ? 'Show correct answer' : ''}
+              title={speechStatus === SpeechStatus.STARTED ? t('common_btn_correct_answer_title')! : ''}
               leftIcon={<Icon as={VisibilityIcon}/>}
               w={'full'}>
-              Show correct answer
+              {t('common_btn_correct_answer')}
             </Button>
           </GridItem>
 
           <GridItem>
             {
-              isShowCorrectAnswer && <Text>Correct answer is <Text as={'strong'} color={'orange.600'}>{currentRandomNumber}</Text></Text>
+              isShowCorrectAnswer && <Text>{t('common_correct_answer_message')}<Text as={'strong'} color={'orange.600'}>{currentRandomNumber}</Text></Text>
             }
           </GridItem>
         </Grid>
+        {/* eslint-enable */}
       </Stack>
     </form>
   );

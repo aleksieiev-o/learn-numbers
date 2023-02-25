@@ -1,0 +1,33 @@
+{
+  "common_set_light_theme_title": "Установить светлую тему",
+  "common_set_dark_theme_title": "Установить темную тему",
+  "common_open_settings_title": "Открыть настройки",
+  "common_set_app_lang_title": "Установить язык приложения",
+
+  "common_start_btn_title": "Старт",
+  "common_replay_btn_title": "Повторить последнее число",
+  "common_stop_btn_title": "Стоп",
+
+  "common_settings_label": "Настройки",
+  "common_num_range_label": "Диапазон чисел",
+  "common_min_number_ph": "Ввести минимальное число",
+  "common_max_number_ph": "Ввести максимальное число",
+  "common_min_number_label": "Минииальное число",
+  "common_max_number_label": "Максимальное число",
+
+  "common_speech_props_label": "Свойства речи",
+  "common_speech_lang_label": "Язык речи",
+  "common_speech_volume_label": "Громкость речи",
+  "common_speech_rate_label": "Скорость речи",
+  "common_speech_pitch_label": "Тональность речи",
+
+  "common_input_answer_label": "Ваш ответ",
+  "common_input_answer_ph": "Введите ваш ответ",
+  "common_btn_answer_title": "Проверить ваш ответ",
+  "common_btn_answer": "Проверить",
+  "common_btn_correct_answer_title": "Показать правильный ответ",
+  "common_btn_correct_answer": "Показать правильный ответ",
+  "common_correct_answer_message": "Правильный ответ ",
+
+  "common_close_btn": "Закрыть"
+}

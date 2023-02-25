@@ -4,6 +4,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { SpeechStatus } from './index';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   speechStatus: SpeechStatus;
@@ -14,9 +15,11 @@ interface Props {
 
 const ActionControls: FC<Props> = (props): ReactElement => {
   const {startSpeechProcess, stopSpeechProcess, replayLastNumber, speechStatus} = props;
+  const { t } = useTranslation(['common']);
 
   return (
     <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'}>
+      {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
       <GridItem>
         <Button
           onClick={startSpeechProcess}
@@ -24,9 +27,9 @@ const ActionControls: FC<Props> = (props): ReactElement => {
           isLoading={speechStatus === SpeechStatus.STARTED}
           colorScheme={'green'}
           variant={'outline'}
-          title={speechStatus === SpeechStatus.STOPPED ? 'Start' : ''}
+          title={speechStatus === SpeechStatus.STOPPED ? t('common_start_btn_title')! : ''}
           leftIcon={<Icon as={PlayArrowIcon}/>}>
-          Start
+          {t('common_start_btn_title')}
         </Button>
       </GridItem>
 
@@ -37,9 +40,9 @@ const ActionControls: FC<Props> = (props): ReactElement => {
           isDisabled={speechStatus === SpeechStatus.STOPPED}
           colorScheme={'orange'}
           variant={'outline'}
-          title={speechStatus === SpeechStatus.STARTED ? 'Replay last number' : ''}
+          title={speechStatus === SpeechStatus.STARTED ? t('common_replay_btn_title')! : ''}
           leftIcon={<Icon as={ReplayIcon}/>}>
-          Replay last number
+          {t('common_replay_btn_title')}
         </Button>
       </GridItem>
 
@@ -50,11 +53,12 @@ const ActionControls: FC<Props> = (props): ReactElement => {
           isDisabled={speechStatus === SpeechStatus.STOPPED}
           colorScheme={'red'}
           variant={'outline'}
-          title={speechStatus === SpeechStatus.STARTED ? 'Stop' : ''}
+          title={speechStatus === SpeechStatus.STARTED ? t('common_stop_btn_title')! : ''}
           leftIcon={<Icon as={StopIcon}/>}>
-          Stop
+          {t('common_stop_btn_title')}
         </Button>
       </GridItem>
+      {/* eslint-enable */}
     </Grid>
   );
 };
