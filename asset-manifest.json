@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/listen-write-numbers/static/js/main.23e7b99c.js",
+    "main.js": "/listen-write-numbers/static/js/main.9f530a64.js",
     "static/js/787.7f443150.chunk.js": "/listen-write-numbers/static/js/787.7f443150.chunk.js",
     "index.html": "/listen-write-numbers/index.html",
-    "main.23e7b99c.js.map": "/listen-write-numbers/static/js/main.23e7b99c.js.map",
+    "main.9f530a64.js.map": "/listen-write-numbers/static/js/main.9f530a64.js.map",
     "787.7f443150.chunk.js.map": "/listen-write-numbers/static/js/787.7f443150.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.23e7b99c.js"
+    "static/js/main.9f530a64.js"
   ]
 }
