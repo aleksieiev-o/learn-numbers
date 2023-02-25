@@ -87,7 +87,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
 
               <DrawerBody>
                 <Stack spacing={6}>
-                  <NumbersRangeControls initElementRef={initElementRef}/>
+                  <NumbersRangeControls/>
 
                   <SpeechPropsControls/>
                 </Stack>

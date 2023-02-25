@@ -24,7 +24,7 @@ const Header: FC<Props> = (props): ReactElement => {
         <Stack direction={'row'} w={'full'} alignItems={'center'} justifyContent={'space-between'}>
           <Heading as={'h4'} fontSize={{ md: 32, base: 20 }} color={'twitter.600'} cursor={'default'}>{APP_NAME}</Heading>
 
-          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={6}>
+          <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={{ md: 6, base: 2 }}>
             <SetAppLang/>
 
             {/* eslint-disable @typescript-eslint/no-non-null-assertion */}

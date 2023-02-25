@@ -99,7 +99,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
 
   return (
     <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
-      <Stack w={'full'} direction={'column'} spacing={10}>
+      <Stack w={'full'} direction={'column'} spacing={6}>
         {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
         <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'} alignItems={'end'}>
           <GridItem>

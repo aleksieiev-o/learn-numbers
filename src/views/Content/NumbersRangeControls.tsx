@@ -1,14 +1,10 @@
-import React, { ChangeEvent, FC, ReactElement, RefObject } from 'react';
+import React, { ChangeEvent, FC, ReactElement } from 'react';
 import { FormControl, FormLabel, Heading, Input, Stack } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
 import { useTranslation } from 'react-i18next';
 
-interface Props {
-  initElementRef: RefObject<HTMLInputElement>;
-}
-
-const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElement => {
+const NumbersRangeControls: FC = observer((): ReactElement => {
   const settingsStore = useSettingsStore();
   const { t } = useTranslation(['common']);
 
@@ -34,7 +30,6 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
           <Input
             onChange={(e) => updateValue('min', e)}
             value={settingsStore.settings.minValue}
-            ref={initElementRef}
             type={'number'}
             colorScheme={'twitter'}
             placeholder={t('common_min_number_ph')!}/>
