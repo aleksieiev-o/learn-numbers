@@ -1,8 +1,9 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, Input, Stack, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, Input, Stack, Text, useToast } from '@chakra-ui/react';
 import { object, string } from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { SpeechStatus } from './index';
 import { useFocus } from '../../hooks/useFocus';
@@ -42,7 +43,18 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
       status,
       duration: 2000,
       isClosable: true,
-      position: 'bottom-left',
+      position: 'top-left',
+      render: () => (
+        <Box
+          color={'white'}
+          p={2} w={'40px'}
+          h={'40px'}
+          borderRadius={6}
+          bg={status === ToastStatus.SUCCESS ? 'green.600' : 'red.600'}
+          title={status === ToastStatus.SUCCESS ? 'Correct answer' : 'Incorrect answer'}>
+          <Icon as={status === ToastStatus.SUCCESS ? CheckIcon : CloseIcon}/>
+        </Box>
+      ),
     });
   };
 
