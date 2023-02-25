@@ -5,6 +5,7 @@ import { FormikHelpers, useFormik } from 'formik';
 import CheckIcon from '@mui/icons-material/Check';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { SpeechStatus } from './index';
+import { useFocus } from '../../hooks/useFocus';
 
 enum ToastStatus {
   SUCCESS = 'success',
@@ -31,6 +32,7 @@ const validationSchema = object().shape({
 
 const UserCheckControls: FC<Props> = (props): ReactElement => {
   const {speechStatus, currentRandomNumber, speechRandomNumber} = props;
+  const {elementRef: answerInputRef, setFocus} = useFocus<HTMLInputElement>();
   const toast = useToast();
   const [isShowCorrectAnswer, setIsShowCorrectAnswer] = useState<boolean>(false);
 
@@ -60,6 +62,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
         formikHelpers.resetForm();
         formikHelpers.setSubmitting(false);
         speechRandomNumber();
+        setFocus();
       }
     }
   };
@@ -92,7 +95,12 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
             <FormControl isRequired={true} isReadOnly={false} isInvalid={touched.answer && dirty && Boolean(errors.answer)}>
               <FormLabel>Your answer</FormLabel>
 
-              <Input type={'number'} placeholder={'Enter your answer'} {...getFieldProps('answer')} isDisabled={speechStatus === SpeechStatus.STOPPED}/>
+              <Input
+                ref={answerInputRef}
+                isDisabled={speechStatus === SpeechStatus.STOPPED}
+                type={'number'}
+                placeholder={'Enter your answer'}
+                {...getFieldProps('answer')}/>
 
               {touched.answer && dirty && Boolean(errors.answer) && <FormErrorMessage>{touched.answer && dirty && errors.answer}</FormErrorMessage>}
             </FormControl>

@@ -32,7 +32,7 @@ export class SettingsStore implements ISettingsStore {
     this.rootStore = rootStore;
     this.settings = settings ? settings : {
       minValue: 0,
-      maxValue: 1,
+      maxValue: 0,
       speechPitch: 1,
       speechRate: 1,
       speechVolume: 1,
@@ -47,12 +47,12 @@ export class SettingsStore implements ISettingsStore {
   }
 
   updateMinValue(value: string): void {
-    this.settings.minValue = parseInt(value, 10);
+    this.settings.minValue = parseInt(value, 10) || 0;
     this.updateLocalStorageValue();
   }
 
   updateMaxValue(value: string): void {
-    this.settings.maxValue = parseInt(value, 10);
+    this.settings.maxValue = parseInt(value, 10) || 0;
     this.updateLocalStorageValue();
   }
 

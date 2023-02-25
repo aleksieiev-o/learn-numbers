@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, RefObject } from 'react';
+import React, { ChangeEvent, FC, ReactElement, RefObject } from 'react';
 import { FormControl, FormLabel, Heading, Input, Stack } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
@@ -10,6 +10,16 @@ interface Props {
 const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElement => {
   const settingsStore = useSettingsStore();
 
+  const updateValue = (type: 'min' | 'max', e: ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+
+    if (type === 'min') {
+      settingsStore.updateMinValue(value);
+    } else if (type === 'max') {
+      settingsStore.updateMaxValue(value);
+    }
+  };
+
   return (
     <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'}>
       <Heading as={'h6'} fontSize={20}>Numbers range</Heading>
@@ -19,7 +29,7 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
           <FormLabel>Minimal number</FormLabel>
 
           <Input
-            onChange={(e) => settingsStore.updateMinValue(e.target.value)}
+            onChange={(e) => updateValue('min', e)}
             value={settingsStore.settings.minValue}
             ref={initElementRef}
             type={'number'}
@@ -31,9 +41,8 @@ const NumbersRangeControls: FC<Props> = observer(({initElementRef}): ReactElemen
           <FormLabel>Maximal number</FormLabel>
 
           <Input
-            onChange={(e) => settingsStore.updateMaxValue(e.target.value)}
+            onChange={(e) => updateValue('max', e)}
             value={settingsStore.settings.maxValue}
-            ref={initElementRef}
             type={'number'}
             colorScheme={'teal'}
             placeholder={'Enter maximal number'}/>
