@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, NumberInput, NumberInputField, Stack, Text, useToast } from '@chakra-ui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, Input, Stack, Text, useToast } from '@chakra-ui/react';
 import { object, string } from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import CheckIcon from '@mui/icons-material/Check';
@@ -50,7 +50,6 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
 
     try {
       setIsShowCorrectAnswer(false);
-      formikHelpers.setSubmitting(false);
     } catch (e) {
       console.warn(e);
     } finally {
@@ -59,6 +58,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
 
       if (isCorrectAnswer) {
         formikHelpers.resetForm();
+        formikHelpers.setSubmitting(false);
         speechRandomNumber();
       }
     }
@@ -66,7 +66,6 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
 
   const showCorrectAnswer = () => {
     setIsShowCorrectAnswer(true);
-    // resetHandler();
   };
 
   const formik = useFormik({
@@ -78,15 +77,10 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
 
   const { touched, dirty, errors, getFieldProps, resetForm } = formik;
 
-  const resetHandler = () => {
-    // TODO fix reset form with formik
-    resetForm();
-  };
-
   useEffect(() => {
     if (speechStatus === SpeechStatus.STOPPED || currentRandomNumber === null) {
-      // resetHandler();
       setIsShowCorrectAnswer(false);
+      resetForm();
     }
   }, [speechStatus, currentRandomNumber]);
 
@@ -98,9 +92,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
             <FormControl isRequired={true} isReadOnly={false} isInvalid={touched.answer && dirty && Boolean(errors.answer)}>
               <FormLabel>Your answer</FormLabel>
 
-              <NumberInput isDisabled={speechStatus === SpeechStatus.STOPPED}>
-                <NumberInputField placeholder={'Enter your answer'} {...getFieldProps('answer')}/>
-              </NumberInput>
+              <Input type={'number'} placeholder={'Enter your answer'} {...getFieldProps('answer')} isDisabled={speechStatus === SpeechStatus.STOPPED}/>
 
               {touched.answer && dirty && Boolean(errors.answer) && <FormErrorMessage>{touched.answer && dirty && errors.answer}</FormErrorMessage>}
             </FormControl>
