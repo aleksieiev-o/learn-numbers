@@ -1,18 +1,18 @@
 {
-  "name": "listen-write-numbers",
-  "description": "Listen and write numbers UI",
+  "name": "learn-numbers",
+  "description": "Learn numbers application",
   "version": "0.0.1",
   "license": "MIT",
   "author": "Oleksandr Aleksieiev",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:aleksieiev-o/listen-write-numbers.git"
+    "url": "git+ssh://git@github.com:aleksieiev-o/learn-numbers.git"
   },
   "bugs": {
-    "url": "https://github.com/aleksieiev-o/listen-write-numbers/issues"
+    "url": "https://github.com/aleksieiev-o/learn-numbers/issues"
   },
-  "homepage": "https://aleksieiev-o.github.io/listen-write-numbers",
+  "homepage": "https://aleksieiev-o.github.io/learn-numbers",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
