@@ -27,6 +27,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
   const settingsStore = useSettingsStore();
   const {start, stop} = useContext(SpeechUtteranceContext);
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>(SpeechStatus.STOPPED);
+  const [currentRandomNumberId, setCurrentRandomNumberId] = useState<string>('');
   const [currentRandomNumber, setCurrentRandomNumber] = useState<number | null>(null);
   const { t } = useTranslation(['common']);
 
@@ -44,11 +45,12 @@ const Content: FC<Props> = observer((props): ReactElement => {
 
   useEffect(() => {
     speech();
-  }, [currentRandomNumber]);
+  }, [currentRandomNumberId]);
 
   const speechRandomNumber = () => {
     const randomNumber = createRandomNumber(settingsStore.settings.minValue, settingsStore.settings.maxValue);
-    setCurrentRandomNumber(randomNumber);
+    setCurrentRandomNumberId(randomNumber.id);
+    setCurrentRandomNumber(randomNumber.value);
   };
 
   const startSpeechProcess = () => {

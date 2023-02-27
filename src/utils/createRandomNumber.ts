@@ -1,9 +1,13 @@
-export const createRandomNumber = (min: number, max: number/*, fraction = false*/): number => {
+interface RandomNumber {
+  id: string;
+  value: number;
+}
+
+export const createRandomNumber = (min: number, max: number): RandomNumber => {
   const randomNumber = min + Math.random() * (max - min);
 
-  // if (fraction) {
-  //   return parseFloat(randomNumber.toFixed(3));
-  // }
-
-  return Math.round(randomNumber);
+  return {
+    id: Date.now().toString(),
+    value: Math.round(randomNumber),
+  };
 };
