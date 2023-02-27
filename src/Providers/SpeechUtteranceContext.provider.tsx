@@ -39,11 +39,13 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
   const [isPause, setIsPause] = useState<boolean>(false);
 
   useEffect(() => {
-    speech.onvoiceschanged = () => {
-      setVoicesList(speech.getVoices());
-    };
+    if (speech) {
+      speech.onvoiceschanged = () => {
+        setVoicesList(speech.getVoices());
+      };
 
-    setVoicesList(speech.getVoices());
+      setVoicesList(speech.getVoices());
+    }
   }, []);
 
   const initializeHandlers = (utterance: SpeechSynthesisUtterance): void => {

@@ -30,13 +30,14 @@ export class SettingsStore implements ISettingsStore {
     const settings: Settings = lsValue ? JSON.parse(lsValue) : null;
 
     this.rootStore = rootStore;
+
     this.settings = settings ? settings : {
       minValue: 1,
       maxValue: 10,
       speechPitch: 1,
       speechRate: 1,
       speechVolume: 1,
-      speechLocale: 'Google US English',
+      speechLocale: this.getCurrentLocaleName(this.rootStore.bowserBrowser),
     };
 
     if (!lsValue) {
@@ -79,5 +80,13 @@ export class SettingsStore implements ISettingsStore {
   private updateLocalStorageValue(): void {
     const settings: string = JSON.stringify(this.settings);
     window.localStorage.setItem('speechSettings', settings);
+  }
+
+  private getCurrentLocaleName(browser: Bowser.Parser.Details) {
+    switch (browser.name) {
+      case 'Chrome' : return 'Google US English';
+      case 'Firefox' : return 'urn:moz-tts:speechd:English%20(America)?en';
+      default: return '';
+    }
   }
 }

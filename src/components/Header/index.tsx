@@ -22,7 +22,7 @@ const Header: FC<Props> = (props): ReactElement => {
     <Stack as={'header'} w={'full'} boxShadow={'md'}>
       <Container centerContent={true} w={'full'} maxW={'6xl'} p={4}>
         <Stack direction={'row'} w={'full'} alignItems={'center'} justifyContent={'space-between'}>
-          <Heading as={'h4'} fontSize={{ md: 32, base: 20 }} color={'twitter.600'} cursor={'default'}>{APP_NAME}</Heading>
+          <Heading as={'h4'} fontSize={{ md: 32, base: 22 }} color={'twitter.600'} cursor={'default'}>{APP_NAME}</Heading>
 
           <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={{ md: 6, base: 2 }}>
             <SetAppLang/>
