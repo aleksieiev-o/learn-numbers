@@ -1,7 +1,5 @@
 import React, { FC, ReactElement, RefObject, useContext, useEffect, useState } from 'react';
-import { Container, Stack, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Button } from '@chakra-ui/react';
-import NumbersRangeControls from './NumbersRangeControls';
-import SpeechPropsControls from './SpeechPropsControls';
+import { Container, Stack } from '@chakra-ui/react';
 import ContentNavigation from './ContentNavigation';
 import ActionControls from './ActionControls';
 import UserCheckControls from './UserCheckControls';
@@ -9,7 +7,7 @@ import { createRandomNumber } from '../../utils/createRandomNumber';
 import { useSettingsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
 import { SpeechUtteranceContext } from '../../Providers/SpeechUtteranceContext.provider';
-import { useTranslation } from 'react-i18next';
+import ContentSettings from './ContentSettings';
 
 export enum SpeechStatus {
   STOPPED,
@@ -30,7 +28,6 @@ const Content: FC<Props> = observer((props): ReactElement => {
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>(SpeechStatus.STOPPED);
   const [currentRandomNumberId, setCurrentRandomNumberId] = useState<string>('');
   const [currentRandomNumber, setCurrentRandomNumber] = useState<number | null>(null);
-  const { t } = useTranslation(['common']);
 
   const speech = () => {
     if (currentRandomNumber) {
@@ -69,7 +66,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
     speech();
   };
 
-  const firstTabElement = (): ReactElement => {
+  const renderWriteNumbers = (): ReactElement => {
     return <>
       <ActionControls
         speechStatus={speechStatus}
@@ -84,7 +81,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
     </>;
   };
 
-  const secondTabElement = (): ReactElement => {
+  const renderSayNumbers = (): ReactElement => {
     return <>
       <p>This block is still in development</p>
     </>;
@@ -94,41 +91,15 @@ const Content: FC<Props> = observer((props): ReactElement => {
     <Stack as={'main'} w={'full'} h={'full'} overflowY={'auto'}>
       <Container centerContent={true} w={'full'} h={'full'} maxW={'6xl'} pr={4} pb={4} pl={4}>
         <Stack w={'full'} h={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
-          <Drawer
-            isOpen={isOpenSettings}
-            placement={'right'}
-            size={'md'}
-            onClose={onCloseSettings}
-            initialFocusRef={initElementRef}
-            finalFocusRef={settingsButtonRef}
-            autoFocus={true}>
-            <DrawerOverlay/>
+          <ContentSettings
+            settingsButtonRef={settingsButtonRef}
+            initElementRef={initElementRef}
+            isOpenSettings={isOpenSettings}
+            onCloseSettings={onCloseSettings}/>
 
-            <DrawerContent>
-              <DrawerCloseButton/>
-
-              <DrawerHeader as={'h4'} fontSize={24}>{t('common_settings_label')}</DrawerHeader>
-
-              <DrawerBody>
-                <Stack spacing={6}>
-                  <NumbersRangeControls/>
-
-                  <SpeechPropsControls/>
-                </Stack>
-              </DrawerBody>
-
-              <DrawerFooter>
-                <Button
-                  variant={'outline'}
-                  boxShadow={'md'}
-                  onClick={onCloseSettings}>
-                  {t('common_close_btn')}
-                </Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-
-          <ContentNavigation firstTab={firstTabElement()} secondTab={secondTabElement()}/>
+          <ContentNavigation
+            firstTab={renderWriteNumbers()}
+            secondTab={renderSayNumbers()}/>
         </Stack>
       </Container>
     </Stack>
