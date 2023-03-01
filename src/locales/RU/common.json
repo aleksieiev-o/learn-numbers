@@ -29,5 +29,8 @@
   "common_btn_correct_answer": "Показать правильный ответ",
   "common_correct_answer_message": "Правильный ответ ",
 
-  "common_close_btn": "Закрыть"
+  "common_close_btn": "Закрыть",
+
+  "common_write_nav_tab": "Пиши числа",
+  "common_say_nav_tab": "Говори числа"
 }

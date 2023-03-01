@@ -2,6 +2,7 @@ import React, { FC, ReactElement, RefObject, useContext, useEffect, useState } f
 import { Container, Stack, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Button } from '@chakra-ui/react';
 import NumbersRangeControls from './NumbersRangeControls';
 import SpeechPropsControls from './SpeechPropsControls';
+import ContentNavigation from './ContentNavigation';
 import ActionControls from './ActionControls';
 import UserCheckControls from './UserCheckControls';
 import { createRandomNumber } from '../../utils/createRandomNumber';
@@ -68,9 +69,30 @@ const Content: FC<Props> = observer((props): ReactElement => {
     speech();
   };
 
+  const firstTabElement = (): ReactElement => {
+    return <>
+      <ActionControls
+        speechStatus={speechStatus}
+        startSpeechProcess={startSpeechProcess}
+        stopSpeechProcess={stopSpeechProcess}
+        replayLastNumber={replayLastNumber}/>
+
+      <UserCheckControls
+        speechStatus={speechStatus}
+        currentRandomNumber={currentRandomNumber}
+        speechRandomNumber={speechRandomNumber}/>
+    </>;
+  };
+
+  const secondTabElement = (): ReactElement => {
+    return <>
+      <p>This block is still in development</p>
+    </>;
+  };
+
   return (
     <Stack as={'main'} w={'full'} h={'full'} overflowY={'auto'}>
-      <Container centerContent={true} w={'full'} h={'full'} maxW={'6xl'} p={4}>
+      <Container centerContent={true} w={'full'} h={'full'} maxW={'6xl'} pr={4} pb={4} pl={4}>
         <Stack w={'full'} h={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
           <Drawer
             isOpen={isOpenSettings}
@@ -106,16 +128,7 @@ const Content: FC<Props> = observer((props): ReactElement => {
             </DrawerContent>
           </Drawer>
 
-          <ActionControls
-            speechStatus={speechStatus}
-            startSpeechProcess={startSpeechProcess}
-            stopSpeechProcess={stopSpeechProcess}
-            replayLastNumber={replayLastNumber}/>
-
-          <UserCheckControls
-          speechStatus={speechStatus}
-          currentRandomNumber={currentRandomNumber}
-          speechRandomNumber={speechRandomNumber}/>
+          <ContentNavigation firstTab={firstTabElement()} secondTab={secondTabElement()}/>
         </Stack>
       </Container>
     </Stack>

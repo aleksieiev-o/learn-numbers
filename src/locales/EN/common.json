@@ -29,5 +29,8 @@
   "common_btn_correct_answer": "Show correct answer",
   "common_correct_answer_message": "Correct answer is ",
 
-  "common_close_btn": "Close"
+  "common_close_btn": "Close",
+
+  "common_write_nav_tab": "Write numbers",
+  "common_say_nav_tab": "Say numbers"
 }
