@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useContext } from 'react';
 import { FormControl, FormLabel, Heading, Select, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Stack, Text } from '@chakra-ui/react';
-import { SpeechUtteranceContext } from '../../Providers/SpeechUtteranceContext.provider';
+import { SpeechUtteranceContext } from '../../providers/SpeechUtteranceContext.provider';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
 import { useTranslation } from 'react-i18next';

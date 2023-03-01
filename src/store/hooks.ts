@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { RootStore } from './index';
-import { StoreContext } from '../Providers/StoreContext.provider';
+import { StoreContext } from '../providers/StoreContext.provider';
 import { SettingsStore } from './SettingsStore';
 
 export const useRootStore = (): RootStore => {

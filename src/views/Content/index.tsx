@@ -5,7 +5,7 @@ import UserCheckControls from './UserCheckControls';
 import { createRandomNumber } from '../../utils/createRandomNumber';
 import { useSettingsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
-import { SpeechUtteranceContext } from '../../Providers/SpeechUtteranceContext.provider';
+import { SpeechUtteranceContext } from '../../providers/SpeechUtteranceContext.provider';
 import ContentSettings from './ContentSettings';
 
 export enum SpeechStatus {
