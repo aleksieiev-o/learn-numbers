@@ -1,19 +1,30 @@
 import { SettingsStore } from './SettingsStore';
 import Bowser from 'bowser';
+import { AuthorizationStore } from './AuthorizationStore';
+import { GlobalLoaderStore } from './GlobalLoaderStore';
 
 interface IRootStore {
-  settingsStore: SettingsStore;
   bowserParser: Bowser.Parser.Parser;
+
+  globalLoaderStore: GlobalLoaderStore;
+  authorizationStore: AuthorizationStore;
+  settingsStore: SettingsStore;
 }
 
 export class RootStore implements IRootStore {
-  settingsStore: SettingsStore;
-
   bowserParser: Bowser.Parser.Parser;
+
+  globalLoaderStore: GlobalLoaderStore;
+
+  authorizationStore: AuthorizationStore;
+  settingsStore: SettingsStore;
 
   constructor() {
     this.bowserParser = Bowser.getParser(window.navigator.userAgent);
 
+    this.globalLoaderStore = new GlobalLoaderStore();
+
+    this.authorizationStore = new AuthorizationStore(this);
     this.settingsStore = new SettingsStore(this);
   }
 

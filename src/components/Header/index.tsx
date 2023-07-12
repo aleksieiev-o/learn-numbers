@@ -7,6 +7,9 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { ColorMode } from '../../theme';
 import { useTranslation } from 'react-i18next';
 import SetAppLang from './SetAppLang';
+import { useSettingsStore } from '../../store/hooks';
+import { IAppTheme } from '../../store/SettingsStore/types';
+import { useLoading } from '../../hooks/useLoading';
 
 interface Props {
   settingsButtonRef: RefObject<HTMLButtonElement>;
@@ -16,7 +19,16 @@ interface Props {
 const Header: FC<Props> = (props): ReactElement => {
   const { settingsButtonRef, onOpenSettings } = props;
   const { colorMode, toggleColorMode } = useColorMode();
+  const settingsStore = useSettingsStore();
+  const {isLoading, setIsLoading} = useLoading();
   const { t } = useTranslation(['common']);
+
+  const toggleTheme = async () => {
+    setIsLoading(true);
+    toggleColorMode();
+    await settingsStore.updateAppTheme(colorMode as IAppTheme);
+    await setIsLoading(false);
+  };
 
   return (
     <Stack as={'header'} w={'full'} boxShadow={'md'}>
@@ -29,13 +41,14 @@ const Header: FC<Props> = (props): ReactElement => {
 
             {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
             <IconButton
-              onClick={toggleColorMode}
+              onClick={toggleTheme}
+              isLoading={isLoading}
               colorScheme={'gray'}
               variant={'outline'}
               boxShadow={'md'}
-              title={colorMode === ColorMode.LIGHT ? t('common_set_dark_theme_title')! : t('common_set_light_theme_title')!}
-              aria-label={colorMode === ColorMode.LIGHT ? 'Set dark theme' : 'Set light theme'}
-              icon={<Icon as={colorMode === ColorMode.LIGHT ? DarkModeIcon : LightModeIcon}/>}/>
+              title={colorMode === ColorMode.DARK ? t('common_set_light_theme_title')! : t('common_set_dark_theme_title')!}
+              aria-label={colorMode === ColorMode.DARK ? 'Set light theme' : 'Set dark theme'}
+              icon={<Icon as={colorMode === ColorMode.DARK ? LightModeIcon : DarkModeIcon}/>}/>
 
             <IconButton
               onClick={onOpenSettings}

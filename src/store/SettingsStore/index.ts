@@ -1,88 +1,94 @@
+import Bowser from 'bowser';
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../index';
-
-interface Settings {
-  minValue: number;
-  maxValue: number;
-  speechVolume: number;
-  speechRate: number;
-  speechPitch: number;
-  speechLocale: string;
-}
-
-interface ISettingsStore {
-  rootStore: RootStore;
-  settings: Settings;
-  updateMinValue: (value: string) => void;
-  updateMaxValue: (value: string) => void;
-  updateSpeechVolumeValue: (value: number) => void;
-  updateSpeechRateValue: (value: number) => void;
-  updateSpeechPitchValue: (value: number) => void;
-  updateSpeechLocale: (locale: string) => void;
-}
+import { SettingsStoreService } from './service';
+import { IAppLocale, IAppSettings, IAppTheme, ISettingsStore, ISpeechSettings, SettingsEndpoints } from './types';
 
 export class SettingsStore implements ISettingsStore {
   rootStore: RootStore;
-  settings: Settings;
+
+  settingsStoreService: SettingsStoreService;
+
+  appSettings: IAppSettings;
+  speechSettings: ISpeechSettings;
 
   constructor(rootStore: RootStore) {
-    const lsValue = window.localStorage.getItem('speechSettings');
-    const settings: Settings = lsValue ? JSON.parse(lsValue) : null;
-
     this.rootStore = rootStore;
 
-    this.settings = settings ? settings : {
-      minValue: 1,
-      maxValue: 10,
+    this.settingsStoreService = new SettingsStoreService(this.rootStore);
+
+    this.appSettings = {
+      appLocale: IAppLocale.EN_US,
+      appTheme: IAppTheme.LIGHT,
+    };
+
+    this.speechSettings = {
+      speechMinValue: 1,
+      speechMaxValue: 10,
       speechPitch: 1,
       speechRate: 1,
       speechVolume: 1,
-      speechLocale: this.getCurrentLocaleName(this.rootStore.bowserBrowser),
+      speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
     };
-
-    if (!lsValue) {
-      this.updateLocalStorageValue();
-    }
 
     makeAutoObservable(this);
   }
 
-  updateMinValue(value: string): void {
-    this.settings.minValue = parseInt(value, 10) || 0;
-    this.updateLocalStorageValue();
+  async fetchAppSettings() {
+    this.appSettings = await this.settingsStoreService.fetchAppSettings();
   }
 
-  updateMaxValue(value: string): void {
-    this.settings.maxValue = parseInt(value, 10) || 0;
-    this.updateLocalStorageValue();
+  async fetchSpeechSettings() {
+    this.speechSettings = await this.settingsStoreService.fetchSpeechSettings();
   }
 
-  updateSpeechVolumeValue(value: number): void {
-    this.settings.speechVolume = value;
-    this.updateLocalStorageValue();
+  async updateAppLocale(value: IAppLocale) {
+    this.appSettings.appLocale = await this.settingsStoreService.updateSettingsItem<IAppLocale, SettingsEndpoints.APP_LOCALE>(value, SettingsEndpoints.APP_LOCALE);
   }
 
-  updateSpeechRateValue(value: number): void {
-    this.settings.speechRate = value;
-    this.updateLocalStorageValue();
+  async updateAppTheme(value: IAppTheme) {
+    this.appSettings.appTheme = await this.settingsStoreService.updateSettingsItem<IAppTheme, SettingsEndpoints.APP_THEME>(value, SettingsEndpoints.APP_THEME);
   }
 
-  updateSpeechPitchValue(value: number): void {
-    this.settings.speechPitch = value;
-    this.updateLocalStorageValue();
+  async updateSpeechMinValue(value: number) {
+    this.speechSettings.speechMinValue = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_MIN_VALUE>(value, SettingsEndpoints.SPEECH_MIN_VALUE);
   }
 
-  updateSpeechLocale(locale: string): void {
-    this.settings.speechLocale = locale;
-    this.updateLocalStorageValue();
+  async updateSpeechMaxValue(value: number) {
+    this.speechSettings.speechMaxValue = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_MAX_VALUE>(value, SettingsEndpoints.SPEECH_MAX_VALUE);
   }
 
-  private updateLocalStorageValue(): void {
-    const settings: string = JSON.stringify(this.settings);
-    window.localStorage.setItem('speechSettings', settings);
+  async updateSpeechVolumeValue(value: number) {
+    this.speechSettings.speechVolume = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_VOLUME>(value, SettingsEndpoints.SPEECH_VOLUME);
   }
 
-  private getCurrentLocaleName(browser: Bowser.Parser.Details) {
+  async updateSpeechRateValue(value: number) {
+    this.speechSettings.speechRate = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_RATE>(value, SettingsEndpoints.SPEECH_RATE);
+  }
+
+  async updateSpeechPitchValue(value: number) {
+    this.speechSettings.speechPitch = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_PITCH>(value, SettingsEndpoints.SPEECH_PITCH);
+  }
+
+  async updateSpeechLocale(value: string) {
+    this.speechSettings.speechLocale = await this.settingsStoreService.updateSettingsItem<string, SettingsEndpoints.SPEECH_LOCALE>(value, SettingsEndpoints.SPEECH_LOCALE);
+  }
+
+  async setDefaultAppSettings() {
+    await this.updateAppLocale(IAppLocale.EN_US);
+    await this.updateAppTheme(IAppTheme.LIGHT);
+  }
+
+  async setDefaultSpeechSettings() {
+    await this.updateSpeechMinValue(this.speechSettings.speechMinValue);
+    await this.updateSpeechMaxValue(this.speechSettings.speechMaxValue);
+    await this.updateSpeechVolumeValue(this.speechSettings.speechVolume);
+    await this.updateSpeechRateValue(this.speechSettings.speechRate);
+    await this.updateSpeechPitchValue(this.speechSettings.speechPitch);
+    await this.updateSpeechLocale(this.speechSettings.speechLocale);
+  }
+
+  private static getCurrentLocaleName(browser: Bowser.Parser.Details) {
     switch (browser.name) {
       case 'Chrome' : return 'Google US English';
       case 'Firefox' : return 'urn:moz-tts:speechd:English%20(America)?en';

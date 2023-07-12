@@ -11,10 +11,11 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
   const updateValue = (type: 'min' | 'max', e: ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
 
+    // TODO add custom check for regex pattern for only numbers
     if (type === 'min') {
-      settingsStore.updateMinValue(value);
+      settingsStore.updateSpeechMinValue(parseInt(value, 10) || 0);
     } else if (type === 'max') {
-      settingsStore.updateMaxValue(value);
+      settingsStore.updateSpeechMaxValue(parseInt(value, 10) || 0);
     }
   };
 
@@ -29,7 +30,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
           <Input
             onChange={(e) => updateValue('min', e)}
-            value={settingsStore.settings.minValue}
+            value={settingsStore.speechSettings.speechMinValue}
             type={'number'}
             colorScheme={'twitter'}
             boxShadow={'md'}
@@ -41,7 +42,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
           <Input
             onChange={(e) => updateValue('max', e)}
-            value={settingsStore.settings.maxValue}
+            value={settingsStore.speechSettings.speechMaxValue}
             type={'number'}
             colorScheme={'twitter'}
             boxShadow={'md'}
