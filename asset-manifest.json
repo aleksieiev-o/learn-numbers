@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/learn-numbers/static/css/main.e2ea59a5.css",
-    "main.js": "/learn-numbers/static/js/main.271ed78b.js",
+    "main.js": "/learn-numbers/static/js/main.bead578f.js",
     "static/js/787.c2e70b0a.chunk.js": "/learn-numbers/static/js/787.c2e70b0a.chunk.js",
     "service-worker.js": "/learn-numbers/service-worker.js",
     "index.html": "/learn-numbers/index.html",
     "main.e2ea59a5.css.map": "/learn-numbers/static/css/main.e2ea59a5.css.map",
-    "main.271ed78b.js.map": "/learn-numbers/static/js/main.271ed78b.js.map",
+    "main.bead578f.js.map": "/learn-numbers/static/js/main.bead578f.js.map",
     "787.c2e70b0a.chunk.js.map": "/learn-numbers/static/js/787.c2e70b0a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e2ea59a5.css",
-    "static/js/main.271ed78b.js"
+    "static/js/main.bead578f.js"
   ]
 }
