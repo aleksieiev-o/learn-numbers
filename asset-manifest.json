@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/learn-numbers/static/css/main.e2ea59a5.css",
-    "main.js": "/learn-numbers/static/js/main.bead578f.js",
-    "static/js/787.c2e70b0a.chunk.js": "/learn-numbers/static/js/787.c2e70b0a.chunk.js",
+    "main.js": "/learn-numbers/static/js/main.1a6a72dd.js",
+    "static/js/496.05b866d8.chunk.js": "/learn-numbers/static/js/496.05b866d8.chunk.js",
     "service-worker.js": "/learn-numbers/service-worker.js",
     "index.html": "/learn-numbers/index.html",
     "main.e2ea59a5.css.map": "/learn-numbers/static/css/main.e2ea59a5.css.map",
-    "main.bead578f.js.map": "/learn-numbers/static/js/main.bead578f.js.map",
-    "787.c2e70b0a.chunk.js.map": "/learn-numbers/static/js/787.c2e70b0a.chunk.js.map"
+    "main.1a6a72dd.js.map": "/learn-numbers/static/js/main.1a6a72dd.js.map",
+    "496.05b866d8.chunk.js.map": "/learn-numbers/static/js/496.05b866d8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e2ea59a5.css",
-    "static/js/main.bead578f.js"
+    "static/js/main.1a6a72dd.js"
   ]
 }
