@@ -7,6 +7,7 @@
   "common_start_btn_title": "Старт",
   "common_replay_btn_title": "Повторить последнее число",
   "common_stop_btn_title": "Стоп",
+  "common_save_btn_title": "Сохранить",
 
   "common_settings_label": "Настройки",
   "common_num_range_label": "Диапазон чисел",
@@ -32,5 +33,7 @@
   "common_close_btn": "Закрыть",
 
   "common_write_nav_tab": "Пиши числа",
-  "common_say_nav_tab": "Говори числа"
+  "common_say_nav_tab": "Говори числа",
+
+  "common_error_text_number_supported": "Поддерживаются только числа"
 }
