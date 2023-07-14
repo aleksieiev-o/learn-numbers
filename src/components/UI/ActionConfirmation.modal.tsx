@@ -1,6 +1,7 @@
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text } from '@chakra-ui/react';
-import { useLoading } from '../../hooks/useLoading';
+import { useTranslation } from 'react-i18next';
+import { useModalActions } from '../../hooks/useModalActions';
 
 export enum ActionConfirmationModalType {
   INFO,
@@ -16,35 +17,13 @@ interface Props {
   buttonText: string;
   isOpen: boolean;
   onClose: () => void;
-  actionHandler: () => void | Promise<void>;
+  handleAction: () => void | Promise<void>;
 }
 
 const ActionConfirmationModal: FC<Props> = (props): ReactElement => {
-  const { modalType,  modalTitle, modalDescription, modalQuestion, buttonText, isOpen, onClose, actionHandler } = props;
-  const { isLoading, setIsLoading } = useLoading();
-  const [closeEsc, setCloseEsc] = useState<boolean>(true);
-  const [closeOverlayClick, setCloseOverlayClick] = useState<boolean>(true);
-
-  const handleActionModalButton = async () => {
-    setIsLoading(true);
-    setCloseEsc(false);
-    setCloseOverlayClick(false);
-
-    try {
-      await actionHandler();
-      await onClose();
-    } finally {
-      setIsLoading(false);
-      setCloseEsc(true);
-      setCloseOverlayClick(true);
-    }
-  };
-
-  const handleCloseModalButton = async () => {
-    if (closeEsc && closeOverlayClick) {
-      await onClose();
-    }
-  };
+  const { modalType,  modalTitle, modalDescription, modalQuestion, buttonText, isOpen, onClose, handleAction } = props;
+  const { t } = useTranslation(['common']);
+  const { isLoading, closeEsc, closeOverlayClick, handleActionModalButton, handleCloseModalButton } = useModalActions(handleAction, onClose);
 
   const actionButtonColorScheme = {
     [ActionConfirmationModalType.INFO]: 'telegram',
@@ -54,12 +33,13 @@ const ActionConfirmationModal: FC<Props> = (props): ReactElement => {
 
   return (
     <Modal isOpen={isOpen} onClose={handleCloseModalButton} closeOnEsc={closeEsc} closeOnOverlayClick={closeOverlayClick}>
+      {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
       <ModalOverlay/>
 
       <ModalContent>
         <ModalHeader>{modalTitle}</ModalHeader>
 
-        <ModalCloseButton title={'Close'}/>
+        <ModalCloseButton title={t('common_close_btn')!}/>
 
         <ModalBody>
           <Stack>
@@ -79,11 +59,12 @@ const ActionConfirmationModal: FC<Props> = (props): ReactElement => {
             {buttonText}
           </Button>
 
-          <Button onClick={handleCloseModalButton} colorScheme={'gray'} title={'Close'}>
-            Close
+          <Button onClick={handleCloseModalButton} colorScheme={'gray'} title={t('common_close_btn')!}>
+            {t('common_close_btn')!}
           </Button>
         </ModalFooter>
       </ModalContent>
+      {/* eslint-enable */}
     </Modal>
   );
 };
