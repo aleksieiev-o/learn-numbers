@@ -37,11 +37,11 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
       <Stack direction={'column'} w={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
         {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
-        <FormControl isRequired={true}>
-          <Stack direction={'row'} alignItems={'end'} justifyContent={'center'} w={'full'} spacing={6}>
-            <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={0}>
-              <FormLabel>{t('common_min_number_label')}</FormLabel>
+        <FormControl isRequired={true} isInvalid={!isMinValueValid}>
+          <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={0}>
+            <FormLabel>{t('common_min_number_label')}</FormLabel>
 
+            <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} w={'full'} spacing={6}>
               <Input
                 onChange={(e) => setMinValue(e.target.value)}
                 value={minValue}
@@ -51,29 +51,27 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
                 boxShadow={'md'}
                 placeholder={t('common_min_number_ph')!}/>
 
-              {
-                !isMinValueValid && <FormErrorMessage>
-                  {t('common_error_text_number_supported')!}
-                </FormErrorMessage>
-              }
+              <IconButton
+                onClick={updateMinValue}
+                colorScheme={'telegram'}
+                variant={'outline'}
+                boxShadow={'md'}
+                title={t('common_save_btn_title')!}
+                aria-label={'Save'}
+                icon={<Icon as={CheckIcon}/>}/>
             </Stack>
 
-            <IconButton
-              onClick={updateMinValue}
-              colorScheme={'telegram'}
-              variant={'outline'}
-              boxShadow={'md'}
-              title={t('common_save_btn_title')!}
-              aria-label={'Save'}
-              icon={<Icon as={CheckIcon}/>}/>
+            <FormErrorMessage>
+              {t('common_error_text_number_supported')!}
+            </FormErrorMessage>
           </Stack>
         </FormControl>
 
-        <FormControl isRequired={true}>
-          <Stack direction={'row'} alignItems={'end'} justifyContent={'center'} w={'full'} spacing={6}>
-            <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={0}>
-              <FormLabel>{t('common_max_number_label')}</FormLabel>
+        <FormControl isRequired={true} isInvalid={!isMaxValueValid}>
+          <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={0}>
+            <FormLabel>{t('common_max_number_label')}</FormLabel>
 
+            <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} w={'full'} spacing={6}>
               <Input
                 onChange={(e) => setMaxValue(e.target.value)}
                 value={maxValue}
@@ -83,21 +81,19 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
                 boxShadow={'md'}
                 placeholder={t('common_max_number_ph')!}/>
 
-              {
-                !isMaxValueValid && <FormErrorMessage>
-                  {t('common_error_text_number_supported')!}
-                </FormErrorMessage>
-              }
+              <IconButton
+                onClick={updateMaxValue}
+                colorScheme={'telegram'}
+                variant={'outline'}
+                boxShadow={'md'}
+                title={t('common_save_btn_title')!}
+                aria-label={'Save'}
+                icon={<Icon as={CheckIcon}/>}/>
             </Stack>
 
-            <IconButton
-              onClick={updateMaxValue}
-              colorScheme={'telegram'}
-              variant={'outline'}
-              boxShadow={'md'}
-              title={t('common_save_btn_title')!}
-              aria-label={'Save'}
-              icon={<Icon as={CheckIcon}/>}/>
+            <FormErrorMessage>
+              {t('common_error_text_number_supported')!}
+            </FormErrorMessage>
           </Stack>
         </FormControl>
         {/* eslint-enable */}
