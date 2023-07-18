@@ -1,11 +1,11 @@
 import { useLoading } from './useLoading';
-import { useState } from 'react';
+import {FormEvent, useState} from 'react';
 
 interface UseModalActions {
   isLoading: boolean;
   closeEsc: boolean;
   closeOverlayClick: boolean;
-  handleActionModalButton: () => void;
+  handleActionModalButton: (e?: FormEvent<HTMLFormElement>) => void;
   handleCloseModalButton: () => void;
 }
 

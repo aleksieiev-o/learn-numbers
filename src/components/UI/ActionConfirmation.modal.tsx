@@ -51,7 +51,7 @@ const ActionConfirmationModal: FC<Props> = (props): ReactElement => {
 
         <ModalFooter>
           <Button
-            onClick={handleActionModalButton}
+            onClick={() => handleActionModalButton()}
             isLoading={isLoading}
             colorScheme={actionButtonColorScheme}
             title={buttonText}

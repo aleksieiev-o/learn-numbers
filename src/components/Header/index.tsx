@@ -22,7 +22,7 @@ const Header: FC<Props> = (props): ReactElement => {
   const { settingsButtonRef, onOpenSettings } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen: isOpenAuthModal, onOpen: onOpenAuthModal, onClose: onCloseAuthModal } = useDisclosure();
-  const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
+  // const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
   const settingsStore = useSettingsStore();
   const authorizationStore = useAuthorizationStore();
   const {isLoading, setIsLoading} = useLoading();
@@ -33,11 +33,6 @@ const Header: FC<Props> = (props): ReactElement => {
     toggleColorMode();
     await settingsStore.updateAppTheme(colorMode as IAppTheme);
     await setIsLoading(false);
-  };
-
-  const handleAction = () => {
-    // eslint-disable-next-line no-console
-    console.log(111);
   };
 
   return (
@@ -93,9 +88,8 @@ const Header: FC<Props> = (props): ReactElement => {
       {
         isOpenAuthModal &&
         <AuthorizationModal
-        isOpen={isOpenAuthModal}
-        onClose={onCloseAuthModal}
-        handleAction={handleAction}/>
+          isOpen={isOpenAuthModal}
+          onClose={onCloseAuthModal}/>
       }
     </>
   );
