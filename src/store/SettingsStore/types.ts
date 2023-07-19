@@ -17,15 +17,15 @@ export enum BaseSettingsEndpoints {
 }
 
 export enum SettingsEndpoints {
-  APP_LOCALE = '[id]/app-settings/locale',
-  APP_THEME = '[id]/app-settings/theme',
+  APP_LOCALE = '[id]/app-settings/appLocale',
+  APP_THEME = '[id]/app-settings/appTheme',
 
-  SPEECH_MIN_VALUE = '[id]/speech-settings/min-value',
-  SPEECH_MAX_VALUE = '[id]/speech-settings/max-value',
-  SPEECH_VOLUME = '[id]/speech-settings/volume',
-  SPEECH_RATE = '[id]/speech-settings/rate',
-  SPEECH_PITCH = '[id]/speech-settings/pitch',
-  SPEECH_LOCALE = '[id]/speech-settings/locale',
+  SPEECH_MIN_VALUE = '[id]/speech-settings/speechMinValue',
+  SPEECH_MAX_VALUE = '[id]/speech-settings/speechMaxValue',
+  SPEECH_VOLUME = '[id]/speech-settings/speechVolume',
+  SPEECH_RATE = '[id]/speech-settings/speechRate',
+  SPEECH_PITCH = '[id]/speech-settings/speechPitch',
+  SPEECH_LOCALE = '[id]/speech-settings/speechLocale',
 }
 
 export interface IAppSettings {
