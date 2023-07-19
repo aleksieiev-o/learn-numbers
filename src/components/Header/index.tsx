@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, RefObject} from 'react';
+import React, {FC, ReactElement, RefObject, useEffect} from 'react';
 import {APP_NAME, APP_NAME_SHORT} from '../../utils/constants';
 import {Container, Heading, Icon, IconButton, Stack, useColorMode, useDisclosure} from '@chakra-ui/react';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -37,15 +37,17 @@ const Header: FC<Props> = observer((props): ReactElement => {
     setIsLoading(true);
 
     if (settingsStore.appSettings.appTheme === IAppTheme.LIGHT) {
-      setColorMode(IAppTheme.DARK);
       await settingsStore.updateAppTheme(IAppTheme.DARK);
     } else {
-      setColorMode(IAppTheme.LIGHT);
       await settingsStore.updateAppTheme(IAppTheme.LIGHT);
     }
 
     await setIsLoading(false);
   };
+
+  useEffect(() => {
+    setColorMode(settingsStore.appSettings.appTheme);
+  }, [settingsStore.appSettings.appTheme]);
 
   const handleSignOut = async () => {
     await authorizationStore.singOut();
