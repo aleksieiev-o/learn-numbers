@@ -43,8 +43,17 @@ const AuthorizationModal: FC<Props> = (props): ReactElement => {
 
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
   const validationSignInSchema = object().shape({
-    email: string().required(t('auth_modal_email_error_text_required', {ns: 'auth'})!),
-    password: string().required(t('auth_modal_password_error_text_required', {ns: 'auth'})!),
+    email: string()
+      .trim()
+      .required(t('auth_modal_email_error_text_required', {ns: 'auth'})!)
+      .email(t('auth_modal_email_error_text_email_type', {ns: 'auth'})!)
+      .min(3, t('auth_modal_email_error_text_min_length', {ns: 'auth'})!)
+      .max(254, t('auth_modal_email_error_text_max_length', {ns: 'auth'})!),
+    password: string()
+      .trim()
+      .required(t('auth_modal_password_error_text_required', {ns: 'auth'})!)
+      .min(3, t('auth_modal_password_error_text_min_length', {ns: 'auth'})!)
+      .max(254, t('auth_modal_password_error_text_max_length', {ns: 'auth'})!),
   });
   /* eslint-enable */
 
