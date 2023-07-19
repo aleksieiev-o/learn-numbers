@@ -49,7 +49,7 @@ const Header: FC<Props> = observer((props): ReactElement => {
       {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
       <Stack as={'header'} w={'full'} boxShadow={'md'}>
         <Container centerContent={true} w={'full'} maxW={'6xl'} p={4}>
-          <Stack direction={'row'} w={'full'} alignItems={'center'} justifyContent={'space-between'}>
+          <Stack direction={'row'} w={'full'} alignItems={'center'} justifyContent={'space-between'} minH={'50px'}>
             <Heading
               as={'h4'}
               fontSize={{ md: 32, base: 20 }}

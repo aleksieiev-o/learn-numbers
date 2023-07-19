@@ -2,36 +2,37 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Icon, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
+import {IAppLocale} from '../../store/SettingsStore/types';
+import {useSettingsStore} from '../../store/hooks';
+import {observer} from 'mobx-react-lite';
 
-export enum AppLang {
-  EN_US = 'en-US',
-  RU_RU = 'ru-RU',
-}
-
-export enum AppLangTitle {
+enum AppLangTitle {
   EN_US = 'English',
   RU_RU = 'Русский',
 }
 
-const SetAppLang: FC = (): ReactElement => {
-  const [language, setLanguage] = useState<AppLang>(AppLang.EN_US);
+const SetAppLang: FC = observer((): ReactElement => {
+  const [language, setLanguage] = useState<IAppLocale>(IAppLocale.EN_US);
   const { t, i18n } = useTranslation(['common']);
+  const settingsStore = useSettingsStore();
 
-  const languages: Array<{ title: AppLangTitle, lang: AppLang }> = [
-    { title: AppLangTitle.EN_US, lang: AppLang.EN_US },
-    { title: AppLangTitle.RU_RU, lang: AppLang.RU_RU },
+  const languages: Array<{ title: AppLangTitle, lang: IAppLocale }> = [
+    { title: AppLangTitle.EN_US, lang: IAppLocale.EN_US },
+    { title: AppLangTitle.RU_RU, lang: IAppLocale.RU_RU },
   ];
 
-  const changeLocale = async (lang: AppLang): Promise<void> => {
+  const changeLocale = async (lang: IAppLocale): Promise<void> => {
     await i18n.changeLanguage(lang);
     await setLanguage(lang);
   };
 
-  useEffect(() => {
-    const lang = window.localStorage.getItem('i18nextLng');
+  const updateLocale = async (lang: IAppLocale) => {
+    await settingsStore.updateAppLocale(lang);
+  };
 
-    changeLocale(lang as AppLang || AppLang.EN_US);
-  }, []);
+  useEffect(() => {
+    changeLocale(settingsStore.appSettings.appLocale);
+  }, [settingsStore.appSettings.appLocale]);
 
   return (
     <Menu>
@@ -49,7 +50,7 @@ const SetAppLang: FC = (): ReactElement => {
         {
           languages.map((menuItem) => {
             return <MenuItem
-              onClick={() => changeLocale(menuItem.lang)}
+              onClick={() => updateLocale(menuItem.lang)}
               key={menuItem.lang}
               color={language === menuItem.lang ? 'twitter.600' : ''}>
               {menuItem.title}
@@ -60,6 +61,6 @@ const SetAppLang: FC = (): ReactElement => {
       {/* eslint-enable */}
     </Menu>
   );
-};
+});
 
 export default SetAppLang;

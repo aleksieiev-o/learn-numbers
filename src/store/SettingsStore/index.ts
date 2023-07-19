@@ -26,7 +26,7 @@ export class SettingsStore implements ISettingsStore {
     this.settingsStoreService = new SettingsStoreService(this.rootStore);
 
     this.appSettings = {
-      appLocale: IAppLocale.EN_US,
+      appLocale: window.localStorage.getItem('i18nextLng') as IAppLocale || IAppLocale.EN_US,
       appTheme: IAppTheme.LIGHT,
     };
 
