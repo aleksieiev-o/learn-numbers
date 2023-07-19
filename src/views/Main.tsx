@@ -10,7 +10,7 @@ const Main: FC = (): ReactElement => {
   const initElementRef = React.useRef<HTMLInputElement>(null);
   const {bowserBrowser} = useRootStore();
 
-  const isSupportedBrowser = (): boolean => bowserBrowser.name === 'Chrome' || bowserBrowser.name === 'Firefox';
+  const isSupportedBrowser = (): boolean => bowserBrowser.name === 'Chrome'/* || bowserBrowser.name === 'Firefox'*/;
 
   return (
     <Stack as={'section'} direction={'column'} w={'full'} h={'full'}>
@@ -30,7 +30,7 @@ const Main: FC = (): ReactElement => {
         :
         <Stack as={'section'} direction={'column'} spacing={2} alignItems={'center'} justifyContent={'center'} w={'full'} h={'full'}>
           <Text fontSize={20}>This browser is not supported.</Text>
-          <Text fontSize={20}>Please, use Chrome or Firefox.</Text>
+          <Text fontSize={20}>Please, use only Chrome browser.</Text>
         </Stack>
       }
     </Stack>

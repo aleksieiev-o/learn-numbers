@@ -1,4 +1,3 @@
-import Bowser from 'bowser';
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../index';
 import { SettingsStoreService } from './service';
@@ -36,7 +35,8 @@ export class SettingsStore implements ISettingsStore {
       speechPitch: 1,
       speechRate: 1,
       speechVolume: 1,
-      speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
+      speechLocale: 'Google US English',
+      // speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
     };
 
     makeAutoObservable(this);
@@ -90,11 +90,11 @@ export class SettingsStore implements ISettingsStore {
     await this.settingsStoreService.createSettings<ISpeechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS>(this.speechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS);
   }
 
-  private static getCurrentLocaleName(browser: Bowser.Parser.Details) {
-    switch (browser.name) {
-      case 'Chrome' : return 'Google US English';
-      case 'Firefox' : return 'urn:moz-tts:speechd:English%20(America)?en';
-      default: return '';
-    }
-  }
+  // private static getCurrentLocaleName(browser: Bowser.Parser.Details) {
+  //   switch (browser.name) {
+  //     case 'Chrome' : return 'Google US English';
+  //     case 'Firefox' : return 'urn:moz-tts:speechd:English%20(America)?en';
+  //     default: return '';
+  //   }
+  // }
 }
