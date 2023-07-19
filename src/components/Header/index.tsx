@@ -1,17 +1,17 @@
-import React, { FC, ReactElement, RefObject } from 'react';
+import React, {FC, ReactElement, RefObject} from 'react';
 import {APP_NAME, APP_NAME_SHORT} from '../../utils/constants';
-import { Container, Heading, Icon, IconButton, Stack, useColorMode, useDisclosure } from '@chakra-ui/react';
+import {Container, Heading, Icon, IconButton, Stack, useColorMode, useDisclosure} from '@chakra-ui/react';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { ColorMode } from '../../theme';
-import { useTranslation } from 'react-i18next';
+import {ColorMode} from '../../theme';
+import {useTranslation} from 'react-i18next';
 import SetAppLang from './SetAppLang';
 import {useAuthorizationStore, useRootStore, useSettingsStore} from '../../store/hooks';
-import { IAppTheme } from '../../store/SettingsStore/types';
-import { useLoading } from '../../hooks/useLoading';
+import {IAppTheme} from '../../store/SettingsStore/types';
+import {useLoading} from '../../hooks/useLoading';
 import AuthorizationModal from '../AuthorizationModal/Authorization.modal';
 import {observer} from 'mobx-react-lite';
 import UserInfo from './UserInfo';
@@ -24,7 +24,7 @@ interface Props {
 
 const Header: FC<Props> = observer((props): ReactElement => {
   const { settingsButtonRef, onOpenSettings } = props;
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, setColorMode } = useColorMode();
   const { isOpen: isOpenAuthModal, onOpen: onOpenAuthModal, onClose: onCloseAuthModal } = useDisclosure();
   const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
   const {bowserPlatform} = useRootStore();
@@ -33,10 +33,17 @@ const Header: FC<Props> = observer((props): ReactElement => {
   const {isLoading, setIsLoading} = useLoading();
   const { t } = useTranslation(['common', 'auth']);
 
-  const toggleTheme = async () => {
+  const updateTheme = async () => {
     setIsLoading(true);
-    toggleColorMode();
-    await settingsStore.updateAppTheme(colorMode as IAppTheme);
+
+    if (settingsStore.appSettings.appTheme === IAppTheme.LIGHT) {
+      setColorMode(IAppTheme.DARK);
+      await settingsStore.updateAppTheme(IAppTheme.DARK);
+    } else {
+      setColorMode(IAppTheme.LIGHT);
+      await settingsStore.updateAppTheme(IAppTheme.LIGHT);
+    }
+
     await setIsLoading(false);
   };
 
@@ -68,7 +75,7 @@ const Header: FC<Props> = observer((props): ReactElement => {
               <SetAppLang/>
 
               <IconButton
-                onClick={toggleTheme}
+                onClick={updateTheme}
                 isLoading={isLoading}
                 colorScheme={'gray'}
                 variant={'outline'}

@@ -27,7 +27,7 @@ export class SettingsStore implements ISettingsStore {
 
     this.appSettings = {
       appLocale: window.localStorage.getItem('i18nextLng') as IAppLocale || IAppLocale.EN_US,
-      appTheme: IAppTheme.LIGHT,
+      appTheme: window.localStorage.getItem('chakra-ui-color-mode') as IAppTheme || IAppTheme.LIGHT,
     };
 
     this.speechSettings = {
