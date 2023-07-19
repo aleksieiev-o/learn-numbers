@@ -32,9 +32,15 @@
 
   "common_close_btn": "Close",
   "common_cancel_btn": "Cancel",
+  "common_confirm_question": "Are you cure?",
 
   "common_write_nav_tab": "Write numbers",
   "common_say_nav_tab": "Say numbers",
 
-  "common_error_text_number_supported": "Only numbers are supported"
+  "common_error_text_number_supported": "Only numbers are supported",
+
+  "common_open_sign_out_modal_btn_title": "Open sign out modal",
+  "common_sign_out_btn_title": "Sign out",
+  "common_sign_out_confirm_title": "Sign out confirmation",
+  "common_sign_out_confirm_message": "You are about to sign out."
 }

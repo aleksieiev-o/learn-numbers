@@ -7,7 +7,7 @@ interface IAuthorizationStoreService {
   authorizationStore: AuthorizationStore;
   signInEmailPassword: (payload: IAuthSignInRequestDto) => Promise<User>;
   singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => Promise<User>;
-  singOutEmailAndPassword: () => Promise<void>;
+  singOut: () => Promise<void>;
 }
 
 export class AuthorizationStoreService implements IAuthorizationStoreService {
@@ -29,7 +29,7 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
     return userCredential.user;
   }
 
-  async singOutEmailAndPassword(): Promise<void> {
+  async singOut(): Promise<void> {
     return await signOut(firebaseAuth);
   }
 }

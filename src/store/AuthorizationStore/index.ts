@@ -23,7 +23,7 @@ interface IAuthorizationStore {
   isAuth: boolean;
   signInEmailPassword: (payload: IAuthSignInRequestDto) => void;
   singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => void;
-  singOutEmailAndPassword: () => void;
+  singOut: () => void;
 }
 
 export class AuthorizationStore implements IAuthorizationStore {
@@ -77,8 +77,8 @@ export class AuthorizationStore implements IAuthorizationStore {
     this.setAuth(true);
   }
 
-  async singOutEmailAndPassword() {
-    await this.authorizationStoreService.singOutEmailAndPassword();
+  async singOut() {
+    await this.authorizationStoreService.singOut();
   }
 
   get userUid(): string {

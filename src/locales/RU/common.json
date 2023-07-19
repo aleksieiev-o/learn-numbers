@@ -32,9 +32,15 @@
 
   "common_close_btn": "Закрыть",
   "common_cancel_btn": "Отмена",
+  "common_confirm_question": "Вы уверены?",
 
   "common_write_nav_tab": "Пиши числа",
   "common_say_nav_tab": "Говори числа",
 
-  "common_error_text_number_supported": "Поддерживаются только числа"
+  "common_error_text_number_supported": "Поддерживаются только числа",
+
+  "common_open_sign_out_modal_btn_title": "Открыть окно выхода из учетной записи",
+  "common_sign_out_btn": "Выйти",
+  "common_sign_out_confirm_title": "Подтверждение выхода",
+  "common_sign_out_confirm_message": "Вы сейчас выйдете из учетной записи."
 }
