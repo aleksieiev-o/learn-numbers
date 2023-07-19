@@ -1,6 +1,6 @@
 import { ref, set, get, child, DataSnapshot } from 'firebase/database';
 import { firebaseDataBase } from '../../firebase';
-import { IAppLocale, IAppSettings, IAppTheme, ISpeechSettings, SettingsEndpoints } from './types';
+import {BaseSettingsEndpoints, IAppLocale, IAppSettings, IAppTheme, ISpeechSettings, SettingsEndpoints} from './types';
 import { RootStore } from '../index';
 
 interface ISettingsStoreService {
@@ -47,13 +47,20 @@ export class SettingsStoreService implements ISettingsStoreService {
     return Promise.resolve(value);
   }
 
+  async createSettings<T, P>(value: T, endpoint: P & BaseSettingsEndpoints) {
+    if (this.rootStore.authorizationStore.isAuth) {
+      const path = this.getSettingsEndpoint(endpoint);
+      await set(ref(firebaseDataBase, path), value);
+    }
+  }
+
   private async fetchSettingsItem<T, P>(endpoint: P & SettingsEndpoints): Promise<T> {
     const path = this.getSettingsEndpoint(endpoint);
     const snapshot: DataSnapshot = await get(child(ref(firebaseDataBase), path));
     return snapshot.val();
   }
 
-  private getSettingsEndpoint(endpoint: SettingsEndpoints): string {
+  private getSettingsEndpoint(endpoint: SettingsEndpoints | BaseSettingsEndpoints): string {
     return `${endpoint}`.replace('[id]', this.rootStore.authorizationStore.userUid);
   }
 }

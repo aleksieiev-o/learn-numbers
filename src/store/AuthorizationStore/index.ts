@@ -70,11 +70,12 @@ export class AuthorizationStore implements IAuthorizationStore {
 
   async singUpEmailAndPassword(payload: IAuthSignInRequestDto) {
     const user = await this.authorizationStoreService.singUpEmailAndPassword(payload);
+
     this.setUser(user);
-
-    await this.rootStore.settingsStore.setDefaultAppSettings();
-
     this.setAuth(true);
+
+    await this.rootStore.settingsStore.createAppSettings();
+    await this.rootStore.settingsStore.createSpeechSettings();
   }
 
   async singOut() {

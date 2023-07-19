@@ -2,7 +2,15 @@ import Bowser from 'bowser';
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../index';
 import { SettingsStoreService } from './service';
-import { IAppLocale, IAppSettings, IAppTheme, ISettingsStore, ISpeechSettings, SettingsEndpoints } from './types';
+import {
+  BaseSettingsEndpoints,
+  IAppLocale,
+  IAppSettings,
+  IAppTheme,
+  ISettingsStore,
+  ISpeechSettings,
+  SettingsEndpoints
+} from './types';
 
 export class SettingsStore implements ISettingsStore {
   rootStore: RootStore;
@@ -74,18 +82,12 @@ export class SettingsStore implements ISettingsStore {
     this.speechSettings.speechLocale = await this.settingsStoreService.updateSettingsItem<string, SettingsEndpoints.SPEECH_LOCALE>(value, SettingsEndpoints.SPEECH_LOCALE);
   }
 
-  async setDefaultAppSettings() {
-    await this.updateAppLocale(IAppLocale.EN_US);
-    await this.updateAppTheme(IAppTheme.LIGHT);
+  async createAppSettings() {
+    await this.settingsStoreService.createSettings<IAppSettings, BaseSettingsEndpoints.APP_SETTINGS>(this.appSettings, BaseSettingsEndpoints.APP_SETTINGS);
   }
 
-  async setDefaultSpeechSettings() {
-    await this.updateSpeechMinValue(this.speechSettings.speechMinValue);
-    await this.updateSpeechMaxValue(this.speechSettings.speechMaxValue);
-    await this.updateSpeechVolumeValue(this.speechSettings.speechVolume);
-    await this.updateSpeechRateValue(this.speechSettings.speechRate);
-    await this.updateSpeechPitchValue(this.speechSettings.speechPitch);
-    await this.updateSpeechLocale(this.speechSettings.speechLocale);
+  async createSpeechSettings() {
+    await this.settingsStoreService.createSettings<ISpeechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS>(this.speechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS);
   }
 
   private static getCurrentLocaleName(browser: Bowser.Parser.Details) {

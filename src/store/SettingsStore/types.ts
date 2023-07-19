@@ -11,9 +11,15 @@ export enum IAppTheme {
   DARK = 'dark',
 }
 
+export enum BaseSettingsEndpoints {
+  APP_SETTINGS = '[id]/app-settings',
+  SPEECH_SETTINGS = '[id]/speech-settings',
+}
+
 export enum SettingsEndpoints {
   APP_LOCALE = '[id]/app-settings/locale',
   APP_THEME = '[id]/app-settings/theme',
+
   SPEECH_MIN_VALUE = '[id]/speech-settings/min-value',
   SPEECH_MAX_VALUE = '[id]/speech-settings/max-value',
   SPEECH_VOLUME = '[id]/speech-settings/volume',
