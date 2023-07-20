@@ -55,7 +55,7 @@ const AuthorizationModal: FC<Props> = observer(
         .trim()
         .required(t('auth_modal_password_error_text_required', {ns: 'auth'})!)
         .min(3, t('auth_modal_password_error_text_min_length', {ns: 'auth'})!)
-        .max(254, t('auth_modal_password_error_text_max_length', {ns: 'auth'})!),
+        .max(28, t('auth_modal_password_error_text_max_length', {ns: 'auth'})!),
     });
     /* eslint-enable */
 
@@ -82,7 +82,12 @@ const AuthorizationModal: FC<Props> = observer(
     });
 
     const { isLoading, closeEsc, closeOverlayClick, handleActionModalButton, handleCloseModalButton } = useModalActions(formik.handleSubmit, onClose);
-    const { touched, errors, getFieldProps } = formik;
+    const { touched, errors, resetForm, getFieldProps } = formik;
+
+    const handleToggleModalType = () => {
+      setAuthModalType(authModalType === AuthModalType.SIGN_IN ? AuthModalType.SIGN_UP : AuthModalType.SIGN_IN);
+      resetForm();
+    };
 
     return (
       <Modal isOpen={isOpen} onClose={handleCloseModalButton} closeOnEsc={closeEsc} closeOnOverlayClick={closeOverlayClick}>
@@ -90,7 +95,9 @@ const AuthorizationModal: FC<Props> = observer(
 
         {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
         <ModalContent>
-          <ModalHeader>{t('auth_modal_sign_in_title', {ns: 'auth'})}</ModalHeader>
+          <ModalHeader>
+            {authModalType === AuthModalType.SIGN_IN ? t('auth_modal_sign_in_title', {ns: 'auth'}) : t('auth_modal_sign_up_title', {ns: 'auth'})}
+          </ModalHeader>
 
           <ModalCloseButton title={t('common_close_btn')!}/>
 
@@ -126,6 +133,7 @@ const AuthorizationModal: FC<Props> = observer(
                         onClick={() => setPasswordVisibility(!passwordVisibility)}
                         isDisabled={isLoading}
                         variant={'link'}
+                        title={passwordVisibility ? t('auth_modal_password_btn_hide_title', {ns: 'auth'})! : t('auth_modal_password_btn_show_title', {ns: 'auth'})!}
                         icon={<Icon as={passwordVisibility ? VisibilityOffIcon : VisibilityIcon} />}
                         aria-label={'password visibility'}
                       />
@@ -135,7 +143,7 @@ const AuthorizationModal: FC<Props> = observer(
                   {touched.password && Boolean(errors.password) && <FormErrorMessage>{errors.password}</FormErrorMessage>}
                 </FormControl>
 
-                <Stack direction={'row'} alignItems={'center'} justifyContent={'start'} spacing={4}>
+                <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} spacing={4}>
                   <Text>
                     {
                       authModalType === AuthModalType.SIGN_IN
@@ -145,7 +153,7 @@ const AuthorizationModal: FC<Props> = observer(
                   </Text>
 
                   <Button
-                    onClick={() => setAuthModalType(authModalType === AuthModalType.SIGN_IN ? AuthModalType.SIGN_UP : AuthModalType.SIGN_IN)}
+                    onClick={handleToggleModalType}
                     variant={'link'}
                     colorScheme={'telegram'}
                     title={authModalType === AuthModalType.SIGN_IN
