@@ -43,6 +43,7 @@
 
   "common_open_sign_out_modal_btn_title": "Открыть окно выхода из учетной записи",
   "common_sign_out_btn": "Выйти",
+  "common_sign_out_btn_title": "Выйти",
   "common_sign_out_confirm_title": "Подтверждение выхода",
   "common_sign_out_confirm_message": "Вы сейчас выйдете из учетной записи."
 }

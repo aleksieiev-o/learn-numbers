@@ -3,7 +3,6 @@ import {APP_NAME} from '../../utils/constants';
 import {Container, Heading, Icon, IconButton, Stack, useDisclosure, Hide} from '@chakra-ui/react';
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
 import {tabletScreenWidth} from '../../theme';
 import {useTranslation} from 'react-i18next';
 import AppLanguageChanger from '../AppLanguageChanger';
@@ -11,7 +10,6 @@ import {useAuthorizationStore} from '../../store/hooks';
 import AuthorizationModal from '../AuthorizationModal/Authorization.modal';
 import {observer} from 'mobx-react-lite';
 import UserInfo from './UserInfo';
-import ActionConfirmationModal, {ActionConfirmationModalType} from '../ActionConfirmation.modal';
 import AppThemeSwitcher from '../AppThemeSwitcher';
 
 interface Props {
@@ -22,13 +20,8 @@ interface Props {
 const Header: FC<Props> = observer((props): ReactElement => {
   const { settingsButtonRef, onOpenSettings } = props;
   const { isOpen: isOpenAuthModal, onOpen: onOpenAuthModal, onClose: onCloseAuthModal } = useDisclosure();
-  const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
   const authorizationStore = useAuthorizationStore();
   const { t } = useTranslation(['common', 'auth']);
-
-  const handleSignOut = async () => {
-    await authorizationStore.singOut();
-  };
 
   return (
     <>
@@ -58,16 +51,14 @@ const Header: FC<Props> = observer((props): ReactElement => {
               </Hide>
 
               {
-                <IconButton
-                  onClick={authorizationStore.isAuth ? onOpenSignOutModal : onOpenAuthModal}
+                !authorizationStore.isAuth && <IconButton
+                  onClick={onOpenAuthModal}
                   colorScheme={'gray'}
                   variant={'outline'}
                   boxShadow={'md'}
-                  title={authorizationStore.isAuth
-                    ? t('common_open_sign_out_modal_btn_title')!
-                    : t('auth_open_auth_modal_btn_title', {ns: 'auth'})!}
-                  aria-label={authorizationStore.isAuth ? 'Open sign out modal' : 'Open authorization modal'}
-                  icon={<Icon as={authorizationStore.isAuth ? LogoutIcon : LoginIcon}/>}/>
+                  title={t('auth_open_auth_modal_btn_title', {ns: 'auth'})!}
+                  aria-label={'Open authorization modal'}
+                  icon={<Icon as={LoginIcon}/>}/>
               }
 
               <IconButton
@@ -89,19 +80,6 @@ const Header: FC<Props> = observer((props): ReactElement => {
         <AuthorizationModal
           isOpen={isOpenAuthModal}
           onClose={onCloseAuthModal}/>
-      }
-
-      {
-        isOpenSignOutModal &&
-        <ActionConfirmationModal
-          isOpen={isOpenSignOutModal}
-          onClose={onCloseSignOutModal}
-          handleAction={handleSignOut}
-          modalType={ActionConfirmationModalType.WARNING}
-          modalTitle={t('common_sign_out_confirm_title')!}
-          modalDescription={t('common_sign_out_confirm_message')!}
-          modalQuestion={t('common_confirm_question')!}
-          buttonText={t('common_sign_out_btn_title')!}/>
       }
       {/* eslint-enable */}
     </>

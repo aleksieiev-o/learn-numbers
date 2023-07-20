@@ -1,9 +1,24 @@
 import React, { FC, ReactElement, RefObject } from 'react';
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Icon,
+  Stack, useDisclosure
+} from '@chakra-ui/react';
 import NumbersRangeControls from './NumbersRangeControls';
 import SpeechPropsControls from './SpeechPropsControls';
 import { useTranslation } from 'react-i18next';
 import AppSettingsControls from './AppSettingsControls';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ActionConfirmationModal, {ActionConfirmationModalType} from '../../components/ActionConfirmation.modal';
+import {useAuthorizationStore} from '../../store/hooks';
+import {observer} from 'mobx-react-lite';
 
 interface Props {
   settingsButtonRef: RefObject<HTMLButtonElement>;
@@ -12,50 +27,86 @@ interface Props {
   onCloseSettings: () => void;
 }
 
-const ContentSettings: FC<Props> = (props): ReactElement => {
+const ContentSettings: FC<Props> = observer((props): ReactElement => {
   const {settingsButtonRef, initElementRef, isOpenSettings, onCloseSettings} = props;
   const { t } = useTranslation(['common']);
+  const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
+  const authorizationStore = useAuthorizationStore();
+
+  const handleSignOut = async () => {
+    await authorizationStore.singOut();
+  };
 
   return (
-    <Drawer
-      onClose={onCloseSettings}
-      isOpen={isOpenSettings}
-      initialFocusRef={initElementRef}
-      finalFocusRef={settingsButtonRef}
-      placement={'right'}
-      size={'md'}
-      autoFocus={true}>
-      <DrawerOverlay/>
-
+    <>
       {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
-      <DrawerContent>
-        <DrawerCloseButton/>
+      <Drawer
+        onClose={onCloseSettings}
+        isOpen={isOpenSettings}
+        initialFocusRef={initElementRef}
+        finalFocusRef={settingsButtonRef}
+        placement={'right'}
+        size={'md'}
+        autoFocus={true}>
+        <DrawerOverlay/>
 
-        <DrawerHeader as={'h4'} fontSize={24}>{t('common_settings_label')}</DrawerHeader>
+        <DrawerContent>
+          <DrawerCloseButton/>
 
-        <DrawerBody>
-          <Stack spacing={6}>
-            <AppSettingsControls/>
+          <DrawerHeader as={'h4'} fontSize={24}>{t('common_settings_label')}</DrawerHeader>
 
-            <NumbersRangeControls/>
+          <DrawerBody>
+            <Stack spacing={6}>
+              <AppSettingsControls/>
 
-            <SpeechPropsControls/>
-          </Stack>
-        </DrawerBody>
+              <NumbersRangeControls/>
 
-        <DrawerFooter>
-          <Button
-            onClick={onCloseSettings}
-            variant={'outline'}
-            boxShadow={'md'}
-            title={t('common_close_btn')!}>
-            {t('common_close_btn')}
-          </Button>
-        </DrawerFooter>
-      </DrawerContent>
+              <SpeechPropsControls/>
+            </Stack>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Stack direction={'row'} alignItems={'center'} justifyContent={'end'} w={'full'} spacing={4}>
+              {
+                authorizationStore.isAuth && <Button
+                  onClick={onOpenSignOutModal}
+                  colorScheme={'orange'}
+                  variant={'outline'}
+                  boxShadow={'md'}
+                  title={t('common_sign_out_btn_title')!}
+                  leftIcon={<Icon as={LogoutIcon}/>}
+                  mr={'auto'}>
+                  {t('common_sign_out_btn')}
+                </Button>
+              }
+
+              <Button
+                onClick={onCloseSettings}
+                variant={'outline'}
+                boxShadow={'md'}
+                title={t('common_close_btn')!}>
+                {t('common_close_btn')}
+              </Button>
+            </Stack>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {
+        isOpenSignOutModal &&
+        <ActionConfirmationModal
+          isOpen={isOpenSignOutModal}
+          onClose={onCloseSignOutModal}
+          handleAction={handleSignOut}
+          modalType={ActionConfirmationModalType.WARNING}
+          modalTitle={t('common_sign_out_confirm_title')!}
+          modalDescription={t('common_sign_out_confirm_message')!}
+          modalQuestion={t('common_confirm_question')!}
+          buttonText={t('common_sign_out_btn_title')!}/>
+      }
       {/* eslint-enable */}
-    </Drawer>
+    </>
   );
-};
+});
 
 export default ContentSettings;
