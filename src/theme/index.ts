@@ -11,3 +11,5 @@ const config: ThemeConfig = {
 };
 
 export const theme = extendTheme({ config });
+
+export const tabletScreenWidth = 845;

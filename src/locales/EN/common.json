@@ -1,7 +1,9 @@
 {
+  "common_theme_text": "Application theme",
   "common_set_light_theme_title": "Set light theme",
   "common_set_dark_theme_title": "Set dark theme",
   "common_open_settings_title": "Open settings",
+  "common_language_text": "Application language",
   "common_set_app_lang_title": "Set application language",
 
   "common_start_btn_title": "Start",

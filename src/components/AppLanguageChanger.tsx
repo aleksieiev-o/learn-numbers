@@ -2,8 +2,8 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Icon, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
-import {IAppLocale} from '../../store/SettingsStore/types';
-import {useSettingsStore} from '../../store/hooks';
+import {IAppLocale} from '../store/SettingsStore/types';
+import {useSettingsStore} from '../store/hooks';
 import {observer} from 'mobx-react-lite';
 
 enum AppLangTitle {
@@ -11,7 +11,7 @@ enum AppLangTitle {
   RU_RU = 'Русский',
 }
 
-const SetAppLang: FC = observer((): ReactElement => {
+const AppLanguageChanger: FC = observer((): ReactElement => {
   const [language, setLanguage] = useState<IAppLocale>(IAppLocale.EN_US);
   const { t, i18n } = useTranslation(['common']);
   const settingsStore = useSettingsStore();
@@ -63,4 +63,4 @@ const SetAppLang: FC = observer((): ReactElement => {
   );
 });
 
-export default SetAppLang;
+export default AppLanguageChanger;

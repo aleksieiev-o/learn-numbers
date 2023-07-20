@@ -1,21 +1,18 @@
-import React, {FC, ReactElement, RefObject, useEffect} from 'react';
-import {APP_NAME, APP_NAME_SHORT} from '../../utils/constants';
-import {Container, Heading, Icon, IconButton, Stack, useColorMode, useDisclosure} from '@chakra-ui/react';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import SettingsIcon from '@mui/icons-material/Settings';
+import React, {FC, ReactElement, RefObject} from 'react';
+import {APP_NAME} from '../../utils/constants';
+import {Container, Heading, Icon, IconButton, Stack, useDisclosure, Hide} from '@chakra-ui/react';
+import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {ColorMode} from '../../theme';
+import {tabletScreenWidth} from '../../theme';
 import {useTranslation} from 'react-i18next';
-import SetAppLang from './SetAppLang';
-import {useAuthorizationStore, useRootStore, useSettingsStore} from '../../store/hooks';
-import {IAppTheme} from '../../store/SettingsStore/types';
-import {useLoading} from '../../hooks/useLoading';
+import AppLanguageChanger from '../AppLanguageChanger';
+import {useAuthorizationStore} from '../../store/hooks';
 import AuthorizationModal from '../AuthorizationModal/Authorization.modal';
 import {observer} from 'mobx-react-lite';
 import UserInfo from './UserInfo';
-import ActionConfirmationModal, {ActionConfirmationModalType} from '../UI/ActionConfirmation.modal';
+import ActionConfirmationModal, {ActionConfirmationModalType} from '../ActionConfirmation.modal';
+import AppThemeSwitcher from '../AppThemeSwitcher';
 
 interface Props {
   settingsButtonRef: RefObject<HTMLButtonElement>;
@@ -24,30 +21,10 @@ interface Props {
 
 const Header: FC<Props> = observer((props): ReactElement => {
   const { settingsButtonRef, onOpenSettings } = props;
-  const { colorMode, setColorMode } = useColorMode();
   const { isOpen: isOpenAuthModal, onOpen: onOpenAuthModal, onClose: onCloseAuthModal } = useDisclosure();
   const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
-  const {bowserPlatform} = useRootStore();
-  const settingsStore = useSettingsStore();
   const authorizationStore = useAuthorizationStore();
-  const {isLoading, setIsLoading} = useLoading();
   const { t } = useTranslation(['common', 'auth']);
-
-  const updateTheme = async () => {
-    setIsLoading(true);
-
-    if (settingsStore.appSettings.appTheme === IAppTheme.LIGHT) {
-      await settingsStore.updateAppTheme(IAppTheme.DARK);
-    } else {
-      await settingsStore.updateAppTheme(IAppTheme.LIGHT);
-    }
-
-    await setIsLoading(false);
-  };
-
-  useEffect(() => {
-    setColorMode(settingsStore.appSettings.appTheme);
-  }, [settingsStore.appSettings.appTheme]);
 
   const handleSignOut = async () => {
     await authorizationStore.singOut();
@@ -66,7 +43,7 @@ const Header: FC<Props> = observer((props): ReactElement => {
               cursor={'default'}
               whiteSpace={'nowrap'} mr={4}
               title={APP_NAME}>
-              {bowserPlatform.type === 'desktop' ? APP_NAME : APP_NAME_SHORT}
+              {APP_NAME}
             </Heading>
 
             <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={{ md: 6, base: 2 }} overflow={'hidden'}>
@@ -74,27 +51,11 @@ const Header: FC<Props> = observer((props): ReactElement => {
                 authorizationStore.isAuth && <UserInfo/>
               }
 
-              <SetAppLang/>
+              <Hide breakpoint={`(max-width: ${tabletScreenWidth}px)`}>
+                <AppLanguageChanger/>
 
-              <IconButton
-                onClick={updateTheme}
-                isLoading={isLoading}
-                colorScheme={'gray'}
-                variant={'outline'}
-                boxShadow={'md'}
-                title={colorMode === ColorMode.DARK ? t('common_set_light_theme_title')! : t('common_set_dark_theme_title')!}
-                aria-label={colorMode === ColorMode.DARK ? 'Set light theme' : 'Set dark theme'}
-                icon={<Icon as={colorMode === ColorMode.DARK ? LightModeIcon : DarkModeIcon}/>}/>
-
-              <IconButton
-                onClick={onOpenSettings}
-                ref={settingsButtonRef}
-                colorScheme={'gray'}
-                variant={'outline'}
-                boxShadow={'md'}
-                title={t('common_open_settings_title')!}
-                aria-label={'Open settings'}
-                icon={<Icon as={SettingsIcon}/>}/>
+                <AppThemeSwitcher/>
+              </Hide>
 
               {
                 <IconButton
@@ -108,6 +69,16 @@ const Header: FC<Props> = observer((props): ReactElement => {
                   aria-label={authorizationStore.isAuth ? 'Open sign out modal' : 'Open authorization modal'}
                   icon={<Icon as={authorizationStore.isAuth ? LogoutIcon : LoginIcon}/>}/>
               }
+
+              <IconButton
+                onClick={onOpenSettings}
+                ref={settingsButtonRef}
+                colorScheme={'gray'}
+                variant={'outline'}
+                boxShadow={'md'}
+                title={t('common_open_settings_title')!}
+                aria-label={'Open settings'}
+                icon={<Icon as={MenuIcon}/>}/>
             </Stack>
           </Stack>
         </Container>

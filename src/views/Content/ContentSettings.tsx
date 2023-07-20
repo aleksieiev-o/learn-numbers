@@ -3,6 +3,7 @@ import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFoo
 import NumbersRangeControls from './NumbersRangeControls';
 import SpeechPropsControls from './SpeechPropsControls';
 import { useTranslation } from 'react-i18next';
+import AppSettingsControls from './AppSettingsControls';
 
 interface Props {
   settingsButtonRef: RefObject<HTMLButtonElement>;
@@ -17,15 +18,16 @@ const ContentSettings: FC<Props> = (props): ReactElement => {
 
   return (
     <Drawer
-      isOpen={isOpenSettings}
-      placement={'right'}
-      size={'md'}
       onClose={onCloseSettings}
+      isOpen={isOpenSettings}
       initialFocusRef={initElementRef}
       finalFocusRef={settingsButtonRef}
+      placement={'right'}
+      size={'md'}
       autoFocus={true}>
       <DrawerOverlay/>
 
+      {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
       <DrawerContent>
         <DrawerCloseButton/>
 
@@ -33,6 +35,8 @@ const ContentSettings: FC<Props> = (props): ReactElement => {
 
         <DrawerBody>
           <Stack spacing={6}>
+            <AppSettingsControls/>
+
             <NumbersRangeControls/>
 
             <SpeechPropsControls/>
@@ -41,13 +45,15 @@ const ContentSettings: FC<Props> = (props): ReactElement => {
 
         <DrawerFooter>
           <Button
+            onClick={onCloseSettings}
             variant={'outline'}
             boxShadow={'md'}
-            onClick={onCloseSettings}>
+            title={t('common_close_btn')!}>
             {t('common_close_btn')}
           </Button>
         </DrawerFooter>
       </DrawerContent>
+      {/* eslint-enable */}
     </Drawer>
   );
 };

@@ -3,13 +3,14 @@ import {observer} from 'mobx-react-lite';
 import {Avatar, Icon, Stack, Text, Hide} from '@chakra-ui/react';
 import {useAuthorizationStore} from '../../store/hooks';
 import PersonIcon from '@mui/icons-material/Person';
+import {tabletScreenWidth} from '../../theme';
 
 const UserInfo: FC = observer((): ReactElement => {
   const authorizationStore = useAuthorizationStore();
 
   return (
     <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={4} overflow={'hidden'}>
-      <Hide breakpoint={'(max-width: 845px)'}>
+      <Hide breakpoint={`(max-width: ${tabletScreenWidth}px)`}>
         <Stack direction={'column'} alignItems={'flex-end'} justifyContent={'center'} spacing={0} overflow={'hidden'}>
           <Text
             whiteSpace={'nowrap'}

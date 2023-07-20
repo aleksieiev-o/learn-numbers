@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { useModalActions } from '../../hooks/useModalActions';
+import { useModalActions } from '../hooks/useModalActions';
 
 export enum ActionConfirmationModalType {
   INFO,

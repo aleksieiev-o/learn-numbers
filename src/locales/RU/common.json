@@ -1,7 +1,9 @@
 {
+  "common_theme_text": "Тема приложения",
   "common_set_light_theme_title": "Установить светлую тему",
   "common_set_dark_theme_title": "Установить темную тему",
   "common_open_settings_title": "Открыть настройки",
+  "common_language_text": "Язык приложения",
   "common_set_app_lang_title": "Установить язык приложения",
 
   "common_start_btn_title": "Старт",
