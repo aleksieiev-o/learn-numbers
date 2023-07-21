@@ -1,13 +1,21 @@
-import { User } from '@firebase/auth';
+import { User, updateProfile, updateEmail, updatePassword } from '@firebase/auth';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from 'firebase/auth';
 import { firebaseAuth } from '../../firebase';
-import {AuthorizationStore, IAuthSignInRequestDto} from './index';
+import {
+  AuthorizationStore,
+  IAuthChangeEmailRequestDto, IAuthChangePasswordRequestDto,
+  IAuthChangeUserProfileRequestDto,
+  IAuthSignInRequestDto
+} from './index';
 
 interface IAuthorizationStoreService {
   authorizationStore: AuthorizationStore;
   signInEmailPassword: (payload: IAuthSignInRequestDto) => Promise<User>;
   singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => Promise<User>;
   singOut: () => Promise<void>;
+  updateUserProfile: (payload: IAuthChangeUserProfileRequestDto) => void;
+  updateUserEmail: (payload: IAuthChangeEmailRequestDto) => void;
+  updateUserPassword: (payload: IAuthChangePasswordRequestDto) => void;
 }
 
 export class AuthorizationStoreService implements IAuthorizationStoreService {
@@ -31,5 +39,33 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
 
   async singOut(): Promise<void> {
     return await signOut(firebaseAuth);
+  }
+
+  async updateUserProfile(payload: IAuthChangeUserProfileRequestDto): Promise<void> {
+    const currentUser = AuthorizationStoreService.getCurrentUser();
+
+    if (currentUser) {
+      await updateProfile(currentUser, payload);
+    }
+  }
+
+  async updateUserEmail(payload: IAuthChangeEmailRequestDto): Promise<void> {
+    const currentUser = AuthorizationStoreService.getCurrentUser();
+
+    if (currentUser) {
+      await updateEmail(currentUser, payload.email);
+    }
+  }
+
+  async updateUserPassword(payload: IAuthChangePasswordRequestDto): Promise<void> {
+    const currentUser = AuthorizationStoreService.getCurrentUser();
+
+    if (currentUser) {
+      await updatePassword(currentUser, payload.password);
+    }
+  }
+
+  private static getCurrentUser(): User | null {
+    return firebaseAuth.currentUser;
   }
 }

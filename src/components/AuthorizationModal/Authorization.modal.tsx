@@ -109,7 +109,7 @@ const AuthorizationModal: FC<Props> = observer(
 
                   <Input
                     type={'email'}
-                    colorScheme={'telegram'}
+                    colorScheme={'twitter'}
                     boxShadow={'md'}
                     placeholder={t('auth_modal_email_placeholder', {ns: 'auth'})!}
                     {...getFieldProps('email')}/>
@@ -123,7 +123,7 @@ const AuthorizationModal: FC<Props> = observer(
                   <InputGroup>
                     <Input
                       type={passwordVisibility ? 'text' : 'password'}
-                      colorScheme={'telegram'}
+                      colorScheme={'twitter'}
                       boxShadow={'md'}
                       placeholder={t('auth_modal_password_placeholder', {ns: 'auth'})!}
                       {...getFieldProps('password')}/>
@@ -155,7 +155,7 @@ const AuthorizationModal: FC<Props> = observer(
                   <Button
                     onClick={handleToggleModalType}
                     variant={'link'}
-                    colorScheme={'telegram'}
+                    colorScheme={'twitter'}
                     title={authModalType === AuthModalType.SIGN_IN
                       ? t('auth_modal_sign_up_btn_text', {ns: 'auth'})!
                       : t('auth_modal_sign_in_btn_text', {ns: 'auth'})!}>
@@ -182,7 +182,7 @@ const AuthorizationModal: FC<Props> = observer(
                 type={'submit'}
                 isLoading={isLoading}
                 variant={'outline'}
-                colorScheme={'telegram'}
+                colorScheme={'twitter'}
                 boxShadow={'md'}
                 title={authModalType === AuthModalType.SIGN_IN
                   ? t('auth_modal_sign_in_btn_text', {ns: 'auth'})!

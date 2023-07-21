@@ -26,7 +26,7 @@ const ActionConfirmationModal: FC<Props> = (props): ReactElement => {
   const { isLoading, closeEsc, closeOverlayClick, handleActionModalButton, handleCloseModalButton } = useModalActions(handleAction, onClose);
 
   const actionButtonColorScheme = {
-    [ActionConfirmationModalType.INFO]: 'telegram',
+    [ActionConfirmationModalType.INFO]: 'twitter',
     [ActionConfirmationModalType.WARNING]: 'orange',
     [ActionConfirmationModalType.DANGER]: 'red',
   }[modalType];

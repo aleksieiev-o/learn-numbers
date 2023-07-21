@@ -19,6 +19,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ActionConfirmationModal, {ActionConfirmationModalType} from '../../components/ActionConfirmation.modal';
 import {useAuthorizationStore} from '../../store/hooks';
 import {observer} from 'mobx-react-lite';
+import UserManager from './UserManager';
 
 interface Props {
   settingsButtonRef: RefObject<HTMLButtonElement>;
@@ -62,6 +63,10 @@ const ContentSettings: FC<Props> = observer((props): ReactElement => {
               <NumbersRangeControls/>
 
               <SpeechPropsControls/>
+
+              {
+                authorizationStore.isAuth && <UserManager/>
+              }
             </Stack>
           </DrawerBody>
 

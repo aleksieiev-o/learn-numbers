@@ -10,6 +10,7 @@
   "common_replay_btn_title": "Повторить последнее число",
   "common_stop_btn_title": "Стоп",
   "common_save_btn_title": "Сохранить",
+  "common_submit_btn_title": "Отправить",
 
   "common_settings_label": "Настройки",
   "common_num_range_label": "Диапазон чисел",
@@ -45,5 +46,37 @@
   "common_sign_out_btn": "Выйти",
   "common_sign_out_btn_title": "Выйти",
   "common_sign_out_confirm_title": "Подтверждение выхода",
-  "common_sign_out_confirm_message": "Вы сейчас выйдете из учетной записи."
+  "common_sign_out_confirm_message": "Вы сейчас выйдете из учетной записи.",
+
+  "common_user_data_title": "Изменить данные пользователя",
+  "common_btn_change_dn": "Изменить Имя пользователя",
+  "common_btn_change_email": "Изменить электронную почту",
+  "common_btn_change_password": "Изменить пароль",
+
+  "common_current_dn_text": "Текущее имя пользователя -",
+  "common_without_current_dn_text": "Имя пользователя не определено",
+  "common_new_dn_dn_label": "Новое имя пользователя",
+  "common_new_dn_dn_placeholder": "Введите новое имя пользователя",
+  "common_new_dn_dn_error_text_required": "Поле обязательно",
+  "common_new_dn_dn_error_text_min_length": "Имя пользователя должно быть минимум 3 символа",
+  "common_new_dn_dn_error_text_max_length": "Имя пользователя должно быть максимум 28 символов",
+
+  "common_current_email_text": "Текущая электронная почта -",
+  "common_new_email_label": "Новая электронная почта",
+  "common_new_email_placeholder": "Введите новый адрес электронной почты",
+  "common_new_email_error_text_required": "Поле обязательно",
+  "common_new_email_error_text_email_type": "Электронная почта должная соответствовать виду email",
+  "common_new_email_error_text_min_length": "Электронная почта должна быть минимум 3 символа",
+  "common_new_email_error_text_max_length": "Электронная почта должна быть максимум 254 символа",
+
+  "common_current_password_label": "Текущий пароль",
+  "common_current_password_placeholder": "Введите текущий пароль",
+  "common_new_password_label": "Новый пароль",
+  "common_new_password_placeholder": "Введите новый пароль",
+  "common_confirm_new_password_label": "Подтверждение нового пароля",
+  "common_confirm_new_password_placeholder": "Введите новый пароль снова",
+  "common_password_error_text_required": "Поле обязательно",
+  "common_password_error_text_min_length": "Пароль должен быть минимум 6 символов",
+  "common_password_error_text_max_length": "Пароль должен быть максимум 28 символов",
+  "common_new_password_error_text_same": "Новые пароли не совпадают"
 }

@@ -38,7 +38,7 @@ const UserInfo: FC = observer((): ReactElement => {
       <Avatar
         name={authorizationStore.user.displayName ? authorizationStore.user.displayName : undefined}
         src={undefined}
-        bg={'telegram.600'}
+        bg={'twitter.600'}
         icon={<Icon as={PersonIcon}/>}/>
     </Stack>
   );

@@ -53,7 +53,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
               <IconButton
                 onClick={updateMinValue}
-                colorScheme={'telegram'}
+                colorScheme={'twitter'}
                 variant={'outline'}
                 boxShadow={'md'}
                 title={t('common_save_btn_title')!}
@@ -83,7 +83,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
               <IconButton
                 onClick={updateMaxValue}
-                colorScheme={'telegram'}
+                colorScheme={'twitter'}
                 variant={'outline'}
                 boxShadow={'md'}
                 title={t('common_save_btn_title')!}

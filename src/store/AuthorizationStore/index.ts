@@ -10,6 +10,19 @@ export interface IAuthSignInRequestDto {
   password: string;
 }
 
+export interface IAuthChangeUserProfileRequestDto {
+  displayName: string;
+  photoURL?: string | null;
+}
+
+export interface IAuthChangeEmailRequestDto {
+  email: string;
+}
+
+export interface IAuthChangePasswordRequestDto {
+  password: string;
+}
+
 export interface User {
   uid: string;
   displayName: string | null
@@ -23,7 +36,10 @@ interface IAuthorizationStore {
   isAuth: boolean;
   signInEmailPassword: (payload: IAuthSignInRequestDto) => void;
   singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => void;
-  singOut: () => void;
+  singOut: () => Promise<void>;
+  updateUserProfile: (payload: IAuthChangeUserProfileRequestDto) => void;
+  updateUserEmail: (payload: IAuthChangeEmailRequestDto) => void;
+  updateUserPassword: (payload: IAuthChangePasswordRequestDto) => void;
 }
 
 export class AuthorizationStore implements IAuthorizationStore {
@@ -80,6 +96,24 @@ export class AuthorizationStore implements IAuthorizationStore {
 
   async singOut() {
     await this.authorizationStoreService.singOut();
+  }
+
+  async updateUserProfile(payload: IAuthChangeUserProfileRequestDto) {
+    await this.authorizationStoreService.updateUserProfile(payload);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.setUser(firebaseAuth.currentUser!); // TODO fix param currentUser
+  }
+
+  async updateUserEmail(payload: IAuthChangeEmailRequestDto) {
+    await this.authorizationStoreService.updateUserEmail(payload);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.setUser(firebaseAuth.currentUser!); // TODO fix param currentUser
+  }
+
+  async updateUserPassword(payload: IAuthChangePasswordRequestDto) {
+    await this.authorizationStoreService.updateUserPassword(payload);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.setUser(firebaseAuth.currentUser!); // TODO fix param currentUser
   }
 
   get userUid(): string {

@@ -10,6 +10,7 @@
   "common_replay_btn_title": "Replay last number",
   "common_stop_btn_title": "Stop",
   "common_save_btn_title": "Save",
+  "common_submit_btn_title": "Submit",
 
   "common_settings_label": "Settings",
   "common_num_range_label": "Numbers range",
@@ -45,5 +46,37 @@
   "common_sign_out_btn": "Sign out",
   "common_sign_out_btn_title": "Sign out",
   "common_sign_out_confirm_title": "Sign out confirmation",
-  "common_sign_out_confirm_message": "You are about to sign out."
+  "common_sign_out_confirm_message": "You are about to sign out.",
+
+  "common_user_data_title": "Change user data",
+  "common_btn_change_dn": "Change display name",
+  "common_btn_change_email": "Change email",
+  "common_btn_change_password": "Change password",
+
+  "common_current_dn_text": "Current display name is",
+  "common_without_current_dn_text": "Display name is not defined",
+  "common_new_dn_label": "New display name",
+  "common_new_dn_placeholder": "Enter new display name",
+  "common_new_dn_error_text_required": "Field is required",
+  "common_new_dn_error_text_min_length": "Display name must contain at least 3 characters long",
+  "common_new_dn_error_text_max_length": "Display name must be no more than 28 characters long",
+
+  "common_current_email_text": "Current email is",
+  "common_new_email_label": "New email",
+  "common_new_email_placeholder": "Enter new email address",
+  "common_new_email_error_text_required": "Field is required",
+  "common_new_email_error_text_email_type": "Email field must be valid for email",
+  "common_new_email_error_text_min_length": "Email field must be at least 3 characters long",
+  "common_new_email_error_text_max_length": "Email field must be no more than 254 characters long",
+
+  "common_current_password_label": "Current password",
+  "common_current_password_placeholder": "Enter current password",
+  "common_new_password_label": "New password",
+  "common_new_password_placeholder": "Enter new password",
+  "common_confirm_new_password_label": "New password confirmation",
+  "common_confirm_new_password_placeholder": "Enter new password again",
+  "common_password_error_text_required": "Field is required",
+  "common_password_error_text_min_length": "Password field must be at least 6 characters long",
+  "common_password_error_text_max_length": "Password field must be no more than 28 characters long",
+  "common_new_password_error_text_same": "New passwords aren't same"
 }
