@@ -11,6 +11,7 @@
   "common_stop_btn_title": "Stop",
   "common_save_btn_title": "Save",
   "common_submit_btn_title": "Submit",
+  "common_back_btn_title": "Back",
 
   "common_settings_label": "Settings",
   "common_num_range_label": "Numbers range",
@@ -32,6 +33,7 @@
   "common_btn_correct_answer_title": "Show correct answer",
   "common_btn_correct_answer": "Show correct answer",
   "common_correct_answer_message": "Correct answer is ",
+  "common_input_answer_error_text_required": "Answer is required",
 
   "common_close_btn": "Close",
   "common_cancel_btn": "Cancel",
@@ -78,5 +80,25 @@
   "common_password_error_text_required": "Field is required",
   "common_password_error_text_min_length": "Password field must be at least 6 characters long",
   "common_password_error_text_max_length": "Password field must be no more than 28 characters long",
-  "common_new_password_error_text_same": "New passwords aren't same"
+  "common_new_password_error_text_same": "New passwords aren't same",
+
+  "common_toast_change_dn_success_title": "Display name changed",
+  "common_toast_change_dn_success_description": "Display name changed successfully",
+  "common_toast_change_dn_error_title": "Display name has not been changed",
+  "common_toast_change_dn_error_description": "An error occurred while changing the display name",
+
+  "common_toast_change_email_success_title": "Email changed",
+  "common_toast_change_email_success_description": "Email changed successfully",
+  "common_toast_change_email_error_title": "Email has not been changed",
+  "common_toast_change_email_error_description": "An error occurred while changing the email",
+
+  "common_toast_change_password_success_title": "Password changed",
+  "common_toast_change_password_success_description": "Password changed successfully",
+  "common_toast_change_password_error_title": "Password has not been changed",
+  "common_toast_change_password_error_description": "An error occurred while changing the password",
+
+  "common_reauth_text": "Reauthorization required. Enter your login details in the fields below",
+
+  "common_current_email_label": "Current email",
+  "common_current_email_placeholder": "Enter current email address"
 }

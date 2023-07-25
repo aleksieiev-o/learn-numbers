@@ -1,27 +1,20 @@
-import React, { FC, ReactElement, RefObject, useContext, useEffect, useState } from 'react';
-import { Container, Stack } from '@chakra-ui/react';
+import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import ActionControls from './ActionControls';
 import UserCheckControls from './UserCheckControls';
 import { createRandomNumber } from '../../utils/createRandomNumber';
 import { useSettingsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
 import { SpeechUtteranceContext } from '../../providers/SpeechUtteranceContext.provider';
-import ContentSettings from './ContentSettings';
+import AppLayout from '../../layouts/App.layout';
+import MainLayout from '../../layouts/Main.layout';
+import ContainerLayout from '../../layouts/Container.layout';
 
 export enum SpeechStatus {
   STOPPED,
   STARTED,
 }
 
-interface Props {
-  settingsButtonRef: RefObject<HTMLButtonElement>;
-  initElementRef: RefObject<HTMLInputElement>;
-  isOpenSettings: boolean;
-  onCloseSettings: () => void;
-}
-
-const Content: FC<Props> = observer((props): ReactElement => {
-  const {settingsButtonRef, initElementRef, isOpenSettings, onCloseSettings} = props;
+const Content: FC = observer((): ReactElement => {
   const settingsStore = useSettingsStore();
   const {start, stop} = useContext(SpeechUtteranceContext);
   const [speechStatus, setSpeechStatus] = useState<SpeechStatus>(SpeechStatus.STOPPED);
@@ -66,15 +59,9 @@ const Content: FC<Props> = observer((props): ReactElement => {
   };
 
   return (
-    <Stack as={'main'} w={'full'} h={'full'} overflowY={'auto'}>
-      <Container centerContent={true} w={'full'} h={'full'} maxW={'6xl'} p={4}>
-        <Stack w={'full'} h={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
-          <ContentSettings
-            settingsButtonRef={settingsButtonRef}
-            initElementRef={initElementRef}
-            isOpenSettings={isOpenSettings}
-            onCloseSettings={onCloseSettings}/>
-
+    <AppLayout>
+      <MainLayout>
+        <ContainerLayout>
           <ActionControls
             speechStatus={speechStatus}
             startSpeechProcess={startSpeechProcess}
@@ -85,9 +72,9 @@ const Content: FC<Props> = observer((props): ReactElement => {
             speechStatus={speechStatus}
             currentRandomNumber={currentRandomNumber}
             speechRandomNumber={speechRandomNumber}/>
-        </Stack>
-      </Container>
-    </Stack>
+        </ContainerLayout>
+      </MainLayout>
+    </AppLayout>
   );
 });
 

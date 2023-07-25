@@ -16,7 +16,9 @@ export interface IAuthChangeUserProfileRequestDto {
 }
 
 export interface IAuthChangeEmailRequestDto {
+  newEmail: string;
   email: string;
+  password: string;
 }
 
 export interface IAuthChangePasswordRequestDto {
@@ -96,6 +98,10 @@ export class AuthorizationStore implements IAuthorizationStore {
 
   async singOut() {
     await this.authorizationStoreService.singOut();
+  }
+
+  async reAuthUser(payload: IAuthSignInRequestDto) {
+    await this.authorizationStoreService.reAuthUser(payload);
   }
 
   async updateUserProfile(payload: IAuthChangeUserProfileRequestDto) {

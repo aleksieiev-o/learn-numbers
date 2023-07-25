@@ -14,50 +14,61 @@ import {
 import {useTranslation} from 'react-i18next';
 import {useModalActions} from '../../../hooks/useModalActions';
 import {useAuthorizationStore} from '../../../store/hooks';
-import {IAuthChangeEmailRequestDto} from '../../../store/AuthorizationStore';
+import {IAuthChangeUserProfileRequestDto} from '../../../store/AuthorizationStore';
 import {object, string} from 'yup';
 import {FormikHelpers, useFormik} from 'formik';
+import {useActionToast} from '../../../hooks/useActionToast';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
+const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
   const { isOpen, onClose } = props;
   const authorizationStore = useAuthorizationStore();
   const { t } = useTranslation(['common']);
+  const {showActionToast} = useActionToast();
 
-  const initialChangeUserProfileValues: IAuthChangeEmailRequestDto = {
-    email: '',
+  const initialChangeUserProfileValues: IAuthChangeUserProfileRequestDto = {
+    displayName: '',
   };
 
+  // TODO after change app language, error text don't translate
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-  const validationChangeEmailSchema = object().shape({
-    email: string()
+  const validationChangeUserProfileSchema = object().shape({
+    displayName: string()
       .trim()
-      .required(t('common_new_email_error_text_required')!)
-      .email(t('common_new_email_error_text_email_type')!)
-      .min(3, t('common_new_email_error_text_min_length')!)
-      .max(28, t('common_new_email_error_text_max_length')!),
+      .required(t('common_new_dn_error_text_required')!)
+      .min(3, t('common_new_dn_error_text_min_length')!)
+      .max(28, t('common_new_dn_error_text_max_length')!),
   });
-  /* eslint-enable */
 
-  const submitHandler = async (payload: IAuthChangeEmailRequestDto, formikHelpers: FormikHelpers<IAuthChangeEmailRequestDto>) => {
+  const submitHandler = async (payload: IAuthChangeUserProfileRequestDto, formikHelpers: FormikHelpers<IAuthChangeUserProfileRequestDto>) => {
     try {
-      await authorizationStore.updateUserEmail(payload);
-    } catch (e) {
-      // TODO add handler for error "FirebaseError: Firebase: Error (auth/requires-recent-login)." https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
-      console.warn(e);
+      await authorizationStore.updateUserProfile(payload);
+
+      showActionToast({
+        title: t('common_toast_change_dn_success_title')!,
+        description: t('common_toast_change_dn_success_description')!,
+        status: 'success',
+      });
+    } catch (err) {
+      showActionToast({
+        title: t('common_toast_change_dn_error_title')!,
+        description: t('common_toast_change_dn_error_description')!,
+        status: 'error',
+      });
     } finally {
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
     }
   };
+  /* eslint-enable */
 
   const formik = useFormik({
     initialValues: initialChangeUserProfileValues,
-    validationSchema: validationChangeEmailSchema,
+    validationSchema: validationChangeUserProfileSchema,
     onSubmit: submitHandler,
     validateOnBlur: true,
   });
@@ -72,35 +83,42 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
 
       <form onSubmit={handleActionModalButton} style={{ width: '100% '}}>
         <ModalContent>
-          <ModalHeader>{t('common_btn_change_email')}</ModalHeader>
+          <ModalHeader>{t('common_btn_change_dn')}</ModalHeader>
 
           <ModalCloseButton title={t('common_close_btn')!}/>
 
           <ModalBody>
             <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} spacing={4} w={'full'} overflow={'hidden'}>
               <Stack direction={'row'} alignItems={'center'} justifyContent={'start'} spacing={2} overflow={'hidden'}>
-                <Text>{t('common_current_email_text')}</Text>
+                {
+                  authorizationStore.user.displayName ?
+                  <>
+                    <Text>{t('common_current_dn_text')}</Text>
 
-                <Text
-                  as={'strong'}
-                  whiteSpace={'nowrap'}
-                  textOverflow={'ellipsis'}
-                  overflow={'hidden'}>
-                  {authorizationStore.user.email}
-                </Text>
+                    <Text
+                      as={'strong'}
+                      whiteSpace={'nowrap'}
+                      textOverflow={'ellipsis'}
+                      overflow={'hidden'}>
+                      {authorizationStore.user.displayName}
+                    </Text>
+                  </>
+                  :
+                  <Text>{t('common_without_current_dn_text')}</Text>
+                }
               </Stack>
 
-              <FormControl isInvalid={touched.email && Boolean(errors.email)}>
-                <FormLabel>{t('common_new_email_label')}</FormLabel>
+              <FormControl isInvalid={touched.displayName && Boolean(errors.displayName)}>
+                <FormLabel>{t('common_new_dn_label')}</FormLabel>
 
                 <Input
                   isDisabled={isLoading}
                   colorScheme={'twitter'}
                   boxShadow={'md'}
-                  placeholder={t('common_new_email_placeholder')!}
-                  {...getFieldProps('email')}/>
+                  placeholder={t('common_new_dn_placeholder')!}
+                  {...getFieldProps('displayName')}/>
 
-                {touched.email && Boolean(errors.email) && <FormErrorMessage>{errors.email}</FormErrorMessage>}
+                {touched.displayName && Boolean(errors.displayName) && <FormErrorMessage>{errors.displayName}</FormErrorMessage>}
               </FormControl>
             </Stack>
           </ModalBody>
@@ -126,4 +144,4 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   );
 });
 
-export default ChangeEmailModal;
+export default ChangeUserProfileModal;

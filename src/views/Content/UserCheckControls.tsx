@@ -8,11 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { SpeechStatus } from './index';
 import { useFocus } from '../../hooks/useFocus';
 import { useTranslation } from 'react-i18next';
-
-enum ToastStatus {
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
+import {AlertStatus} from '@chakra-ui/alert/dist/alert-context';
 
 interface Props {
   speechStatus: SpeechStatus;
@@ -24,14 +20,6 @@ interface CheckResultDto {
   answer: string;
 }
 
-const initialValues: CheckResultDto = {
-  answer: '',
-};
-
-const validationSchema = object().shape({
-  answer: string().required('Answer is required'),
-});
-
 const UserCheckControls: FC<Props> = (props): ReactElement => {
   const {speechStatus, currentRandomNumber, speechRandomNumber} = props;
   const {elementRef: answerInputRef, setFocus} = useFocus<HTMLInputElement>();
@@ -39,18 +27,30 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
   const [isShowCorrectAnswer, setIsShowCorrectAnswer] = useState<boolean>(false);
   const { t } = useTranslation(['common']);
 
-  const showToast = (status: ToastStatus) => {
+  const initialValues: CheckResultDto = {
+    answer: '',
+  };
+
+  // TODO after change app language, error text don't translate
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  const validationSchema = object().shape({
+    answer: string().required(t('common_input_answer_error_text_required')!),
+  });
+  /* eslint-enable */
+
+  const showToast = (status: AlertStatus) => {
     toast({
       duration: 2000,
       position: 'top-left',
       render: () => (
         <Box
           color={'white'}
-          p={2} w={'40px'}
+          p={2}
+          w={'40px'}
           h={'40px'}
           borderRadius={6}
-          bg={status === ToastStatus.SUCCESS ? 'green.600' : 'red.600'}>
-          <Icon as={status === ToastStatus.SUCCESS ? CheckIcon : CloseIcon}/>
+          bg={status === 'success' ? 'green.600' : 'red.600'}>
+          <Icon as={status === 'success' ? CheckIcon : CloseIcon}/>
         </Box>
       ),
     });
@@ -66,7 +66,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
       console.warn(e);
     } finally {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      showToast(isCorrectAnswer ? ToastStatus.SUCCESS : ToastStatus.ERROR);
+      showToast(isCorrectAnswer ? 'success' : 'error');
 
       if (isCorrectAnswer) {
         formikHelpers.resetForm();

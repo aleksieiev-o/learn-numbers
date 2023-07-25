@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useMemo, useState } from 'react';
+import React, {FC, ReactElement, useEffect, useMemo, useState} from 'react';
 import { FormControl, FormErrorMessage, FormLabel, Heading, Icon, IconButton, Input, Stack } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
@@ -10,6 +10,11 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
   const [minValue, setMinValue] = useState<string>(String(settingsStore.speechSettings.speechMinValue));
   const [maxValue, setMaxValue] = useState<string>(String(settingsStore.speechSettings.speechMaxValue));
   const { t } = useTranslation(['common']);
+
+  useEffect(() => {
+    setMinValue(String(settingsStore.speechSettings.speechMinValue));
+    setMaxValue(String(settingsStore.speechSettings.speechMaxValue));
+  }, [settingsStore.speechSettings.speechMinValue, settingsStore.speechSettings.speechMaxValue]);
 
   const isMinValueValid = useMemo(() => {
     return new RegExp(/^\d+$/).test(minValue.toString());
@@ -27,7 +32,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
   const updateMaxValue = async () => {
     if (isMaxValueValid) {
-      await settingsStore.updateSpeechMinValue(parseInt(maxValue, 10) || 0);
+      await settingsStore.updateSpeechMaxValue(parseInt(maxValue, 10) || 0);
     }
   };
 

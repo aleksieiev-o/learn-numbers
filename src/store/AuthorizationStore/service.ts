@@ -1,5 +1,7 @@
 import { User, updateProfile, updateEmail, updatePassword } from '@firebase/auth';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from 'firebase/auth';
+import {
+  AuthCredential, createUserWithEmailAndPassword,
+  reauthenticateWithCredential, signInWithEmailAndPassword, signOut, UserCredential } from 'firebase/auth';
 import { firebaseAuth } from '../../firebase';
 import {
   AuthorizationStore,
@@ -41,6 +43,16 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
     return await signOut(firebaseAuth);
   }
 
+  async reAuthUser(payload: IAuthSignInRequestDto): Promise<UserCredential> {
+    const credential: AuthCredential = {
+      providerId: 'password',
+      signInMethod: 'SignInMethod.EMAIL_PASSWORD',
+      toJSON: () => payload,
+    };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return await reauthenticateWithCredential(firebaseAuth.currentUser!, credential); // TODO fix param currentUser
+  }
+
   async updateUserProfile(payload: IAuthChangeUserProfileRequestDto): Promise<void> {
     const currentUser = AuthorizationStoreService.getCurrentUser();
 
@@ -53,7 +65,7 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
     const currentUser = AuthorizationStoreService.getCurrentUser();
 
     if (currentUser) {
-      await updateEmail(currentUser, payload.email);
+      await updateEmail(currentUser, payload.newEmail);
     }
   }
 
