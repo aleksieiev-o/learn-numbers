@@ -45,26 +45,39 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   // TODO du two validationScheme for only newEmail and newEmail, email, password
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
   const validationChangeEmailSchema = useMemo(() => {
+    if (!needReAuth) {
+      return object().shape({
+        newEmail: string()
+          .trim()
+          .required(t('common_new_email_error_text_required')!)
+          .email(t('common_new_email_error_text_email_type')!)
+          .min(3, t('common_new_email_error_text_min_length')!)
+          .max(254, t('common_new_email_error_text_max_length')!)
+          .matches(new RegExp(`^(?!${authorizationStore.user.email}$).*`), t('common_new_email_error_text_same')!),
+      });
+    }
+
     return object().shape({
       newEmail: string()
         .trim()
         .required(t('common_new_email_error_text_required')!)
         .email(t('common_new_email_error_text_email_type')!)
         .min(3, t('common_new_email_error_text_min_length')!)
+        .max(254, t('common_new_email_error_text_max_length')!)
+        .matches(new RegExp(`^(?!${authorizationStore.user.email}$).*`), t('common_new_email_error_text_same')!),
+      email: string()
+        .trim()
+        .required(t('common_new_email_error_text_required')!)
+        .email(t('common_new_email_error_text_email_type')!)
+        .min(3, t('common_new_email_error_text_min_length')!)
         .max(254, t('common_new_email_error_text_max_length')!),
-      // email: string()
-      //   .trim()
-      //   .required(t('common_new_email_error_text_required')!)
-      //   .email(t('common_new_email_error_text_email_type')!)
-      //   .min(3, t('common_new_email_error_text_min_length')!)
-      //   .max(254, t('common_new_email_error_text_max_length')!),
-      // password: string()
-      //   .trim()
-      //   .required(t('common_password_error_text_required')!)
-      //   .min(3, t('common_password_error_text_min_length')!)
-      //   .max(28, t('common_password_error_text_max_length')!),
+      password: string()
+        .trim()
+        .required(t('common_password_error_text_required')!)
+        .min(3, t('common_password_error_text_min_length')!)
+        .max(28, t('common_password_error_text_max_length')!),
     });
-  }, [t]);
+  }, [t, needReAuth]);
 
   const submitHandler = async (payload: IAuthChangeEmailRequestDto, formikHelpers: FormikHelpers<IAuthChangeEmailRequestDto>) => {
     setIsLoading(true);
@@ -77,7 +90,8 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
         await authorizationStore.updateUserEmail(payload);
       }
 
-      onClose();
+      formikHelpers.resetForm();
+      await onClose();
 
       showActionToast({
         title: t('common_toast_change_email_success_title')!,
@@ -85,15 +99,15 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
         status: 'success',
       });
     } catch (err) {
-      console.warn(111, err);
+      console.warn(err);
+      setNeedReAuth(true);
+
       showActionToast({
         title: t('common_toast_change_email_error_title')!,
         description: t('common_toast_change_email_error_description')!,
         status: 'error',
       });
-      setNeedReAuth(true);
     } finally {
-      formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
       setIsLoading(false);
     }

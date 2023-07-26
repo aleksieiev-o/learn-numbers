@@ -1,7 +1,7 @@
 import { User, updateProfile, updateEmail, updatePassword } from '@firebase/auth';
 import {
-  AuthCredential, createUserWithEmailAndPassword,
-  reauthenticateWithCredential, signInWithEmailAndPassword, signOut, UserCredential } from 'firebase/auth';
+  createUserWithEmailAndPassword,
+  reauthenticateWithCredential, signInWithEmailAndPassword, signOut, UserCredential, EmailAuthProvider } from 'firebase/auth';
 import { firebaseAuth } from '../../firebase';
 import {
   AuthorizationStore,
@@ -44,11 +44,7 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
   }
 
   async reAuthUser(payload: IAuthSignInRequestDto): Promise<UserCredential> {
-    const credential: AuthCredential = {
-      providerId: 'password',
-      signInMethod: 'SignInMethod.EMAIL_PASSWORD',
-      toJSON: () => payload,
-    };
+    const credential = EmailAuthProvider.credential(payload.email, payload.password);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return await reauthenticateWithCredential(firebaseAuth.currentUser!, credential); // TODO fix param currentUser
   }

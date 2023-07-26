@@ -65,8 +65,8 @@ const Authorization: FC = (): ReactElement => {
         await authorizationStore.singUpEmailAndPassword(payload);
         await navigate(EnumRouter.MAIN);
       }
-    } catch (e) {
-      console.warn(e);
+    } catch (err) {
+      console.warn(err);
     } finally {
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);

@@ -67,8 +67,8 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
 
     try {
       setIsShowCorrectAnswer(false);
-    } catch (e) {
-      console.warn(e);
+    } catch (err) {
+      console.warn(err);
     } finally {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       showToast(isCorrectAnswer ? 'success' : 'error');

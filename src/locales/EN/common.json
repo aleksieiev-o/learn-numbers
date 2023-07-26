@@ -71,6 +71,7 @@
   "common_new_email_error_text_email_type": "Email field must be valid for email",
   "common_new_email_error_text_min_length": "Email field must be at least 3 characters long",
   "common_new_email_error_text_max_length": "Email field must be no more than 254 characters long",
+  "common_new_email_error_text_same": "New email is the same as used",
 
   "common_current_password_label": "Current password",
   "common_current_password_placeholder": "Enter current password",

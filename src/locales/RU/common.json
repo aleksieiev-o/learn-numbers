@@ -71,6 +71,7 @@
   "common_new_email_error_text_email_type": "Электронная почта должная соответствовать виду email",
   "common_new_email_error_text_min_length": "Электронная почта должна быть минимум 3 символа",
   "common_new_email_error_text_max_length": "Электронная почта должна быть максимум 254 символа",
+  "common_new_email_error_text_same": "Новая электронная почта совпадает с используемой",
 
   "common_current_password_label": "Текущий пароль",
   "common_current_password_placeholder": "Введите текущий пароль",
