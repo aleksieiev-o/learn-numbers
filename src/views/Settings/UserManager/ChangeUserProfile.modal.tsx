@@ -44,7 +44,8 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
         .required(t('common_new_dn_error_text_required')!)
         .min(3, t('common_new_dn_error_text_min_length')!)
         .max(28, t('common_new_dn_error_text_max_length')!)
-        .matches(new RegExp(`^(?!${authorizationStore.user.displayName}$).*`), t('common_new_dn_error_text_same')!),
+        .matches(new RegExp(`^(?!${authorizationStore.user.displayName}$).*`), t('common_new_dn_error_text_same')!)
+        .matches(/^[a-zA-Z0-9]+$/, t('common_new_dn_error_text_only_letters_and_numbers')!),
     });
   }, [t]);
 

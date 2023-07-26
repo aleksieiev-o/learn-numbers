@@ -63,6 +63,7 @@
   "common_new_dn_error_text_min_length": "Display name must contain at least 3 characters long",
   "common_new_dn_error_text_max_length": "Display name must be no more than 28 characters long",
   "common_new_dn_error_text_same": "New display name is the same as used",
+  "common_new_dn_error_text_only_letters_and_numbers": "Display name can only contain letters and numbers",
 
   "common_current_email_text": "Current email is",
   "common_new_email_label": "New email",
