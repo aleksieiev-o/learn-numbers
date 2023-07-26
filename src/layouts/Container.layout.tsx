@@ -7,7 +7,7 @@ const ContainerLayout: FC<PropsWithChildren> = (props): ReactElement => {
   return (
     <Stack as={'main'} w={'full'} h={'full'} overflowY={'auto'}>
       <Container centerContent={true} w={'full'} h={'full'} maxW={'6xl'} p={4}>
-        <Stack alignItems={'center'} justifyContent={'flex-start'} w={'full'} h={'full'} spacing={4}>
+        <Stack alignItems={'center'} justifyContent={'flex-start'} w={'full'} h={'full'} spacing={6}>
           {children}
         </Stack>
       </Container>

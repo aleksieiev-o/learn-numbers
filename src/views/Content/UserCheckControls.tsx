@@ -1,5 +1,5 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Icon, Input, Stack, Text, useToast } from '@chakra-ui/react';
+import React, {FC, ReactElement, useEffect, useMemo, useState} from 'react';
+import { Box, Button, FormControl, FormErrorMessage, Grid, GridItem, Icon, Input, Stack, Text, useToast } from '@chakra-ui/react';
 import { object, string } from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import CheckIcon from '@mui/icons-material/Check';
@@ -9,6 +9,7 @@ import { SpeechStatus } from './index';
 import { useFocus } from '../../hooks/useFocus';
 import { useTranslation } from 'react-i18next';
 import {AlertStatus} from '@chakra-ui/alert/dist/alert-context';
+import {observer} from 'mobx-react-lite';
 
 interface Props {
   speechStatus: SpeechStatus;
@@ -20,7 +21,7 @@ interface CheckResultDto {
   answer: string;
 }
 
-const UserCheckControls: FC<Props> = (props): ReactElement => {
+const UserCheckControls: FC<Props> = observer((props): ReactElement => {
   const {speechStatus, currentRandomNumber, speechRandomNumber} = props;
   const {elementRef: answerInputRef, setFocus} = useFocus<HTMLInputElement>();
   const toast = useToast();
@@ -33,9 +34,12 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
 
   // TODO after change app language, error text don't translate
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-  const validationSchema = object().shape({
-    answer: string().required(t('common_input_answer_error_text_required')!),
-  });
+  const validationSchema = useMemo(() => {
+    return object().shape({
+      answer: string()
+        .required(t('common_input_answer_error_text_required')!),
+    });
+  }, [t]);
   /* eslint-enable */
 
   const showToast = (status: AlertStatus) => {
@@ -88,7 +92,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
     validateOnBlur: true,
   });
 
-  const { touched, dirty, errors, getFieldProps, resetForm } = formik;
+  const { touched, errors, getFieldProps, resetForm } = formik;
 
   useEffect(() => {
     if (speechStatus === SpeechStatus.STOPPED || currentRandomNumber === null) {
@@ -101,10 +105,10 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
     <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
       <Stack w={'full'} direction={'column'} spacing={6}>
         {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
-        <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'} alignItems={'end'}>
+        <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={6} w={'full'} alignItems={'flex-start'}>
           <GridItem>
-            <FormControl isRequired={true} isReadOnly={false} isInvalid={touched.answer && dirty && Boolean(errors.answer)}>
-              <FormLabel>{t('common_input_answer_label')}</FormLabel>
+            <FormControl isReadOnly={false} isInvalid={touched.answer && Boolean(errors.answer)}>
+              {/*<FormLabel>{t('common_input_answer_label')}</FormLabel>*/}
 
               <Input
                 ref={answerInputRef}
@@ -115,7 +119,7 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
                 placeholder={t('common_input_answer_ph')!}
                 {...getFieldProps('answer')}/>
 
-              {touched.answer && dirty && Boolean(errors.answer) && <FormErrorMessage>{touched.answer && dirty && errors.answer}</FormErrorMessage>}
+              {touched.answer && Boolean(errors.answer) && <FormErrorMessage>{errors.answer}</FormErrorMessage>}
             </FormControl>
           </GridItem>
 
@@ -159,6 +163,6 @@ const UserCheckControls: FC<Props> = (props): ReactElement => {
       </Stack>
     </form>
   );
-};
+});
 
 export default UserCheckControls;

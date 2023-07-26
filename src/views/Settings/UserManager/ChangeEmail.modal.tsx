@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, useState} from 'react';
+import React, {FC, ReactElement, useMemo, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {
   Button, FormControl, FormErrorMessage, FormLabel, Icon, IconButton, Input, InputGroup, InputRightElement, Modal,
@@ -43,25 +43,27 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   // TODO after change app language, error text don't translate
   // TODO du two validationScheme for only newEmail and newEmail, email, password
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-  const validationChangeEmailSchema = object().shape({
-    newEmail: string()
-      .trim()
-      .required(t('common_new_email_error_text_required')!)
-      .email(t('common_new_email_error_text_email_type')!)
-      .min(3, t('common_new_email_error_text_min_length')!)
-      .max(254, t('common_new_email_error_text_max_length')!),
-    // email: string()
-    //   .trim()
-    //   .required(t('common_new_email_error_text_required')!)
-    //   .email(t('common_new_email_error_text_email_type')!)
-    //   .min(3, t('common_new_email_error_text_min_length')!)
-    //   .max(254, t('common_new_email_error_text_max_length')!),
-    // password: string()
-    //   .trim()
-    //   .required(t('common_password_error_text_required')!)
-    //   .min(3, t('common_password_error_text_min_length')!)
-    //   .max(28, t('common_password_error_text_max_length')!),
-  });
+  const validationChangeEmailSchema = useMemo(() => {
+    return object().shape({
+      newEmail: string()
+        .trim()
+        .required(t('common_new_email_error_text_required')!)
+        .email(t('common_new_email_error_text_email_type')!)
+        .min(3, t('common_new_email_error_text_min_length')!)
+        .max(254, t('common_new_email_error_text_max_length')!),
+      // email: string()
+      //   .trim()
+      //   .required(t('common_new_email_error_text_required')!)
+      //   .email(t('common_new_email_error_text_email_type')!)
+      //   .min(3, t('common_new_email_error_text_min_length')!)
+      //   .max(254, t('common_new_email_error_text_max_length')!),
+      // password: string()
+      //   .trim()
+      //   .required(t('common_password_error_text_required')!)
+      //   .min(3, t('common_password_error_text_min_length')!)
+      //   .max(28, t('common_password_error_text_max_length')!),
+    });
+  }, [t]);
 
   const submitHandler = async (payload: IAuthChangeEmailRequestDto, formikHelpers: FormikHelpers<IAuthChangeEmailRequestDto>) => {
     try {

@@ -19,9 +19,7 @@ root.render(
     <ChakraProvider resetCSS={true} theme={theme} portalZIndex={1}>
       <StoreContextProvider>
         <SpeechUtteranceContextProvider>
-          <>
-            <RouterProvider router={router}/>
-          </>
+          <RouterProvider router={router}/>
         </SpeechUtteranceContextProvider>
       </StoreContextProvider>
     </ChakraProvider>

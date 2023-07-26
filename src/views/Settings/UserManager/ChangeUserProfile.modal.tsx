@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useMemo} from 'react';
 import {observer} from 'mobx-react-lite';
 import {
   Button, FormControl, FormErrorMessage, FormLabel, Input, Modal,
@@ -36,13 +36,15 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
 
   // TODO after change app language, error text don't translate
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-  const validationChangeUserProfileSchema = object().shape({
-    displayName: string()
-      .trim()
-      .required(t('common_new_dn_error_text_required')!)
-      .min(3, t('common_new_dn_error_text_min_length')!)
-      .max(28, t('common_new_dn_error_text_max_length')!),
-  });
+  const validationChangeUserProfileSchema = useMemo(() => {
+    return object().shape({
+      displayName: string()
+        .trim()
+        .required(t('common_new_dn_error_text_required')!)
+        .min(3, t('common_new_dn_error_text_min_length')!)
+        .max(28, t('common_new_dn_error_text_max_length')!),
+    });
+  }, [t]);
 
   const submitHandler = async (payload: IAuthChangeUserProfileRequestDto, formikHelpers: FormikHelpers<IAuthChangeUserProfileRequestDto>) => {
     try {

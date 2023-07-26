@@ -37,19 +37,21 @@ const Authorization: FC = (): ReactElement => {
 
   // TODO after change app language, error text don't translate
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
-  const validationSignInSchema = object().shape({
-    email: string()
-      .trim()
-      .required(t('auth_screen_email_error_text_required', {ns: 'auth'})!)
-      .email(t('auth_screen_email_error_text_email_type', {ns: 'auth'})!)
-      .min(3, t('auth_screen_email_error_text_min_length', {ns: 'auth'})!)
-      .max(254, t('auth_screen_email_error_text_max_length', {ns: 'auth'})!),
-    password: string()
-      .trim()
-      .required(t('auth_screen_password_error_text_required', {ns: 'auth'})!)
-      .min(3, t('auth_screen_password_error_text_min_length', {ns: 'auth'})!)
-      .max(28, t('auth_screen_password_error_text_max_length', {ns: 'auth'})!),
-  });
+  const validationSignInSchema = useMemo(() => {
+    return object().shape({
+      email: string()
+        .trim()
+        .required(t('auth_screen_email_error_text_required', {ns: 'auth'})!)
+        .email(t('auth_screen_email_error_text_email_type', {ns: 'auth'})!)
+        .min(3, t('auth_screen_email_error_text_min_length', {ns: 'auth'})!)
+        .max(254, t('auth_screen_email_error_text_max_length', {ns: 'auth'})!),
+      password: string()
+        .trim()
+        .required(t('auth_screen_password_error_text_required', {ns: 'auth'})!)
+        .min(3, t('auth_screen_password_error_text_min_length', {ns: 'auth'})!)
+        .max(28, t('auth_screen_password_error_text_max_length', {ns: 'auth'})!),
+    });
+  }, [t]);
   /* eslint-enable */
 
   const submitHandler = async (payload: IAuthSignInRequestDto, formikHelpers: FormikHelpers<IAuthSignInRequestDto>) => {
