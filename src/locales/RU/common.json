@@ -62,6 +62,7 @@
   "common_new_dn_dn_error_text_required": "Поле обязательно",
   "common_new_dn_dn_error_text_min_length": "Имя пользователя должно быть минимум 3 символа",
   "common_new_dn_dn_error_text_max_length": "Имя пользователя должно быть максимум 28 символов",
+  "common_new_dn_error_text_same": "Новое имя пользователя совпадает с используемым",
 
   "common_current_email_text": "Текущая электронная почта -",
   "common_new_email_label": "Новая электронная почта",

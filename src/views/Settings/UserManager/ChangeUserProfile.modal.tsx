@@ -12,12 +12,12 @@ import {
   Text
 } from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
-import {useModalActions} from '../../../hooks/useModalActions';
 import {useAuthorizationStore} from '../../../store/hooks';
 import {IAuthChangeUserProfileRequestDto} from '../../../store/AuthorizationStore';
 import {object, string} from 'yup';
 import {FormikHelpers, useFormik} from 'formik';
 import {useActionToast} from '../../../hooks/useActionToast';
+import {useLoading} from '../../../hooks/useLoading';
 
 interface Props {
   isOpen: boolean;
@@ -29,6 +29,7 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
   const authorizationStore = useAuthorizationStore();
   const { t } = useTranslation(['common']);
   const {showActionToast} = useActionToast();
+  const {isLoading, setIsLoading} = useLoading();
 
   const initialChangeUserProfileValues: IAuthChangeUserProfileRequestDto = {
     displayName: '',
@@ -42,11 +43,14 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
         .trim()
         .required(t('common_new_dn_error_text_required')!)
         .min(3, t('common_new_dn_error_text_min_length')!)
-        .max(28, t('common_new_dn_error_text_max_length')!),
+        .max(28, t('common_new_dn_error_text_max_length')!)
+        .matches(new RegExp(`[^${authorizationStore.user.displayName}]`), t('common_new_dn_error_text_same')!),
     });
   }, [t]);
 
   const submitHandler = async (payload: IAuthChangeUserProfileRequestDto, formikHelpers: FormikHelpers<IAuthChangeUserProfileRequestDto>) => {
+    setIsLoading(true);
+
     try {
       await authorizationStore.updateUserProfile(payload);
 
@@ -64,6 +68,8 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
     } finally {
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
+      setIsLoading(false);
+      onClose();
     }
   };
   /* eslint-enable */
@@ -75,15 +81,14 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
     validateOnBlur: true,
   });
 
-  const { isLoading, closeEsc, closeOverlayClick, handleActionModalButton, handleCloseModalButton } = useModalActions(formik.handleSubmit, onClose);
   const { touched, errors, getFieldProps } = formik;
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCloseModalButton} closeOnEsc={closeEsc} closeOnOverlayClick={closeOverlayClick}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
       <ModalOverlay/>
 
-      <form onSubmit={handleActionModalButton} style={{ width: '100% '}}>
+      <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
         <ModalContent>
           <ModalHeader>{t('common_btn_change_dn')}</ModalHeader>
 
@@ -126,7 +131,7 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={handleCloseModalButton} variant={'outline'} colorScheme={'gray'} title={t('common_cancel_btn')!} mr={4}>
+            <Button onClick={onClose} variant={'outline'} colorScheme={'gray'} title={t('common_cancel_btn')!} mr={4}>
               {t('common_cancel_btn')!}
             </Button>
 

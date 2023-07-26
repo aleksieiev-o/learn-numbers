@@ -12,7 +12,6 @@ export interface IAuthSignInRequestDto {
 
 export interface IAuthChangeUserProfileRequestDto {
   displayName: string;
-  photoURL?: string | null;
 }
 
 export interface IAuthChangeEmailRequestDto {

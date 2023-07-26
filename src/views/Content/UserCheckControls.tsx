@@ -37,6 +37,7 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
   const validationSchema = useMemo(() => {
     return object().shape({
       answer: string()
+        .trim()
         .required(t('common_input_answer_error_text_required')!),
     });
   }, [t]);

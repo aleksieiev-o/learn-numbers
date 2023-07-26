@@ -12,7 +12,6 @@ import {
   Text
 } from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
-import {useModalActions} from '../../../hooks/useModalActions';
 import {useAuthorizationStore} from '../../../store/hooks';
 import {IAuthChangeEmailRequestDto} from '../../../store/AuthorizationStore';
 import {object, string} from 'yup';
@@ -20,6 +19,7 @@ import {FormikHelpers, useFormik} from 'formik';
 import {useActionToast} from '../../../hooks/useActionToast';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import {useLoading} from '../../../hooks/useLoading';
 
 interface Props {
   isOpen: boolean;
@@ -33,6 +33,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   const {showActionToast} = useActionToast();
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const [needReAuth, setNeedReAuth] = useState<boolean>(false);
+  const {isLoading, setIsLoading} = useLoading();
 
   const initialChangeUserProfileValues: IAuthChangeEmailRequestDto = {
     newEmail: '',
@@ -66,6 +67,8 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   }, [t]);
 
   const submitHandler = async (payload: IAuthChangeEmailRequestDto, formikHelpers: FormikHelpers<IAuthChangeEmailRequestDto>) => {
+    setIsLoading(true);
+
     try {
       if (needReAuth) {
         await authorizationStore.reAuthUser({ email: payload.email, password: payload.password });
@@ -73,6 +76,8 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
       } else {
         await authorizationStore.updateUserEmail(payload);
       }
+
+      onClose();
 
       showActionToast({
         title: t('common_toast_change_email_success_title')!,
@@ -90,6 +95,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
     } finally {
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
+      setIsLoading(false);
     }
   };
   /* eslint-enable */
@@ -101,15 +107,14 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
     validateOnBlur: true,
   });
 
-  const { isLoading, closeEsc, closeOverlayClick, handleActionModalButton, handleCloseModalButton } = useModalActions(formik.handleSubmit, onClose);
   const { touched, errors, getFieldProps } = formik;
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCloseModalButton} closeOnEsc={closeEsc} closeOnOverlayClick={closeOverlayClick}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
       <ModalOverlay/>
 
-      <form onSubmit={handleActionModalButton} style={{ width: '100% '}}>
+      <form onSubmit={formik.handleSubmit} style={{ width: '100% '}}>
         <ModalContent>
           <ModalHeader>{t('common_btn_change_email')}</ModalHeader>
 
@@ -190,7 +195,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={handleCloseModalButton} variant={'outline'} colorScheme={'gray'} title={t('common_cancel_btn')!} mr={4}>
+            <Button onClick={onClose} variant={'outline'} colorScheme={'gray'} title={t('common_cancel_btn')!} mr={4}>
               {t('common_cancel_btn')!}
             </Button>
 
