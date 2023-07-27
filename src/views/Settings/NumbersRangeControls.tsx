@@ -42,7 +42,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
 
       <Stack direction={'column'} w={'full'} alignItems={'center'} justifyContent={'flex-start'} spacing={4}>
         {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
-        <FormControl isRequired={true} isInvalid={!isMinValueValid}>
+        <FormControl isInvalid={!isMinValueValid}>
           <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={0}>
             <FormLabel>{t('common_min_number_label')}</FormLabel>
 
@@ -72,7 +72,7 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
           </Stack>
         </FormControl>
 
-        <FormControl isRequired={true} isInvalid={!isMaxValueValid}>
+        <FormControl isInvalid={!isMaxValueValid}>
           <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={0}>
             <FormLabel>{t('common_max_number_label')}</FormLabel>
 

@@ -69,7 +69,7 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
     const currentUser = AuthorizationStoreService.getCurrentUser();
 
     if (currentUser) {
-      await updatePassword(currentUser, payload.password);
+      await updatePassword(currentUser, payload.newPassword);
     }
   }
 

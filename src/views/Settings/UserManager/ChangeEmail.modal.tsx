@@ -35,14 +35,13 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   const [needReAuth, setNeedReAuth] = useState<boolean>(false);
   const {isLoading, setIsLoading} = useLoading();
 
-  const initialChangeUserProfileValues: IAuthChangeEmailRequestDto = {
+  const initialChangeEmailValues: IAuthChangeEmailRequestDto = {
     newEmail: '',
     email: '',
     password: '',
   };
 
   // TODO after change app language, error text don't translate
-  // TODO du two validationScheme for only newEmail and newEmail, email, password
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
   const validationChangeEmailSchema = useMemo(() => {
     if (!needReAuth) {
@@ -115,7 +114,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   /* eslint-enable */
 
   const formik = useFormik({
-    initialValues: initialChangeUserProfileValues,
+    initialValues: initialChangeEmailValues,
     validationSchema: validationChangeEmailSchema,
     onSubmit: submitHandler,
     validateOnBlur: true,

@@ -14,14 +14,12 @@ export interface IAuthChangeUserProfileRequestDto {
   displayName: string;
 }
 
-export interface IAuthChangeEmailRequestDto {
+export interface IAuthChangeEmailRequestDto extends IAuthSignInRequestDto {
   newEmail: string;
-  email: string;
-  password: string;
 }
 
-export interface IAuthChangePasswordRequestDto {
-  password: string;
+export interface IAuthChangePasswordRequestDto extends IAuthSignInRequestDto {
+  newPassword: string;
 }
 
 export interface User {
