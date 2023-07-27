@@ -2,8 +2,3 @@ html, body, #root {
   width: 100%;
   height: 100%;
 }
-
-/* TODO fix Toast Portal z-index if Settings block is open */
-/*body > .chakra-portal > .chakra-portal-zIndex {*/
-/*  z-index: 2!important;*/
-/*}*/

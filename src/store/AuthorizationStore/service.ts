@@ -15,6 +15,7 @@ interface IAuthorizationStoreService {
   signInEmailPassword: (payload: IAuthSignInRequestDto) => Promise<User>;
   singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => Promise<User>;
   singOut: () => Promise<void>;
+  reAuthUser: (payload: IAuthSignInRequestDto) => Promise<UserCredential>;
   updateUserProfile: (payload: IAuthChangeUserProfileRequestDto) => void;
   updateUserEmail: (payload: IAuthChangeEmailRequestDto) => void;
   updateUserPassword: (payload: IAuthChangePasswordRequestDto) => void;
@@ -46,7 +47,7 @@ export class AuthorizationStoreService implements IAuthorizationStoreService {
   async reAuthUser(payload: IAuthSignInRequestDto): Promise<UserCredential> {
     const credential = EmailAuthProvider.credential(payload.email, payload.password);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return await reauthenticateWithCredential(firebaseAuth.currentUser!, credential); // TODO fix param currentUser
+    return await reauthenticateWithCredential(firebaseAuth.currentUser!, credential);
   }
 
   async updateUserProfile(payload: IAuthChangeUserProfileRequestDto): Promise<void> {

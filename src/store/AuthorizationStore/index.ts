@@ -36,6 +36,7 @@ interface IAuthorizationStore {
   signInEmailPassword: (payload: IAuthSignInRequestDto) => void;
   singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => void;
   singOut: () => Promise<void>;
+  reAuthUser: (payload: IAuthSignInRequestDto) => Promise<void>;
   updateUserProfile: (payload: IAuthChangeUserProfileRequestDto) => void;
   updateUserEmail: (payload: IAuthChangeEmailRequestDto) => void;
   updateUserPassword: (payload: IAuthChangePasswordRequestDto) => void;
@@ -58,7 +59,7 @@ export class AuthorizationStore implements IAuthorizationStore {
       this.rootStore.globalLoaderStore.setGlobalLoading(true);
 
       if (user && user.uid) {
-        this.setUser(user);
+        await this.reloadFirebaseUser();
 
         this.setAuth(true);
 
@@ -74,61 +75,59 @@ export class AuthorizationStore implements IAuthorizationStore {
     });
   }
 
-  async signInEmailPassword(payload: IAuthSignInRequestDto) {
-    const user = await this.authorizationStoreService.signInEmailPassword(payload);
-    this.setUser(user);
-
+  async signInEmailPassword(payload: IAuthSignInRequestDto): Promise<void> {
+    await this.authorizationStoreService.signInEmailPassword(payload);
+    await this.reloadFirebaseUser();
     await this.rootStore.settingsStore.fetchAppSettings();
-
     this.setAuth(true);
   }
 
-  async singUpEmailAndPassword(payload: IAuthSignInRequestDto) {
-    const user = await this.authorizationStoreService.singUpEmailAndPassword(payload);
-
-    this.setUser(user);
+  async singUpEmailAndPassword(payload: IAuthSignInRequestDto): Promise<void> {
+    await this.authorizationStoreService.singUpEmailAndPassword(payload);
+    await this.reloadFirebaseUser();
     this.setAuth(true);
 
     await this.rootStore.settingsStore.createAppSettings();
     await this.rootStore.settingsStore.createSpeechSettings();
   }
 
-  async singOut() {
+  async singOut(): Promise<void> {
     await this.authorizationStoreService.singOut();
   }
 
-  async reAuthUser(payload: IAuthSignInRequestDto) {
+  async reAuthUser(payload: IAuthSignInRequestDto): Promise<void> {
     await this.authorizationStoreService.reAuthUser(payload);
   }
 
-  async updateUserProfile(payload: IAuthChangeUserProfileRequestDto) {
+  async updateUserProfile(payload: IAuthChangeUserProfileRequestDto): Promise<void> {
     await this.authorizationStoreService.updateUserProfile(payload);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.setUser(firebaseAuth.currentUser!); // TODO fix param currentUser
+    await this.reloadFirebaseUser();
   }
 
-  async updateUserEmail(payload: IAuthChangeEmailRequestDto) {
+  async updateUserEmail(payload: IAuthChangeEmailRequestDto): Promise<void> {
     await this.authorizationStoreService.updateUserEmail(payload);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.setUser(firebaseAuth.currentUser!); // TODO fix param currentUser
+    await this.reloadFirebaseUser();
   }
 
-  async updateUserPassword(payload: IAuthChangePasswordRequestDto) {
+  async updateUserPassword(payload: IAuthChangePasswordRequestDto): Promise<void> {
     await this.authorizationStoreService.updateUserPassword(payload);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.setUser(firebaseAuth.currentUser!); // TODO fix param currentUser
+    await this.reloadFirebaseUser();
   }
 
   get userUid(): string {
     return this.user.uid;
   }
 
-  private setUser(fbUser: FirebaseUser): void {
-    this.user = {
-      uid: fbUser.uid,
-      displayName: fbUser.displayName,
-      email: fbUser.email,
-    };
+  private async reloadFirebaseUser(): Promise<void> {
+    await firebaseAuth.currentUser?.reload();
+
+    if (firebaseAuth.currentUser) {
+      this.user = {
+        uid: firebaseAuth.currentUser.uid,
+        displayName: firebaseAuth.currentUser.displayName,
+        email: firebaseAuth.currentUser.email,
+      };
+    }
   }
 
   private setAuth(status: boolean): void {
@@ -136,7 +135,7 @@ export class AuthorizationStore implements IAuthorizationStore {
   }
 
   private resetLocalData(): void {
-    this.setUser({} as FirebaseUser);
+    this.user = {} as FirebaseUser;
     this.setAuth(false);
   }
 }
