@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import {makeAutoObservable} from 'mobx';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../../firebase';
 import { User as FirebaseUser } from '@firebase/auth';
@@ -28,13 +28,21 @@ export interface User {
   email: string | null
 }
 
+enum EnumAuthStateChangeType {
+  UNDEFINED,
+  SIGN_IN,
+  SIGN_UP,
+  SIGN_OUT,
+}
+
 interface IAuthorizationStore {
   rootStore: RootStore;
   authorizationStoreService: AuthorizationStoreService;
   user: User;
   isAuth: boolean;
-  signInEmailPassword: (payload: IAuthSignInRequestDto) => void;
-  singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => void;
+  authStateChangeType: EnumAuthStateChangeType,
+  signInEmailPassword: (payload: IAuthSignInRequestDto) => Promise<void>;
+  singUpEmailAndPassword: (payload: IAuthSignInRequestDto) => Promise<void>;
   singOut: () => Promise<void>;
   reAuthUser: (payload: IAuthSignInRequestDto) => Promise<void>;
   updateUserProfile: (payload: IAuthChangeUserProfileRequestDto) => void;
@@ -48,6 +56,7 @@ export class AuthorizationStore implements IAuthorizationStore {
 
   user: User = {} as User;
   isAuth = false;
+  authStateChangeType = EnumAuthStateChangeType.UNDEFINED;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -59,39 +68,27 @@ export class AuthorizationStore implements IAuthorizationStore {
       this.rootStore.globalLoaderStore.setGlobalLoading(true);
 
       if (user && user.uid) {
-        await this.reloadFirebaseUser();
-
-        this.setAuth(true);
-
-        await this.rootStore.settingsStore.fetchAppSettings();
-        await this.rootStore.settingsStore.fetchSpeechSettings();
-
-        await this.rootStore.globalLoaderStore.setGlobalLoading(false);
+        await this.initApp();
       } else {
         this.resetLocalData();
-
-        this.rootStore.globalLoaderStore.setGlobalLoading(false);
       }
+
+      this.rootStore.globalLoaderStore.setGlobalLoading(false);
     });
   }
 
   async signInEmailPassword(payload: IAuthSignInRequestDto): Promise<void> {
+    this.authStateChangeType = EnumAuthStateChangeType.SIGN_IN;
     await this.authorizationStoreService.signInEmailPassword(payload);
-    await this.reloadFirebaseUser();
-    await this.rootStore.settingsStore.fetchAppSettings();
-    this.setAuth(true);
   }
 
   async singUpEmailAndPassword(payload: IAuthSignInRequestDto): Promise<void> {
+    this.authStateChangeType = EnumAuthStateChangeType.SIGN_UP;
     await this.authorizationStoreService.singUpEmailAndPassword(payload);
-    await this.reloadFirebaseUser();
-    this.setAuth(true);
-
-    await this.rootStore.settingsStore.createAppSettings();
-    await this.rootStore.settingsStore.createSpeechSettings();
   }
 
   async singOut(): Promise<void> {
+    this.authStateChangeType = EnumAuthStateChangeType.SIGN_OUT;
     await this.authorizationStoreService.singOut();
   }
 
@@ -116,6 +113,20 @@ export class AuthorizationStore implements IAuthorizationStore {
 
   get userUid(): string {
     return this.user.uid;
+  }
+
+  private async initApp(): Promise<void> {
+    await this.reloadFirebaseUser();
+
+    this.setAuth(true);
+
+    if (this.authStateChangeType === EnumAuthStateChangeType.SIGN_UP) {
+      await this.rootStore.settingsStore.createAppSettings();
+      await this.rootStore.settingsStore.createSpeechSettings();
+    }
+
+    await this.rootStore.settingsStore.fetchAppSettings();
+    await this.rootStore.settingsStore.fetchSpeechSettings();
   }
 
   private async reloadFirebaseUser(): Promise<void> {

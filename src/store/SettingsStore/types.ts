@@ -48,6 +48,9 @@ export interface ISettingsStore {
   appSettings: IAppSettings;
   speechSettings: ISpeechSettings;
 
+  fetchAppSettings: () => Promise<void>;
+  fetchSpeechSettings: () => Promise<void>;
+
   updateAppLocale: (locale: IAppLocale) => void;
   updateAppTheme: (theme: IAppTheme) => void;
 
@@ -57,4 +60,7 @@ export interface ISettingsStore {
   updateSpeechRateValue: (value: number) => void;
   updateSpeechPitchValue: (value: number) => void;
   updateSpeechLocale: (locale: string) => void;
+
+  createAppSettings: () => Promise<void>;
+  createSpeechSettings: () => Promise<void>;
 }
