@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../../firebase';
-import { User as FirebaseUser } from '@firebase/auth';
+import { User } from '@firebase/auth';
 import { AuthorizationStoreService } from './service';
 import { RootStore } from '../index';
 
@@ -22,7 +22,7 @@ export interface IAuthChangePasswordRequestDto extends IAuthSignInRequestDto {
   newPassword: string;
 }
 
-export interface User {
+interface IUser {
   uid: string;
   displayName: string | null
   email: string | null
@@ -38,7 +38,7 @@ enum EnumAuthStateChangeType {
 interface IAuthorizationStore {
   rootStore: RootStore;
   authorizationStoreService: AuthorizationStoreService;
-  user: User;
+  user: IUser;
   isAuth: boolean;
   authStateChangeType: EnumAuthStateChangeType,
   signInEmailPassword: (payload: IAuthSignInRequestDto) => Promise<void>;
@@ -54,7 +54,7 @@ export class AuthorizationStore implements IAuthorizationStore {
   rootStore: RootStore;
   authorizationStoreService: AuthorizationStoreService;
 
-  user: User = {} as User;
+  user: IUser = {} as IUser;
   isAuth = false;
   authStateChangeType = EnumAuthStateChangeType.UNDEFINED;
 
@@ -64,7 +64,7 @@ export class AuthorizationStore implements IAuthorizationStore {
 
     makeAutoObservable(this);
 
-    onAuthStateChanged(firebaseAuth, async (user: FirebaseUser | null) => {
+    onAuthStateChanged(firebaseAuth, async (user: User | null) => {
       this.rootStore.globalLoaderStore.setGlobalLoading(true);
 
       if (user && user.uid) {
@@ -146,7 +146,7 @@ export class AuthorizationStore implements IAuthorizationStore {
   }
 
   private resetLocalData(): void {
-    this.user = {} as FirebaseUser;
+    this.user = {} as User;
     this.setAuth(false);
   }
 }

@@ -1,7 +1,7 @@
 import { useLoading } from './useLoading';
 import {FormEvent, useState} from 'react';
 
-interface UseModalActions {
+interface IUseModalActions {
   isLoading: boolean;
   closeEsc: boolean;
   closeOverlayClick: boolean;
@@ -9,7 +9,7 @@ interface UseModalActions {
   handleCloseModalButton: () => void;
 }
 
-export const useModalActions = (handleAction: () => void | Promise<void>, onClose: () => void): UseModalActions => {
+export const useModalActions = (handleAction: () => void | Promise<void>, onClose: () => void): IUseModalActions => {
   const {isLoading, setIsLoading} = useLoading();
   const [closeEsc, setCloseEsc] = useState<boolean>(true);
   const [closeOverlayClick, setCloseOverlayClick] = useState<boolean>(true);

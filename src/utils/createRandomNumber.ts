@@ -1,9 +1,9 @@
-interface RandomNumber {
+interface IRandomNumber {
   id: string;
   value: number;
 }
 
-export const createRandomNumber = (min: number, max: number): RandomNumber => {
+export const createRandomNumber = (min: number, max: number): IRandomNumber => {
   const randomNumber = min + Math.random() * (max - min);
 
   return {

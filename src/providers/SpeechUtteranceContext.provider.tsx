@@ -4,7 +4,7 @@ interface Props {
   children: ReactElement;
 }
 
-export interface StartPlayingDto {
+export interface IStartPlayingDto {
   text: string;
   langURI: string;
   volume: number;
@@ -12,17 +12,17 @@ export interface StartPlayingDto {
   pitch: number;
 }
 
-interface SpeechUtteranceContextState {
+interface ISpeechUtteranceContextState {
   voicesList: Array<SpeechSynthesisVoice>;
   isSpeaking: boolean;
   isPause: boolean;
-  start: (payload: StartPlayingDto) => void;
+  start: (payload: IStartPlayingDto) => void;
   stop: () => void;
   pause: () => void;
   resume: () => void;
 }
 
-export const SpeechUtteranceContext = createContext<SpeechUtteranceContextState>({
+export const SpeechUtteranceContext = createContext<ISpeechUtteranceContextState>({
   voicesList: [],
   isSpeaking: false,
   isPause: false,
@@ -73,7 +73,7 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
     speech.cancel();
   };
 
-  const start = (payload: StartPlayingDto): void => {
+  const start = (payload: IStartPlayingDto): void => {
     const {text, langURI, volume, rate, pitch} = payload;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const voice: SpeechSynthesisVoice = voicesList.find((voice: SpeechSynthesisVoice) => voice.voiceURI === langURI)!;
@@ -104,7 +104,7 @@ const SpeechUtteranceContextProvider: FC<Props> = ({ children }): ReactElement =
     speech.resume();
   };
 
-  const themeContext: SpeechUtteranceContextState = {
+  const themeContext: ISpeechUtteranceContextState = {
     voicesList,
     start,
     stop,
