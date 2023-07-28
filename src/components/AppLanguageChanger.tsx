@@ -2,31 +2,31 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Icon, IconButton, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
-import {IAppLocale} from '../store/SettingsStore/types';
+import {EnumAppLocale} from '../store/SettingsStore/types';
 import {useSettingsStore} from '../store/hooks';
 import {observer} from 'mobx-react-lite';
 
-enum AppLangTitle {
+enum EnumAppLangTitle {
   EN_US = 'English',
   RU_RU = 'Русский',
 }
 
 const AppLanguageChanger: FC = observer((): ReactElement => {
-  const [language, setLanguage] = useState<IAppLocale>(IAppLocale.EN_US);
+  const [language, setLanguage] = useState<EnumAppLocale>(EnumAppLocale.EN_US);
   const { t, i18n } = useTranslation(['common']);
   const settingsStore = useSettingsStore();
 
-  const languages: Array<{ title: AppLangTitle, lang: IAppLocale }> = [
-    { title: AppLangTitle.EN_US, lang: IAppLocale.EN_US },
-    { title: AppLangTitle.RU_RU, lang: IAppLocale.RU_RU },
+  const languages: Array<{ title: EnumAppLangTitle, lang: EnumAppLocale }> = [
+    { title: EnumAppLangTitle.EN_US, lang: EnumAppLocale.EN_US },
+    { title: EnumAppLangTitle.RU_RU, lang: EnumAppLocale.RU_RU },
   ];
 
-  const changeLocale = async (lang: IAppLocale): Promise<void> => {
+  const changeLocale = async (lang: EnumAppLocale): Promise<void> => {
     await i18n.changeLanguage(lang);
     await setLanguage(lang);
   };
 
-  const updateLocale = async (lang: IAppLocale) => {
+  const updateLocale = async (lang: EnumAppLocale) => {
     await settingsStore.updateAppLocale(lang);
   };
 

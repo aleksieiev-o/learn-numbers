@@ -3,14 +3,14 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import { useTranslation } from 'react-i18next';
 import { useModalActions } from '../hooks/useModalActions';
 
-export enum ActionConfirmationModalType {
+export enum EnumActionConfirmationModalType {
   INFO,
   WARNING,
   DANGER,
 }
 
 interface Props {
-  modalType: ActionConfirmationModalType;
+  modalType: EnumActionConfirmationModalType;
   modalTitle: string;
   modalDescription: string;
   modalQuestion: string;
@@ -26,9 +26,9 @@ const ActionConfirmationModal: FC<Props> = (props): ReactElement => {
   const { isLoading, closeEsc, closeOverlayClick, handleActionModalButton, handleCloseModalButton } = useModalActions(handleAction, onClose);
 
   const actionButtonColorScheme = {
-    [ActionConfirmationModalType.INFO]: 'twitter',
-    [ActionConfirmationModalType.WARNING]: 'orange',
-    [ActionConfirmationModalType.DANGER]: 'red',
+    [EnumActionConfirmationModalType.INFO]: 'twitter',
+    [EnumActionConfirmationModalType.WARNING]: 'orange',
+    [EnumActionConfirmationModalType.DANGER]: 'red',
   }[modalType];
 
   return (

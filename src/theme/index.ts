@@ -1,12 +1,12 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
-export enum ColorMode {
+export enum EnumColorMode {
   LIGHT = 'light',
   DARK = 'dark',
 }
 
 const config: ThemeConfig = {
-  initialColorMode: ColorMode.LIGHT,
+  initialColorMode: EnumColorMode.LIGHT,
   useSystemColorMode: true,
 };
 

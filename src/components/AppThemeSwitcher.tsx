@@ -1,12 +1,12 @@
 import React, {FC, ReactElement, useEffect} from 'react';
-import {ColorMode} from '../theme';
+import {EnumColorMode} from '../theme';
 import {Icon, IconButton, useColorMode} from '@chakra-ui/react';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import {observer} from 'mobx-react-lite';
 import {useLoading} from '../hooks/useLoading';
 import {useTranslation} from 'react-i18next';
-import {IAppTheme} from '../store/SettingsStore/types';
+import {EnumAppTheme} from '../store/SettingsStore/types';
 import {useSettingsStore} from '../store/hooks';
 
 const AppThemeSwitcher: FC = observer((): ReactElement => {
@@ -18,10 +18,10 @@ const AppThemeSwitcher: FC = observer((): ReactElement => {
   const updateTheme = async () => {
     setIsLoading(true);
 
-    if (settingsStore.appSettings.appTheme === IAppTheme.LIGHT) {
-      await settingsStore.updateAppTheme(IAppTheme.DARK);
+    if (settingsStore.appSettings.appTheme === EnumAppTheme.LIGHT) {
+      await settingsStore.updateAppTheme(EnumAppTheme.DARK);
     } else {
-      await settingsStore.updateAppTheme(IAppTheme.LIGHT);
+      await settingsStore.updateAppTheme(EnumAppTheme.LIGHT);
     }
 
     await setIsLoading(false);
@@ -40,9 +40,9 @@ const AppThemeSwitcher: FC = observer((): ReactElement => {
         colorScheme={'gray'}
         variant={'outline'}
         boxShadow={'md'}
-        title={colorMode === ColorMode.DARK ? t('common_set_light_theme_title')! : t('common_set_dark_theme_title')!}
-        aria-label={colorMode === ColorMode.DARK ? 'Set light theme' : 'Set dark theme'}
-        icon={<Icon as={colorMode === ColorMode.DARK ? LightModeIcon : DarkModeIcon}/>}/>
+        title={colorMode === EnumColorMode.DARK ? t('common_set_light_theme_title')! : t('common_set_dark_theme_title')!}
+        aria-label={colorMode === EnumColorMode.DARK ? 'Set light theme' : 'Set dark theme'}
+        icon={<Icon as={colorMode === EnumColorMode.DARK ? LightModeIcon : DarkModeIcon}/>}/>
       {/* eslint-enable */}
     </>
   );

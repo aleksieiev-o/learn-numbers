@@ -2,13 +2,13 @@ import {makeAutoObservable} from 'mobx';
 import { RootStore } from '../index';
 import { SettingsStoreService } from './service';
 import {
-  BaseSettingsEndpoints,
-  IAppLocale,
+  EnumBaseSettingsEndpoints,
+  EnumAppLocale,
   IAppSettings,
-  IAppTheme,
+  EnumAppTheme,
   ISettingsStore,
   ISpeechSettings,
-  SettingsEndpoints
+  EnumSettingsEndpoints
 } from './types';
 
 export class SettingsStore implements ISettingsStore {
@@ -25,8 +25,8 @@ export class SettingsStore implements ISettingsStore {
     this.settingsStoreService = new SettingsStoreService(this.rootStore);
 
     this.appSettings = {
-      appLocale: window.localStorage.getItem('i18nextLng') as IAppLocale || IAppLocale.EN_US,
-      appTheme: window.localStorage.getItem('chakra-ui-color-mode') as IAppTheme || IAppTheme.LIGHT,
+      appLocale: window.localStorage.getItem('i18nextLng') as EnumAppLocale || EnumAppLocale.EN_US,
+      appTheme: window.localStorage.getItem('chakra-ui-color-mode') as EnumAppTheme || EnumAppTheme.LIGHT,
     };
 
     this.speechSettings = {
@@ -51,43 +51,53 @@ export class SettingsStore implements ISettingsStore {
   }
 
   async createAppSettings(): Promise<void> {
-    await this.settingsStoreService.createSettings<IAppSettings, BaseSettingsEndpoints.APP_SETTINGS>(this.appSettings, BaseSettingsEndpoints.APP_SETTINGS);
+    await this.settingsStoreService
+      .createSettings<IAppSettings, EnumBaseSettingsEndpoints.APP_SETTINGS>(this.appSettings, EnumBaseSettingsEndpoints.APP_SETTINGS);
   }
 
   async createSpeechSettings(): Promise<void> {
-    await this.settingsStoreService.createSettings<ISpeechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS>(this.speechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS);
+    await this.settingsStoreService
+      .createSettings<ISpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS>(this.speechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS);
   }
 
-  async updateAppLocale(value: IAppLocale): Promise<void> {
-    this.appSettings.appLocale = await this.settingsStoreService.updateSettingsItem<IAppLocale, SettingsEndpoints.APP_LOCALE>(value, SettingsEndpoints.APP_LOCALE);
+  async updateAppLocale(value: EnumAppLocale): Promise<void> {
+    this.appSettings.appLocale = await this.settingsStoreService
+      .updateSettingsItem<EnumAppLocale, EnumSettingsEndpoints.APP_LOCALE>(value, EnumSettingsEndpoints.APP_LOCALE);
   }
 
-  async updateAppTheme(value: IAppTheme): Promise<void> {
-    this.appSettings.appTheme = await this.settingsStoreService.updateSettingsItem<IAppTheme, SettingsEndpoints.APP_THEME>(value, SettingsEndpoints.APP_THEME);
+  async updateAppTheme(value: EnumAppTheme): Promise<void> {
+    this.appSettings.appTheme = await this.settingsStoreService
+      .updateSettingsItem<EnumAppTheme, EnumSettingsEndpoints.APP_THEME>(value, EnumSettingsEndpoints.APP_THEME);
   }
 
   async updateSpeechMinValue(value: number): Promise<void> {
-    this.speechSettings.speechMinValue = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_MIN_VALUE>(value, SettingsEndpoints.SPEECH_MIN_VALUE);
+    this.speechSettings.speechMinValue = await this.settingsStoreService
+      .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_MIN_VALUE>(value, EnumSettingsEndpoints.SPEECH_MIN_VALUE);
   }
 
   async updateSpeechMaxValue(value: number): Promise<void> {
-    this.speechSettings.speechMaxValue = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_MAX_VALUE>(value, SettingsEndpoints.SPEECH_MAX_VALUE);
+    this.speechSettings.speechMaxValue = await this.settingsStoreService
+      .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_MAX_VALUE>(value, EnumSettingsEndpoints.SPEECH_MAX_VALUE);
   }
 
   async updateSpeechVolumeValue(value: number): Promise<void> {
-    this.speechSettings.speechVolume = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_VOLUME>(value, SettingsEndpoints.SPEECH_VOLUME);
+    this.speechSettings.speechVolume = await this.settingsStoreService
+      .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_VOLUME>(value, EnumSettingsEndpoints.SPEECH_VOLUME);
   }
 
   async updateSpeechRateValue(value: number): Promise<void> {
-    this.speechSettings.speechRate = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_RATE>(value, SettingsEndpoints.SPEECH_RATE);
+    this.speechSettings.speechRate = await this.settingsStoreService
+      .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_RATE>(value, EnumSettingsEndpoints.SPEECH_RATE);
   }
 
   async updateSpeechPitchValue(value: number): Promise<void> {
-    this.speechSettings.speechPitch = await this.settingsStoreService.updateSettingsItem<number, SettingsEndpoints.SPEECH_PITCH>(value, SettingsEndpoints.SPEECH_PITCH);
+    this.speechSettings.speechPitch = await this.settingsStoreService
+      .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_PITCH>(value, EnumSettingsEndpoints.SPEECH_PITCH);
   }
 
   async updateSpeechLocale(value: string): Promise<void> {
-    this.speechSettings.speechLocale = await this.settingsStoreService.updateSettingsItem<string, SettingsEndpoints.SPEECH_LOCALE>(value, SettingsEndpoints.SPEECH_LOCALE);
+    this.speechSettings.speechLocale = await this.settingsStoreService
+      .updateSettingsItem<string, EnumSettingsEndpoints.SPEECH_LOCALE>(value, EnumSettingsEndpoints.SPEECH_LOCALE);
   }
 
   // private static getCurrentLocaleName(browser: Bowser.Parser.Details) {

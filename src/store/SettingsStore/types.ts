@@ -1,22 +1,22 @@
 import { RootStore } from '../index';
 import { SettingsStoreService } from './service';
 
-export enum IAppLocale {
+export enum EnumAppLocale {
   EN_US = 'en-US',
   RU_RU = 'ru-RU',
 }
 
-export enum IAppTheme {
+export enum EnumAppTheme {
   LIGHT = 'light',
   DARK = 'dark',
 }
 
-export enum BaseSettingsEndpoints {
+export enum EnumBaseSettingsEndpoints {
   APP_SETTINGS = '[id]/app-settings',
   SPEECH_SETTINGS = '[id]/speech-settings',
 }
 
-export enum SettingsEndpoints {
+export enum EnumSettingsEndpoints {
   APP_LOCALE = '[id]/app-settings/appLocale',
   APP_THEME = '[id]/app-settings/appTheme',
 
@@ -29,8 +29,8 @@ export enum SettingsEndpoints {
 }
 
 export interface IAppSettings {
-  appLocale: IAppLocale;
-  appTheme: IAppTheme;
+  appLocale: EnumAppLocale;
+  appTheme: EnumAppTheme;
 }
 
 export interface ISpeechSettings {
@@ -51,8 +51,8 @@ export interface ISettingsStore {
   fetchAppSettings: () => Promise<void>;
   fetchSpeechSettings: () => Promise<void>;
 
-  updateAppLocale: (locale: IAppLocale) => void;
-  updateAppTheme: (theme: IAppTheme) => void;
+  updateAppLocale: (locale: EnumAppLocale) => void;
+  updateAppTheme: (theme: EnumAppTheme) => void;
 
   updateSpeechMinValue: (value: number) => void;
   updateSpeechMaxValue: (value: number) => void;

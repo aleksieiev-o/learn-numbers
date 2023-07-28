@@ -9,7 +9,7 @@ import ChangeUserProfileModal from './ChangeUserProfile.modal';
 import ChangeEmailModal from './ChangeEmail.modal';
 import ChangePasswordModal from './ChangePassword.modal';
 import LogoutIcon from '@mui/icons-material/Logout';
-import ActionConfirmationModal, {ActionConfirmationModalType} from '../../../components/ActionConfirmation.modal';
+import ActionConfirmationModal, {EnumActionConfirmationModalType} from '../../../components/ActionConfirmation.modal';
 import {useAuthorizationStore} from '../../../store/hooks';
 import {useNavigate} from 'react-router-dom';
 import {EnumRouter} from '../../../Router';
@@ -101,7 +101,7 @@ const UserManager: FC = observer((): ReactElement => {
           isOpen={isOpenSignOutModal}
           onClose={onCloseSignOutModal}
           handleAction={handleSignOut}
-          modalType={ActionConfirmationModalType.WARNING}
+          modalType={EnumActionConfirmationModalType.WARNING}
           modalTitle={t('common_sign_out_confirm_title')!}
           modalDescription={t('common_sign_out_confirm_message')!}
           modalQuestion={t('common_confirm_question')!}

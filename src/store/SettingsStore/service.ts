@@ -1,6 +1,6 @@
 import {child, DataSnapshot, get, ref, set} from 'firebase/database';
 import {firebaseDataBase} from '../../firebase';
-import {BaseSettingsEndpoints, IAppSettings, ISpeechSettings, SettingsEndpoints} from './types';
+import {EnumBaseSettingsEndpoints, IAppSettings, ISpeechSettings, EnumSettingsEndpoints} from './types';
 import {RootStore} from '../index';
 
 interface ISettingsStoreService {
@@ -9,8 +9,8 @@ interface ISettingsStoreService {
   fetchAppSettings: () => Promise<IAppSettings>;
   fetchSpeechSettings: () => Promise<ISpeechSettings>;
 
-  createSettings: <T, P>(value: T, endpoint: P & BaseSettingsEndpoints) => void;
-  updateSettingsItem: <T, P>(value: T, endpoint: P & SettingsEndpoints) => Promise<T>;
+  createSettings: <T, P>(value: T, endpoint: P & EnumBaseSettingsEndpoints) => void;
+  updateSettingsItem: <T, P>(value: T, endpoint: P & EnumSettingsEndpoints) => Promise<T>;
 }
 
 export class SettingsStoreService implements ISettingsStoreService {
@@ -21,21 +21,21 @@ export class SettingsStoreService implements ISettingsStoreService {
   }
 
   async fetchAppSettings(): Promise<IAppSettings> {
-    return await this.fetchSettings<IAppSettings, BaseSettingsEndpoints.APP_SETTINGS>(BaseSettingsEndpoints.APP_SETTINGS);
+    return await this.fetchSettings<IAppSettings, EnumBaseSettingsEndpoints.APP_SETTINGS>(EnumBaseSettingsEndpoints.APP_SETTINGS);
   }
 
   async fetchSpeechSettings(): Promise<ISpeechSettings> {
-    return await this.fetchSettings<ISpeechSettings, BaseSettingsEndpoints.SPEECH_SETTINGS>(BaseSettingsEndpoints.SPEECH_SETTINGS);
+    return await this.fetchSettings<ISpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS>(EnumBaseSettingsEndpoints.SPEECH_SETTINGS);
   }
 
-  async createSettings<T, P>(value: T, endpoint: P & BaseSettingsEndpoints) {
+  async createSettings<T, P>(value: T, endpoint: P & EnumBaseSettingsEndpoints) {
     if (this.rootStore.authorizationStore.isAuth) {
       const path = this.getSettingsEndpoint(endpoint);
       await set(ref(firebaseDataBase, path), value);
     }
   }
 
-  async updateSettingsItem<T, P>(value: T, endpoint: P & SettingsEndpoints): Promise<T> {
+  async updateSettingsItem<T, P>(value: T, endpoint: P & EnumSettingsEndpoints): Promise<T> {
     if (this.rootStore.authorizationStore.isAuth) {
       const path = this.getSettingsEndpoint(endpoint);
       await set(ref(firebaseDataBase, path), value);
@@ -45,19 +45,19 @@ export class SettingsStoreService implements ISettingsStoreService {
     return Promise.resolve(value);
   }
 
-  private async fetchSettings<T, P>(endpoint: P & BaseSettingsEndpoints): Promise<T> {
+  private async fetchSettings<T, P>(endpoint: P & EnumBaseSettingsEndpoints): Promise<T> {
     const path = this.getSettingsEndpoint(endpoint);
     const snapshot: DataSnapshot = await get(child(ref(firebaseDataBase), path));
     return snapshot.val();
   }
 
-  private async fetchSettingsItem<T, P>(endpoint: P & SettingsEndpoints): Promise<T> {
+  private async fetchSettingsItem<T, P>(endpoint: P & EnumSettingsEndpoints): Promise<T> {
     const path = this.getSettingsEndpoint(endpoint);
     const snapshot: DataSnapshot = await get(child(ref(firebaseDataBase), path));
     return snapshot.val();
   }
 
-  private getSettingsEndpoint(endpoint: SettingsEndpoints | BaseSettingsEndpoints): string {
+  private getSettingsEndpoint(endpoint: EnumSettingsEndpoints | EnumBaseSettingsEndpoints): string {
     return `${endpoint}`.replace('[id]', this.rootStore.authorizationStore.userUid);
   }
 }

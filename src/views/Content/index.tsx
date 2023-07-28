@@ -9,7 +9,7 @@ import AppLayout from '../../layouts/App.layout';
 import MainLayout from '../../layouts/Main.layout';
 import ContainerLayout from '../../layouts/Container.layout';
 
-export enum SpeechStatus {
+export enum EnumSpeechStatus {
   STOPPED,
   STARTED,
 }
@@ -17,7 +17,7 @@ export enum SpeechStatus {
 const Content: FC = observer((): ReactElement => {
   const settingsStore = useSettingsStore();
   const {start, stop} = useContext(SpeechUtteranceContext);
-  const [speechStatus, setSpeechStatus] = useState<SpeechStatus>(SpeechStatus.STOPPED);
+  const [speechStatus, setSpeechStatus] = useState<EnumSpeechStatus>(EnumSpeechStatus.STOPPED);
   const [currentRandomNumberId, setCurrentRandomNumberId] = useState<string>('');
   const [currentRandomNumber, setCurrentRandomNumber] = useState<number | null>(null);
 
@@ -44,14 +44,14 @@ const Content: FC = observer((): ReactElement => {
   };
 
   const startSpeechProcess = () => {
-    setSpeechStatus(SpeechStatus.STARTED);
+    setSpeechStatus(EnumSpeechStatus.STARTED);
     speechRandomNumber();
   };
 
   const stopSpeechProcess = () => {
     stop();
     setCurrentRandomNumber(null);
-    setSpeechStatus(SpeechStatus.STOPPED);
+    setSpeechStatus(EnumSpeechStatus.STOPPED);
   };
 
   const replayLastNumber = () => {

@@ -5,14 +5,14 @@ import { FormikHelpers, useFormik } from 'formik';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { SpeechStatus } from './index';
+import { EnumSpeechStatus } from './index';
 import { useFocus } from '../../hooks/useFocus';
 import { useTranslation } from 'react-i18next';
 import {AlertStatus} from '@chakra-ui/alert/dist/alert-context';
 import {observer} from 'mobx-react-lite';
 
 interface Props {
-  speechStatus: SpeechStatus;
+  speechStatus: EnumSpeechStatus;
   currentRandomNumber: number | null;
   speechRandomNumber: () => void;
 }
@@ -96,7 +96,7 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
   const { touched, errors, getFieldProps, resetForm } = formik;
 
   useEffect(() => {
-    if (speechStatus === SpeechStatus.STOPPED || currentRandomNumber === null) {
+    if (speechStatus === EnumSpeechStatus.STOPPED || currentRandomNumber === null) {
       setIsShowCorrectAnswer(false);
       resetForm();
     }
@@ -113,7 +113,7 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
 
               <Input
                 ref={answerInputRef}
-                isDisabled={speechStatus === SpeechStatus.STOPPED}
+                isDisabled={speechStatus === EnumSpeechStatus.STOPPED}
                 type={'number'}
                 colorScheme={'twitter'}
                 boxShadow={'md'}
@@ -127,11 +127,11 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
           <GridItem>
             <Button
               type={'submit'}
-              isDisabled={speechStatus === SpeechStatus.STOPPED}
+              isDisabled={speechStatus === EnumSpeechStatus.STOPPED}
               colorScheme={'twitter'}
               variant={'outline'}
               boxShadow={'md'}
-              title={speechStatus === SpeechStatus.STARTED ? t('common_btn_answer_title')! : ''}
+              title={speechStatus === EnumSpeechStatus.STARTED ? t('common_btn_answer_title')! : ''}
               leftIcon={<Icon as={CheckIcon}/>}
               w={'full'}>
               {t('common_btn_answer')}
@@ -143,11 +143,11 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
           <GridItem>
             <Button
               onClick={showCorrectAnswer}
-              isDisabled={speechStatus === SpeechStatus.STOPPED}
+              isDisabled={speechStatus === EnumSpeechStatus.STOPPED}
               colorScheme={'orange'}
               variant={'outline'}
               boxShadow={'md'}
-              title={speechStatus === SpeechStatus.STARTED ? t('common_btn_correct_answer_title')! : ''}
+              title={speechStatus === EnumSpeechStatus.STARTED ? t('common_btn_correct_answer_title')! : ''}
               leftIcon={<Icon as={VisibilityIcon}/>}
               w={'full'}>
               {t('common_btn_correct_answer')}

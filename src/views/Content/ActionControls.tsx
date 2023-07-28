@@ -3,11 +3,11 @@ import { Button, Grid, GridItem, Icon } from '@chakra-ui/react';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { SpeechStatus } from './index';
+import { EnumSpeechStatus } from './index';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-  speechStatus: SpeechStatus;
+  speechStatus: EnumSpeechStatus;
   startSpeechProcess: () => void;
   stopSpeechProcess: () => void;
   replayLastNumber: () => void;
@@ -24,11 +24,11 @@ const ActionControls: FC<Props> = (props): ReactElement => {
         <Button
           onClick={startSpeechProcess}
           w={'full'}
-          isLoading={speechStatus === SpeechStatus.STARTED}
+          isLoading={speechStatus === EnumSpeechStatus.STARTED}
           colorScheme={'green'}
           variant={'outline'}
           boxShadow={'md'}
-          title={speechStatus === SpeechStatus.STOPPED ? t('common_start_btn_title')! : ''}
+          title={speechStatus === EnumSpeechStatus.STOPPED ? t('common_start_btn_title')! : ''}
           leftIcon={<Icon as={PlayArrowIcon}/>}>
           {t('common_start_btn_title')}
         </Button>
@@ -38,11 +38,11 @@ const ActionControls: FC<Props> = (props): ReactElement => {
         <Button
           onClick={replayLastNumber}
           w={'full'}
-          isDisabled={speechStatus === SpeechStatus.STOPPED}
+          isDisabled={speechStatus === EnumSpeechStatus.STOPPED}
           colorScheme={'orange'}
           variant={'outline'}
           boxShadow={'md'}
-          title={speechStatus === SpeechStatus.STARTED ? t('common_replay_btn_title')! : ''}
+          title={speechStatus === EnumSpeechStatus.STARTED ? t('common_replay_btn_title')! : ''}
           leftIcon={<Icon as={ReplayIcon}/>}>
           {t('common_replay_btn_title')}
         </Button>
@@ -52,11 +52,11 @@ const ActionControls: FC<Props> = (props): ReactElement => {
         <Button
           onClick={stopSpeechProcess}
           w={'full'}
-          isDisabled={speechStatus === SpeechStatus.STOPPED}
+          isDisabled={speechStatus === EnumSpeechStatus.STOPPED}
           colorScheme={'red'}
           variant={'outline'}
           boxShadow={'md'}
-          title={speechStatus === SpeechStatus.STARTED ? t('common_stop_btn_title')! : ''}
+          title={speechStatus === EnumSpeechStatus.STARTED ? t('common_stop_btn_title')! : ''}
           leftIcon={<Icon as={StopIcon}/>}>
           {t('common_stop_btn_title')}
         </Button>
