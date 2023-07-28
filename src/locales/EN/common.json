@@ -44,6 +44,8 @@
 
   "common_error_text_number_supported": "Only numbers are supported",
 
+  "common_error_text_field_required": "Field is required",
+
   "common_open_sign_out_modal_btn_title": "Open sign out modal",
   "common_sign_out_btn": "Sign out",
   "common_sign_out_btn_title": "Sign out",
