@@ -1,7 +1,7 @@
 {
   "name": "learn-numbers",
   "description": "Learn numbers application",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Oleksandr Aleksieiev",
   "private": true,
