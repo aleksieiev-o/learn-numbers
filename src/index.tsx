@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './locales/index';
 import './index.css';
@@ -27,5 +27,5 @@ root.render(
   </React.StrictMode>
 );
 
-// serviceWorkerRegistration.register();
+serviceWorkerRegistration.register();
 reportWebVitals();
