@@ -20,9 +20,7 @@
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint-fix": "npm run lint --fix",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
