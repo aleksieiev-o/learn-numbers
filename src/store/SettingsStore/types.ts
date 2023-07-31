@@ -25,7 +25,6 @@ export enum EnumSettingsEndpoints {
   SPEECH_VOLUME = '[id]/speech-settings/speechVolume',
   SPEECH_RATE = '[id]/speech-settings/speechRate',
   SPEECH_PITCH = '[id]/speech-settings/speechPitch',
-  SPEECH_LOCALE = '[id]/speech-settings/speechLocale',
 }
 
 export interface IAppSettings {
@@ -33,12 +32,15 @@ export interface IAppSettings {
   appTheme: EnumAppTheme;
 }
 
-export interface ISpeechSettings {
+export interface IRemoteSpeechSettings {
   speechMinValue: number;
   speechMaxValue: number;
   speechVolume: number;
   speechRate: number;
   speechPitch: number;
+}
+
+export interface ILocalSpeechSettings {
   speechLocale: string;
 }
 
@@ -46,20 +48,21 @@ export interface ISettingsStore {
   rootStore: RootStore;
   settingsStoreService: SettingsStoreService;
   appSettings: IAppSettings;
-  speechSettings: ISpeechSettings;
+  remoteSpeechSettings: IRemoteSpeechSettings;
+  localeSpeechSettings: ILocalSpeechSettings;
 
   fetchAppSettings: () => Promise<void>;
   fetchSpeechSettings: () => Promise<void>;
 
-  updateAppLocale: (locale: EnumAppLocale) => void;
-  updateAppTheme: (theme: EnumAppTheme) => void;
+  updateAppLocale: (locale: EnumAppLocale) => Promise<void>;
+  updateAppTheme: (theme: EnumAppTheme) => Promise<void>;
 
-  updateSpeechMinValue: (value: number) => void;
-  updateSpeechMaxValue: (value: number) => void;
-  updateSpeechVolumeValue: (value: number) => void;
-  updateSpeechRateValue: (value: number) => void;
-  updateSpeechPitchValue: (value: number) => void;
-  updateSpeechLocale: (locale: string) => void;
+  updateSpeechMinValue: (value: number) => Promise<void>;
+  updateSpeechMaxValue: (value: number) => Promise<void>;
+  updateSpeechVolumeValue: (value: number) => Promise<void>;
+  updateSpeechRateValue: (value: number) => Promise<void>;
+  updateSpeechPitchValue: (value: number) => Promise<void>;
+  updateSpeechLocale: (value: string) => void;
 
   createAppSettings: () => Promise<void>;
   createSpeechSettings: () => Promise<void>;

@@ -23,11 +23,11 @@ const NumbersRangeControls: FC = observer((): ReactElement => {
   const {isLoading: isLoadingMax, setIsLoading: setIsLoadingMax} = useLoading();
 
   const minInitialValue: IChangeMinValueDto = {
-    minValue: String(settingsStore.speechSettings.speechMinValue),
+    minValue: String(settingsStore.remoteSpeechSettings.speechMinValue),
   };
 
   const maxInitialValue: IChangeMaxValueDto = {
-    maxValue: String(settingsStore.speechSettings.speechMaxValue),
+    maxValue: String(settingsStore.remoteSpeechSettings.speechMaxValue),
   };
 
   // TODO after change app language, error text don't translate

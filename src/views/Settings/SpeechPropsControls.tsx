@@ -19,7 +19,7 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
 
         <Select
           onChange={(e) => settingsStore.updateSpeechLocale(e.target.value)}
-          value={settingsStore.speechSettings.speechLocale}
+          value={settingsStore.localeSpeechSettings.speechLocale}
           boxShadow={'md'}>
           {
             voicesList.map((voice) => <option value={voice.voiceURI} key={voice.voiceURI}>{voice.name}</option>)
@@ -30,13 +30,13 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
       <FormControl>
         <Stack direction={'row'}>
           <FormLabel>{t('common_speech_volume_label')}:</FormLabel>
-          <Text as={'strong'}>{settingsStore.speechSettings.speechVolume}</Text>
+          <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechVolume}</Text>
         </Stack>
 
         <Slider
           onChangeEnd={(value) => settingsStore.updateSpeechVolumeValue(value)}
           aria-label='speech-volume'
-          defaultValue={settingsStore.speechSettings.speechVolume}
+          defaultValue={settingsStore.remoteSpeechSettings.speechVolume}
           step={0.1}
           min={0}
           max={1}>
@@ -51,13 +51,13 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
       <FormControl>
         <Stack direction={'row'}>
           <FormLabel>{t('common_speech_rate_label')}:</FormLabel>
-          <Text as={'strong'}>{settingsStore.speechSettings.speechRate}</Text>
+          <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechRate}</Text>
         </Stack>
 
         <Slider
           onChangeEnd={(value) => settingsStore.updateSpeechRateValue(value)}
           aria-label='speech-rate'
-          defaultValue={settingsStore.speechSettings.speechRate}
+          defaultValue={settingsStore.remoteSpeechSettings.speechRate}
           step={0.1}
           min={0.1}
           max={2}>
@@ -72,13 +72,13 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
       <FormControl>
         <Stack direction={'row'}>
           <FormLabel>{t('common_speech_pitch_label')}:</FormLabel>
-          <Text as={'strong'}>{settingsStore.speechSettings.speechPitch}</Text>
+          <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechPitch}</Text>
         </Stack>
 
         <Slider
           onChangeEnd={(value) => settingsStore.updateSpeechPitchValue(value)}
           aria-label='speech-pitch'
-          defaultValue={settingsStore.speechSettings.speechPitch}
+          defaultValue={settingsStore.remoteSpeechSettings.speechPitch}
           step={0.1}
           min={0}
           max={2}>

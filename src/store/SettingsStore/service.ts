@@ -1,13 +1,13 @@
 import {child, DataSnapshot, get, ref, set} from 'firebase/database';
 import {firebaseDataBase} from '../../firebase';
-import {EnumBaseSettingsEndpoints, IAppSettings, ISpeechSettings, EnumSettingsEndpoints} from './types';
+import {EnumBaseSettingsEndpoints, IAppSettings, IRemoteSpeechSettings, EnumSettingsEndpoints} from './types';
 import {RootStore} from '../index';
 
 interface ISettingsStoreService {
   rootStore: RootStore;
 
   fetchAppSettings: () => Promise<IAppSettings>;
-  fetchSpeechSettings: () => Promise<ISpeechSettings>;
+  fetchSpeechSettings: () => Promise<IRemoteSpeechSettings>;
 
   createSettings: <T, P>(value: T, endpoint: P & EnumBaseSettingsEndpoints) => void;
   updateSettingsItem: <T, P>(value: T, endpoint: P & EnumSettingsEndpoints) => Promise<T>;
@@ -24,8 +24,8 @@ export class SettingsStoreService implements ISettingsStoreService {
     return await this.fetchSettings<IAppSettings, EnumBaseSettingsEndpoints.APP_SETTINGS>(EnumBaseSettingsEndpoints.APP_SETTINGS);
   }
 
-  async fetchSpeechSettings(): Promise<ISpeechSettings> {
-    return await this.fetchSettings<ISpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS>(EnumBaseSettingsEndpoints.SPEECH_SETTINGS);
+  async fetchSpeechSettings(): Promise<IRemoteSpeechSettings> {
+    return await this.fetchSettings<IRemoteSpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS>(EnumBaseSettingsEndpoints.SPEECH_SETTINGS);
   }
 
   async createSettings<T, P>(value: T, endpoint: P & EnumBaseSettingsEndpoints) {

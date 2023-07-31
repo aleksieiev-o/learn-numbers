@@ -7,8 +7,8 @@ import {
   IAppSettings,
   EnumAppTheme,
   ISettingsStore,
-  ISpeechSettings,
-  EnumSettingsEndpoints
+  IRemoteSpeechSettings,
+  EnumSettingsEndpoints, ILocalSpeechSettings
 } from './types';
 
 export class SettingsStore implements ISettingsStore {
@@ -17,27 +17,54 @@ export class SettingsStore implements ISettingsStore {
   settingsStoreService: SettingsStoreService;
 
   appSettings: IAppSettings;
-  speechSettings: ISpeechSettings;
+  remoteSpeechSettings: IRemoteSpeechSettings;
+  localeSpeechSettings: ILocalSpeechSettings;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-
     this.settingsStoreService = new SettingsStoreService(this.rootStore);
 
+    /** Init appSettings */
     this.appSettings = {
       appLocale: window.localStorage.getItem('i18nextLng') as EnumAppLocale || EnumAppLocale.EN_US,
       appTheme: window.localStorage.getItem('chakra-ui-color-mode') as EnumAppTheme || EnumAppTheme.LIGHT,
     };
 
-    this.speechSettings = {
+    /** Init remoteSpeechSettings */
+    this.remoteSpeechSettings = {
       speechMinValue: 1,
       speechMaxValue: 10,
       speechPitch: 1,
       speechRate: 1,
       speechVolume: 1,
-      speechLocale: 'Google US English',
+    };
+
+    /** Init localeSpeechSettings */
+    const speech: SpeechSynthesis = window.speechSynthesis;
+    const speechLocaleURI = window.localStorage.getItem('speechLocalURI');
+    let defaultVoice: SpeechSynthesisVoice | undefined = undefined;
+
+    if (speech) {
+      speech.onvoiceschanged = () => {
+        defaultVoice = SettingsStore.getDefaultVoice(speech);
+        this.localeSpeechSettings = {
+          speechLocale: speechLocaleURI ? speechLocaleURI : defaultVoice?.voiceURI || 'Google US English',
+          // speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
+        };
+        if (!speechLocaleURI) {
+          this.updateSpeechLocalURI();
+        }
+      };
+    }
+
+    defaultVoice = SettingsStore.getDefaultVoice(speech);
+    this.localeSpeechSettings = {
+      speechLocale: speechLocaleURI ? speechLocaleURI : defaultVoice?.voiceURI || 'Google US English',
       // speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
     };
+    if (!speechLocaleURI) {
+      this.updateSpeechLocalURI();
+    }
 
     makeAutoObservable(this);
   }
@@ -47,7 +74,7 @@ export class SettingsStore implements ISettingsStore {
   }
 
   async fetchSpeechSettings(): Promise<void> {
-    this.speechSettings = await this.settingsStoreService.fetchSpeechSettings();
+    this.remoteSpeechSettings = await this.settingsStoreService.fetchSpeechSettings();
   }
 
   async createAppSettings(): Promise<void> {
@@ -57,7 +84,7 @@ export class SettingsStore implements ISettingsStore {
 
   async createSpeechSettings(): Promise<void> {
     await this.settingsStoreService
-      .createSettings<ISpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS>(this.speechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS);
+      .createSettings<IRemoteSpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS>(this.remoteSpeechSettings, EnumBaseSettingsEndpoints.SPEECH_SETTINGS);
   }
 
   async updateAppLocale(value: EnumAppLocale): Promise<void> {
@@ -71,33 +98,44 @@ export class SettingsStore implements ISettingsStore {
   }
 
   async updateSpeechMinValue(value: number): Promise<void> {
-    this.speechSettings.speechMinValue = await this.settingsStoreService
+    this.remoteSpeechSettings.speechMinValue = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_MIN_VALUE>(value, EnumSettingsEndpoints.SPEECH_MIN_VALUE);
   }
 
   async updateSpeechMaxValue(value: number): Promise<void> {
-    this.speechSettings.speechMaxValue = await this.settingsStoreService
+    this.remoteSpeechSettings.speechMaxValue = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_MAX_VALUE>(value, EnumSettingsEndpoints.SPEECH_MAX_VALUE);
   }
 
   async updateSpeechVolumeValue(value: number): Promise<void> {
-    this.speechSettings.speechVolume = await this.settingsStoreService
+    this.remoteSpeechSettings.speechVolume = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_VOLUME>(value, EnumSettingsEndpoints.SPEECH_VOLUME);
   }
 
   async updateSpeechRateValue(value: number): Promise<void> {
-    this.speechSettings.speechRate = await this.settingsStoreService
+    this.remoteSpeechSettings.speechRate = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_RATE>(value, EnumSettingsEndpoints.SPEECH_RATE);
   }
 
   async updateSpeechPitchValue(value: number): Promise<void> {
-    this.speechSettings.speechPitch = await this.settingsStoreService
+    this.remoteSpeechSettings.speechPitch = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_PITCH>(value, EnumSettingsEndpoints.SPEECH_PITCH);
   }
 
-  async updateSpeechLocale(value: string): Promise<void> {
-    this.speechSettings.speechLocale = await this.settingsStoreService
-      .updateSettingsItem<string, EnumSettingsEndpoints.SPEECH_LOCALE>(value, EnumSettingsEndpoints.SPEECH_LOCALE);
+  updateSpeechLocale(value: string): void {
+    this.localeSpeechSettings.speechLocale = value;
+    this.updateSpeechLocalURI();
+  }
+
+  private updateSpeechLocalURI(): void {
+    window.localStorage.setItem('speechLocalURI', this.localeSpeechSettings.speechLocale);
+  }
+
+  private static getDefaultVoice(speech: SpeechSynthesis | undefined): SpeechSynthesisVoice| undefined {
+    if (speech) {
+      return speech.getVoices().find((item) => item.default);
+    }
+    return speech;
   }
 
   // private static getCurrentLocaleName(browser: Bowser.Parser.Details) {
