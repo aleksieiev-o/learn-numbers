@@ -36,7 +36,7 @@ const Header: FC = observer((): ReactElement => {
               {APP_NAME}
             </Heading>
 
-            <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={{ md: 6, base: 2 }} overflow={'hidden'}>
+            <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={{ md: 6, base: 2 }} overflow={'hidden'} pt={1} pb={1}>
               {
                 authorizationStore.isAuth && <UserInfo/>
               }
