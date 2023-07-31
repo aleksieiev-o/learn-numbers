@@ -101,11 +101,21 @@ export class SettingsStore implements ISettingsStore {
   async updateSpeechMinValue(value: number): Promise<void> {
     this.remoteSpeechSettings.speechMinValue = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_MIN_VALUE>(value, EnumSettingsEndpoints.SPEECH_MIN_VALUE);
+
+    // TODO do rerender input values after call this func
+    // if (this.remoteSpeechSettings.speechMinValue > this.remoteSpeechSettings.speechMaxValue) {
+    //   await this.updateSpeechMaxValue(this.remoteSpeechSettings.speechMinValue);
+    // }
   }
 
   async updateSpeechMaxValue(value: number): Promise<void> {
     this.remoteSpeechSettings.speechMaxValue = await this.settingsStoreService
       .updateSettingsItem<number, EnumSettingsEndpoints.SPEECH_MAX_VALUE>(value, EnumSettingsEndpoints.SPEECH_MAX_VALUE);
+
+    // TODO do rerender input values after call this func
+    // if (this.remoteSpeechSettings.speechMaxValue < this.remoteSpeechSettings.speechMinValue) {
+    //   await this.updateSpeechMinValue(this.remoteSpeechSettings.speechMaxValue);
+    // }
   }
 
   async updateSpeechVolumeValue(value: number): Promise<void> {
