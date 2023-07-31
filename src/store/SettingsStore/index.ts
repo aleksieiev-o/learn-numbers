@@ -41,14 +41,14 @@ export class SettingsStore implements ISettingsStore {
 
     /** Init localeSpeechSettings */
     const speech: SpeechSynthesis = window.speechSynthesis;
-    const speechLocaleURI = window.localStorage.getItem('speechLocalURI');
     let defaultVoice: SpeechSynthesisVoice | undefined = undefined;
 
     if (speech) {
       speech.onvoiceschanged = () => {
+        const speechLocaleURI = window.localStorage.getItem('speechLocalURI');
         defaultVoice = SettingsStore.getDefaultVoice(speech);
         this.localeSpeechSettings = {
-          speechLocale: speechLocaleURI ? speechLocaleURI : defaultVoice?.voiceURI || 'Google US English',
+          speechLocale: speechLocaleURI ? speechLocaleURI : defaultVoice.voiceURI,
           // speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
         };
         if (!speechLocaleURI) {
@@ -57,9 +57,10 @@ export class SettingsStore implements ISettingsStore {
       };
     }
 
+    const speechLocaleURI = window.localStorage.getItem('speechLocalURI');
     defaultVoice = SettingsStore.getDefaultVoice(speech);
     this.localeSpeechSettings = {
-      speechLocale: speechLocaleURI ? speechLocaleURI : defaultVoice?.voiceURI || 'Google US English',
+      speechLocale: speechLocaleURI ? speechLocaleURI : defaultVoice.voiceURI,
       // speechLocale: SettingsStore.getCurrentLocaleName(this.rootStore.bowserBrowser),
     };
     if (!speechLocaleURI) {
@@ -131,11 +132,10 @@ export class SettingsStore implements ISettingsStore {
     window.localStorage.setItem('speechLocalURI', this.localeSpeechSettings.speechLocale);
   }
 
-  private static getDefaultVoice(speech: SpeechSynthesis | undefined): SpeechSynthesisVoice| undefined {
-    if (speech) {
-      return speech.getVoices().find((item) => item.default);
-    }
-    return speech;
+  private static getDefaultVoice(speech: SpeechSynthesis): SpeechSynthesisVoice {
+    // TODO change Non-Null Assertion Operator
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return speech.getVoices().find((item) => item.default)!;
   }
 
   // private static getCurrentLocaleName(browser: Bowser.Parser.Details) {
