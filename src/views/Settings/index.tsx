@@ -33,6 +33,7 @@ const Settings: FC = observer((): ReactElement => {
                   onClick={() => navigate(EnumRouter.MAIN)}
                   colorScheme={'gray'}
                   variant={'outline'}
+                  boxShadow={'md'}
                   title={t('common_back_btn_title')!}>
                   {t('common_back_btn_title')}
                 </Button>

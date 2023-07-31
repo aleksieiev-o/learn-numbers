@@ -39,6 +39,7 @@ const UserManager: FC = observer((): ReactElement => {
           variant={'outline'}
           colorScheme={'gray'}
           w={'full'}
+          boxShadow={'md'}
           title={t('common_btn_change_dn')!}
           leftIcon={<Icon as={PersonIcon}/>}>
           {t('common_btn_change_dn')}
@@ -49,6 +50,7 @@ const UserManager: FC = observer((): ReactElement => {
           variant={'outline'}
           colorScheme={'gray'}
           w={'full'}
+          boxShadow={'md'}
           title={t('common_btn_change_email')!}
           leftIcon={<Icon as={EmailIcon}/>}>
           {t('common_btn_change_email')}
@@ -59,6 +61,7 @@ const UserManager: FC = observer((): ReactElement => {
           variant={'outline'}
           colorScheme={'gray'}
           w={'full'}
+          boxShadow={'md'}
           title={t('common_btn_change_password')!}
           leftIcon={<Icon as={VpnKeyIcon}/>}>
           {t('common_btn_change_password')}
