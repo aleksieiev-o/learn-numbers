@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from 'react';
 import {APP_NAME} from '../../utils/constants';
-import {Container, Heading, Icon, IconButton, Stack, Hide} from '@chakra-ui/react';
+import {Container, Icon, IconButton, Stack, Hide} from '@chakra-ui/react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LoginIcon from '@mui/icons-material/Login';
 import {tabletScreenWidth} from '../../theme';
@@ -12,6 +12,8 @@ import UserInfo from './UserInfo';
 import AppThemeSwitcher from '../AppThemeSwitcher';
 import {useNavigate} from 'react-router-dom';
 import {EnumRouter} from '../../Router';
+import LogoIcon from './Logo.icon';
+import { Link } from 'react-router-dom';
 
 const Header: FC = observer((): ReactElement => {
   const authorizationStore = useAuthorizationStore();
@@ -24,17 +26,11 @@ const Header: FC = observer((): ReactElement => {
       <Stack as={'header'} w={'full'} boxShadow={'md'}>
         <Container centerContent={true} w={'full'} maxW={'6xl'} p={4}>
           <Stack direction={'row'} w={'full'} alignItems={'center'} justifyContent={'space-between'} minH={'50px'}>
-            <Heading
-              onClick={() => navigate(EnumRouter.MAIN)}
-              as={'h4'}
-              fontSize={{ md: 32, base: 20 }}
-              color={'twitter.600'}
-              cursor={'default'}
-              whiteSpace={'nowrap'} mr={4}
-              title={APP_NAME}
-              style={{ cursor: 'pointer' }}>
-              {APP_NAME}
-            </Heading>
+            <Stack mr={10}>
+              <Link to={EnumRouter.MAIN}>
+                <LogoIcon size={60} title={APP_NAME}/>
+              </Link>
+            </Stack>
 
             <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={{ md: 6, base: 2 }} overflow={'hidden'} pt={1} pb={1}>
               {
