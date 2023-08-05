@@ -75,7 +75,7 @@ const ChangePasswordModal: FC<Props> = observer((props): ReactElement => {
     });
   }, [t, needReAuth]);
 
-  const submitHandler = async (payload: IAuthChangePasswordRequestDto, formikHelpers: FormikHelpers<IAuthChangePasswordRequestDto>) => {
+  const handleSubmit = async (payload: IAuthChangePasswordRequestDto, formikHelpers: FormikHelpers<IAuthChangePasswordRequestDto>) => {
     setIsLoading(true);
 
     try {
@@ -94,8 +94,7 @@ const ChangePasswordModal: FC<Props> = observer((props): ReactElement => {
         description: t('common_toast_change_password_success_description')!,
         status: 'success',
       });
-    } catch (err) {
-      console.warn(err);
+    } catch (err: unknown) {
       setNeedReAuth(true);
 
       showActionToast({
@@ -113,7 +112,7 @@ const ChangePasswordModal: FC<Props> = observer((props): ReactElement => {
   const formik = useFormik({
     initialValues: initialChangePasswordValues,
     validationSchema: validationChangePasswordSchema,
-    onSubmit: submitHandler,
+    onSubmit: handleSubmit,
     validateOnBlur: true,
   });
 

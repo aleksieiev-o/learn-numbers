@@ -49,7 +49,7 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
     });
   }, [t]);
 
-  const submitHandler = async (payload: IAuthChangeUserProfileRequestDto, formikHelpers: FormikHelpers<IAuthChangeUserProfileRequestDto>) => {
+  const handleSubmit = async (payload: IAuthChangeUserProfileRequestDto, formikHelpers: FormikHelpers<IAuthChangeUserProfileRequestDto>) => {
     setIsLoading(true);
 
     try {
@@ -60,7 +60,7 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
         description: t('common_toast_change_dn_success_description')!,
         status: 'success',
       });
-    } catch (err) {
+    } catch (err: unknown) {
       showActionToast({
         title: t('common_toast_change_dn_error_title')!,
         description: t('common_toast_change_dn_error_description')!,
@@ -78,7 +78,7 @@ const ChangeUserProfileModal: FC<Props> = observer((props): ReactElement => {
   const formik = useFormik({
     initialValues: initialChangeUserProfileValues,
     validationSchema: validationChangeUserProfileSchema,
-    onSubmit: submitHandler,
+    onSubmit: handleSubmit,
     validateOnBlur: true,
   });
 

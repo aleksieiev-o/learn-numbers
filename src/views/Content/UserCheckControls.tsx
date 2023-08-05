@@ -61,7 +61,7 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
     });
   };
 
-  const submitHandler = async (payload: ICheckResultDto, formikHelpers: FormikHelpers<ICheckResultDto>) => {
+  const handleSubmit = async (payload: ICheckResultDto, formikHelpers: FormikHelpers<ICheckResultDto>) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const isCorrectAnswer = currentRandomNumber! === parseInt(payload.answer, 10);
 
@@ -89,7 +89,7 @@ const UserCheckControls: FC<Props> = observer((props): ReactElement => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: submitHandler,
+    onSubmit: handleSubmit,
     validateOnBlur: true,
   });
 

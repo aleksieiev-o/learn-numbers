@@ -78,7 +78,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
     });
   }, [t, needReAuth]);
 
-  const submitHandler = async (payload: IAuthChangeEmailRequestDto, formikHelpers: FormikHelpers<IAuthChangeEmailRequestDto>) => {
+  const handleSubmit = async (payload: IAuthChangeEmailRequestDto, formikHelpers: FormikHelpers<IAuthChangeEmailRequestDto>) => {
     setIsLoading(true);
 
     try {
@@ -97,8 +97,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
         description: t('common_toast_change_email_success_description')!,
         status: 'success',
       });
-    } catch (err) {
-      console.warn(err);
+    } catch (err: unknown) {
       setNeedReAuth(true);
 
       showActionToast({
@@ -116,7 +115,7 @@ const ChangeEmailModal: FC<Props> = observer((props): ReactElement => {
   const formik = useFormik({
     initialValues: initialChangeEmailValues,
     validationSchema: validationChangeEmailSchema,
-    onSubmit: submitHandler,
+    onSubmit: handleSubmit,
     validateOnBlur: true,
   });
 

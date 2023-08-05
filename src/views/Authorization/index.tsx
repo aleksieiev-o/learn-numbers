@@ -18,6 +18,8 @@ import ContainerLayout from '../../layouts/Container.layout';
 import AppLayout from '../../layouts/App.layout';
 import MainLayout from '../../layouts/Main.layout';
 import {useChangeRoute} from '../../hooks/useChangeRoute';
+import {useActionToast} from '../../hooks/useActionToast';
+import { FirebaseError } from 'firebase/app';
 
 const Authorization: FC = (): ReactElement => {
   const { t } = useTranslation(['common', 'auth']);
@@ -26,6 +28,7 @@ const Authorization: FC = (): ReactElement => {
   const {isLoading, setIsLoading} = useLoading();
   const {changeRoute} = useChangeRoute();
   const location = useLocation();
+  const {showActionToast} = useActionToast();
 
   const isSignInPage = useMemo(() => {
     return location.pathname === EnumRouter.SIGN_IN;
@@ -53,9 +56,8 @@ const Authorization: FC = (): ReactElement => {
         .max(28, t('auth_screen_password_error_text_max_length', {ns: 'auth'})!),
     });
   }, [t]);
-  /* eslint-enable */
 
-  const submitHandler = async (payload: IAuthSignInRequestDto, formikHelpers: FormikHelpers<IAuthSignInRequestDto>) => {
+  const handleSubmit = async (payload: IAuthSignInRequestDto, formikHelpers: FormikHelpers<IAuthSignInRequestDto>) => {
     setIsLoading(true);
 
     try {
@@ -66,19 +68,55 @@ const Authorization: FC = (): ReactElement => {
         await authorizationStore.singUpEmailAndPassword(payload);
         await changeRoute(EnumRouter.MAIN);
       }
-    } catch (err) {
-      console.warn(err);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        switch (err.code) {
+          case('auth/wrong-password'): {
+            showActionToast({
+              title: t('auth_error_wrong_password_title', {ns: 'auth'})!,
+              description: '',
+              status: 'error',
+            });
+            break;
+          }
+          case('auth/user-not-found'): {
+            showActionToast({
+              title: t('auth_error_user_not_found_title', {ns: 'auth'})!,
+              description: '',
+              status: 'error',
+            });
+            break;
+          }
+          case('auth/email-already-in-use'): {
+            showActionToast({
+              title: t('auth_error_email_already_use_title', {ns: 'auth'})!,
+              description: '',
+              status: 'error',
+            });
+            break;
+          }
+          default: {
+            showActionToast({
+              title: t('auth_error_default_title', {ns: 'auth'})!,
+              description: '',
+              status: 'error',
+            });
+          }
+        }
+        console.warn(err.code);
+      }
     } finally {
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
       setIsLoading(false);
     }
   };
+  /* eslint-enable */
 
   const formik = useFormik({
     initialValues: initialSignInValues,
     validationSchema: validationSignInSchema,
-    onSubmit: submitHandler,
+    onSubmit: handleSubmit,
     validateOnBlur: true,
   });
 
