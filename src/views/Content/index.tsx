@@ -38,7 +38,8 @@ const Content: FC = observer((): ReactElement => {
   }, [currentRandomNumberId]);
 
   const speechRandomNumber = () => {
-    const randomNumber = createRandomNumber(settingsStore.remoteSpeechSettings.speechMinValue, settingsStore.remoteSpeechSettings.speechMaxValue);
+    const {speechMinValue, speechMaxValue} = settingsStore.remoteSpeechSettings.speechRangeValue;
+    const randomNumber = createRandomNumber(speechMinValue, speechMaxValue);
     setCurrentRandomNumberId(randomNumber.id);
     setCurrentRandomNumber(randomNumber.value);
   };

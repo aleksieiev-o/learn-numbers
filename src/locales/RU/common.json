@@ -43,6 +43,8 @@
   "common_say_nav_tab": "Говори числа",
 
   "common_error_text_number_supported": "Поддерживаются только числа",
+  "common_error_text_number_related_min": "Минимальное значение должно быть меньше или равно максимальному значению",
+  "common_error_text_number_related_max": "Максимальное значение должно быть больше или равно минимальному значению",
 
   "common_error_text_field_required": "Поле обязательное",
 
