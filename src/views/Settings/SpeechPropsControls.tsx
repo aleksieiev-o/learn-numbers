@@ -1,5 +1,17 @@
 import React, { FC, ReactElement, useContext } from 'react';
-import { FormControl, FormLabel, Heading, Select, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Stack, Text } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Grid, GridItem,
+  Heading,
+  Select,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Stack,
+  Text
+} from '@chakra-ui/react';
 import { SpeechUtteranceContext } from '../../providers/SpeechUtteranceContext.provider';
 import { observer } from 'mobx-react-lite';
 import { useSettingsStore } from '../../store/hooks';
@@ -11,84 +23,96 @@ const SpeechPropsControls: FC = observer((): ReactElement => {
   const { t } = useTranslation(['common']);
 
   return (
-    <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'} spacing={4}>
+    <Stack direction={'column'} w={'full'} alignItems={'flex-start'} justifyContent={'space-between'} spacing={6}>
       <Heading as={'h6'} fontSize={20}>{t('common_speech_props_label')}</Heading>
 
-      <FormControl>
-        <FormLabel>{t('common_speech_lang_label')}</FormLabel>
+      <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={{ md: 6, base: 4 }} w={'full'} alignItems={'flex-start'}>
+        <GridItem>
+          <FormControl>
+            <FormLabel>{t('common_speech_lang_label')}</FormLabel>
 
-        <Select
-          onChange={(e) => settingsStore.updateSpeechLocale(e.target.value)}
-          value={settingsStore.localeSpeechSettings.speechLocale}
-          boxShadow={'md'}>
-          {
-            voicesList.map((voice) => <option value={voice.voiceURI} key={voice.voiceURI}>{voice.name}</option>)
-          }
-        </Select>
-      </FormControl>
+            <Select
+              onChange={(e) => settingsStore.updateSpeechLocale(e.target.value)}
+              value={settingsStore.localeSpeechSettings.speechLocale}
+              boxShadow={'md'}>
+              {
+                voicesList.map((voice) => <option value={voice.voiceURI} key={voice.voiceURI}>{voice.name}</option>)
+              }
+            </Select>
+          </FormControl>
+        </GridItem>
+      </Grid>
 
-      <FormControl>
-        <Stack direction={'row'}>
-          <FormLabel>{t('common_speech_volume_label')}:</FormLabel>
-          <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechVolume}</Text>
-        </Stack>
+      <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={{ md: 6, base: 4 }} w={'full'} alignItems={'flex-start'}>
+        <GridItem>
+          <FormControl>
+            <Stack direction={'row'}>
+              <FormLabel>{t('common_speech_volume_label')}:</FormLabel>
+              <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechVolume}</Text>
+            </Stack>
 
-        <Slider
-          onChangeEnd={(value) => settingsStore.updateSpeechVolumeValue(value)}
-          aria-label='speech-volume'
-          defaultValue={settingsStore.remoteSpeechSettings.speechVolume}
-          step={0.1}
-          min={0}
-          max={1}>
-          <SliderTrack>
-            <SliderFilledTrack/>
-          </SliderTrack>
+            <Slider
+              onChangeEnd={(value) => settingsStore.updateSpeechVolumeValue(value)}
+              aria-label='speech-volume'
+              defaultValue={settingsStore.remoteSpeechSettings.speechVolume}
+              step={0.1}
+              min={0}
+              max={1}>
+              <SliderTrack>
+                <SliderFilledTrack/>
+              </SliderTrack>
 
-          <SliderThumb bgColor={'twitter.600'}/>
-        </Slider>
-      </FormControl>
+              <SliderThumb bgColor={'twitter.600'}/>
+            </Slider>
+          </FormControl>
+        </GridItem>
 
-      <FormControl>
-        <Stack direction={'row'}>
-          <FormLabel>{t('common_speech_rate_label')}:</FormLabel>
-          <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechRate}</Text>
-        </Stack>
+        <GridItem>
+          <FormControl>
+            <Stack direction={'row'}>
+              <FormLabel>{t('common_speech_rate_label')}:</FormLabel>
+              <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechRate}</Text>
+            </Stack>
 
-        <Slider
-          onChangeEnd={(value) => settingsStore.updateSpeechRateValue(value)}
-          aria-label='speech-rate'
-          defaultValue={settingsStore.remoteSpeechSettings.speechRate}
-          step={0.1}
-          min={0.1}
-          max={2}>
-          <SliderTrack>
-            <SliderFilledTrack/>
-          </SliderTrack>
+            <Slider
+              onChangeEnd={(value) => settingsStore.updateSpeechRateValue(value)}
+              aria-label='speech-rate'
+              defaultValue={settingsStore.remoteSpeechSettings.speechRate}
+              step={0.1}
+              min={0.1}
+              max={2}>
+              <SliderTrack>
+                <SliderFilledTrack/>
+              </SliderTrack>
 
-          <SliderThumb bgColor={'twitter.600'}/>
-        </Slider>
-      </FormControl>
+              <SliderThumb bgColor={'twitter.600'}/>
+            </Slider>
+          </FormControl>
+        </GridItem>
 
-      <FormControl>
-        <Stack direction={'row'}>
-          <FormLabel>{t('common_speech_pitch_label')}:</FormLabel>
-          <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechPitch}</Text>
-        </Stack>
+        <GridItem>
+          <FormControl>
+            <Stack direction={'row'}>
+              <FormLabel>{t('common_speech_pitch_label')}:</FormLabel>
+              <Text as={'strong'}>{settingsStore.remoteSpeechSettings.speechPitch}</Text>
+            </Stack>
 
-        <Slider
-          onChangeEnd={(value) => settingsStore.updateSpeechPitchValue(value)}
-          aria-label='speech-pitch'
-          defaultValue={settingsStore.remoteSpeechSettings.speechPitch}
-          step={0.1}
-          min={0}
-          max={2}>
-          <SliderTrack>
-            <SliderFilledTrack/>
-          </SliderTrack>
+            <Slider
+              onChangeEnd={(value) => settingsStore.updateSpeechPitchValue(value)}
+              aria-label='speech-pitch'
+              defaultValue={settingsStore.remoteSpeechSettings.speechPitch}
+              step={0.1}
+              min={0}
+              max={2}>
+              <SliderTrack>
+                <SliderFilledTrack/>
+              </SliderTrack>
 
-          <SliderThumb bgColor={'twitter.600'}/>
-        </Slider>
-      </FormControl>
+              <SliderThumb bgColor={'twitter.600'}/>
+            </Slider>
+          </FormControl>
+        </GridItem>
+      </Grid>
     </Stack>
   );
 });
