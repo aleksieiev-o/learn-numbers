@@ -27,7 +27,9 @@ const AppLanguageChanger: FC = observer((): ReactElement => {
   };
 
   const updateLocale = async (lang: EnumAppLocale) => {
-    await settingsStore.updateAppLocale(lang);
+    if (settingsStore.appSettings.appLocale !== lang) {
+      await settingsStore.updateAppLocale(lang);
+    }
   };
 
   useEffect(() => {
