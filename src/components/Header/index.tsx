@@ -1,24 +1,23 @@
 import React, {FC, ReactElement} from 'react';
 import {APP_NAME} from '../../utils/constants';
-import {Container, Icon, IconButton, Stack, Hide} from '@chakra-ui/react';
+import {Container, Icon, IconButton, Stack} from '@chakra-ui/react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LoginIcon from '@mui/icons-material/Login';
-import {tabletScreenWidth} from '../../theme';
 import {useTranslation} from 'react-i18next';
 import AppLanguageChanger from '../AppLanguageChanger';
 import {useAuthorizationStore} from '../../store/hooks';
 import {observer} from 'mobx-react-lite';
 import UserInfo from './UserInfo';
 import AppThemeSwitcher from '../AppThemeSwitcher';
-import {useNavigate} from 'react-router-dom';
 import {EnumRouter} from '../../Router';
 import LogoIcon from './Logo.icon';
 import { Link } from 'react-router-dom';
+import {useChangeRoute} from '../../hooks/useChangeRoute';
 
 const Header: FC = observer((): ReactElement => {
   const authorizationStore = useAuthorizationStore();
   const { t } = useTranslation(['common', 'auth']);
-  const navigate = useNavigate();
+  const {changeRoute} = useChangeRoute();
 
   return (
     <>
@@ -37,15 +36,13 @@ const Header: FC = observer((): ReactElement => {
                 authorizationStore.isAuth && <UserInfo/>
               }
 
-              <Hide breakpoint={`(max-width: ${tabletScreenWidth}px)`}>
-                <AppLanguageChanger/>
+              <AppLanguageChanger/>
 
-                <AppThemeSwitcher/>
-              </Hide>
+              <AppThemeSwitcher/>
 
               {
                 !authorizationStore.isAuth && <IconButton
-                  onClick={() => navigate(EnumRouter.SIGN_IN)}
+                  onClick={() => changeRoute(EnumRouter.SIGN_IN)}
                   colorScheme={'gray'}
                   variant={'outline'}
                   boxShadow={'md'}
@@ -55,7 +52,7 @@ const Header: FC = observer((): ReactElement => {
               }
 
               <IconButton
-                onClick={() => navigate(EnumRouter.SETTINGS)}
+                onClick={() => changeRoute(EnumRouter.SETTINGS)}
                 colorScheme={'gray'}
                 variant={'outline'}
                 boxShadow={'md'}

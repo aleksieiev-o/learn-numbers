@@ -11,19 +11,20 @@ import {
 } from '@chakra-ui/react';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useLoading} from '../../hooks/useLoading';
 import {EnumRouter} from '../../Router';
 import ContainerLayout from '../../layouts/Container.layout';
 import AppLayout from '../../layouts/App.layout';
 import MainLayout from '../../layouts/Main.layout';
+import {useChangeRoute} from '../../hooks/useChangeRoute';
 
 const Authorization: FC = (): ReactElement => {
   const { t } = useTranslation(['common', 'auth']);
   const authorizationStore = useAuthorizationStore();
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const {isLoading, setIsLoading} = useLoading();
-  const navigate = useNavigate();
+  const {changeRoute} = useChangeRoute();
   const location = useLocation();
 
   const isSignInPage = useMemo(() => {
@@ -60,10 +61,10 @@ const Authorization: FC = (): ReactElement => {
     try {
       if (isSignInPage) {
         await authorizationStore.signInEmailPassword(payload);
-        await navigate(EnumRouter.MAIN);
+        await changeRoute(EnumRouter.MAIN);
       } else if (!isSignInPage) {
         await authorizationStore.singUpEmailAndPassword(payload);
-        await navigate(EnumRouter.MAIN);
+        await changeRoute(EnumRouter.MAIN);
       }
     } catch (err) {
       console.warn(err);
@@ -84,7 +85,7 @@ const Authorization: FC = (): ReactElement => {
   const { touched, errors, resetForm, getFieldProps } = formik;
 
   const handleToggleAuthRoute = () => {
-    navigate(isSignInPage ? EnumRouter.SIGN_UP : EnumRouter.SIGN_IN);
+    changeRoute(isSignInPage ? EnumRouter.SIGN_UP : EnumRouter.SIGN_IN);
     resetForm();
   };
 
@@ -165,7 +166,7 @@ const Authorization: FC = (): ReactElement => {
 
               <Stack direction={'row'} alignItems={'center'} justifyContent={'flex-end'} w={'full'} spacing={2}>
                 <Button
-                  onClick={() => navigate(EnumRouter.MAIN)}
+                  onClick={() => changeRoute(EnumRouter.MAIN)}
                   variant={'outline'}
                   colorScheme={'gray'}
                   boxShadow={'md'}

@@ -11,8 +11,8 @@ import ChangePasswordModal from './ChangePassword.modal';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ActionConfirmationModal, {EnumActionConfirmationModalType} from '../../../components/ActionConfirmation.modal';
 import {useAuthorizationStore} from '../../../store/hooks';
-import {useNavigate} from 'react-router-dom';
 import {EnumRouter} from '../../../Router';
+import {useChangeRoute} from '../../../hooks/useChangeRoute';
 
 const UserManager: FC = observer((): ReactElement => {
   const { t } = useTranslation(['common']);
@@ -21,11 +21,11 @@ const UserManager: FC = observer((): ReactElement => {
   const { isOpen: isOpenChangePasswordModal, onOpen: onOpenChangePasswordModal, onClose: onCloseChangePasswordModal } = useDisclosure();
   const { isOpen: isOpenSignOutModal, onOpen: onOpenSignOutModal, onClose: onCloseSignOutModal } = useDisclosure();
   const authorizationStore = useAuthorizationStore();
-  const navigate = useNavigate();
+  const {changeRoute} = useChangeRoute();
 
   const handleSignOut = async () => {
     await authorizationStore.singOut();
-    await navigate(EnumRouter.MAIN);
+    await changeRoute(EnumRouter.MAIN);
   };
 
   return (
