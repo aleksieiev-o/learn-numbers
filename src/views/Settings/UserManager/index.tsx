@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import {Button, Heading, Icon, Stack, useDisclosure} from '@chakra-ui/react';
+import {Button, Grid, GridItem, Heading, Icon, Stack, useDisclosure} from '@chakra-ui/react';
 import {useTranslation} from 'react-i18next';
 import {observer} from 'mobx-react-lite';
 import PersonIcon from '@mui/icons-material/Person';
@@ -31,53 +31,65 @@ const UserManager: FC = observer((): ReactElement => {
   return (
     <>
       {/* eslint-disable @typescript-eslint/no-non-null-assertion */}
-      <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} spacing={4}>
+      <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} w={'full'} spacing={6}>
         <Heading as={'h6'} fontSize={20}>{t('common_user_data_title')}</Heading>
 
-        <Button
-          onClick={onOpenChangeUserProfileModal}
-          variant={'outline'}
-          colorScheme={'gray'}
-          w={'full'}
-          boxShadow={'md'}
-          title={t('common_btn_change_dn')!}
-          leftIcon={<Icon as={PersonIcon}/>}>
-          {t('common_btn_change_dn')}
-        </Button>
+        <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={{ md: 6, base: 4 }} w={'full'} alignItems={'flex-start'}>
+          <GridItem>
+            <Button
+              onClick={onOpenChangeUserProfileModal}
+              variant={'outline'}
+              colorScheme={'gray'}
+              w={'full'}
+              boxShadow={'md'}
+              title={t('common_btn_change_dn')!}
+              leftIcon={<Icon as={PersonIcon}/>}>
+              {t('common_btn_change_dn')}
+            </Button>
+          </GridItem>
 
-        <Button
-          onClick={onOpenChangeEmailModal}
-          variant={'outline'}
-          colorScheme={'gray'}
-          w={'full'}
-          boxShadow={'md'}
-          title={t('common_btn_change_email')!}
-          leftIcon={<Icon as={EmailIcon}/>}>
-          {t('common_btn_change_email')}
-        </Button>
+          <GridItem>
+            <Button
+              onClick={onOpenChangeEmailModal}
+              variant={'outline'}
+              colorScheme={'gray'}
+              w={'full'}
+              boxShadow={'md'}
+              title={t('common_btn_change_email')!}
+              leftIcon={<Icon as={EmailIcon}/>}>
+              {t('common_btn_change_email')}
+            </Button>
+          </GridItem>
 
-        <Button
-          onClick={onOpenChangePasswordModal}
-          variant={'outline'}
-          colorScheme={'gray'}
-          w={'full'}
-          boxShadow={'md'}
-          title={t('common_btn_change_password')!}
-          leftIcon={<Icon as={VpnKeyIcon}/>}>
-          {t('common_btn_change_password')}
-        </Button>
+          <GridItem>
+            <Button
+              onClick={onOpenChangePasswordModal}
+              variant={'outline'}
+              colorScheme={'gray'}
+              w={'full'}
+              boxShadow={'md'}
+              title={t('common_btn_change_password')!}
+              leftIcon={<Icon as={VpnKeyIcon}/>}>
+              {t('common_btn_change_password')}
+            </Button>
+          </GridItem>
+        </Grid>
 
-        <Button
-          onClick={onOpenSignOutModal}
-          colorScheme={'orange'}
-          variant={'outline'}
-          w={'full'}
-          boxShadow={'md'}
-          title={t('common_sign_out_btn_title')!}
-          leftIcon={<Icon as={LogoutIcon}/>}
-          mr={'auto'}>
-          {t('common_sign_out_btn')}
-        </Button>
+        <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={{ md: 6, base: 4 }} w={'full'} alignItems={'flex-start'}>
+          <GridItem>
+            <Button
+              onClick={onOpenSignOutModal}
+              colorScheme={'orange'}
+              variant={'outline'}
+              w={'full'}
+              boxShadow={'md'}
+              title={t('common_sign_out_btn_title')!}
+              leftIcon={<Icon as={LogoutIcon}/>}
+              mr={'auto'}>
+              {t('common_sign_out_btn')}
+            </Button>
+          </GridItem>
+        </Grid>
       </Stack>
 
       {
