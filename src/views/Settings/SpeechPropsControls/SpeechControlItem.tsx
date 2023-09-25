@@ -29,16 +29,18 @@ const SpeechControlItem: FC<Props> = observer((props): ReactElement => {
   const { t } = useTranslation(['common']);
 
   const handleUpdateSpeechValue = async () => {
-    setIsLoading(true);
+    if (speechValue !== currentSpeechValue) {
+      setIsLoading(true);
 
-    switch (speechValueType) {
-      case 'volume': await settingsStore.updateSpeechVolumeValue(currentSpeechValue); break;
-      case 'rate': await settingsStore.updateSpeechRateValue(currentSpeechValue); break;
-      case 'pitch': await settingsStore.updateSpeechPitchValue(currentSpeechValue); break;
-      default: break;
+      switch (speechValueType) {
+        case 'volume': await settingsStore.updateSpeechVolumeValue(currentSpeechValue); break;
+        case 'rate': await settingsStore.updateSpeechRateValue(currentSpeechValue); break;
+        case 'pitch': await settingsStore.updateSpeechPitchValue(currentSpeechValue); break;
+        default: break;
+      }
+
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
