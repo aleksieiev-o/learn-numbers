@@ -3,11 +3,19 @@ interface IRandomNumber {
   value: number;
 }
 
+let previousRandomNumber = -1;
+
 export const createRandomNumber = (min: number, max: number): IRandomNumber => {
-  const randomNumber = min + Math.random() * (max - min);
+  let randomNumber = -1;
+
+  do {
+    randomNumber = Math.round(min + Math.random() * (max - min));
+  } while (randomNumber === previousRandomNumber);
+
+  previousRandomNumber = randomNumber;
 
   return {
     id: Date.now().toString(),
-    value: Math.round(randomNumber),
+    value: randomNumber,
   };
 };
